@@ -16,14 +16,13 @@ int main()
 
     Scan scan;
     Robot robot(center, heading, sf::Color::Red, velocity, maxRange,radius,scan);
-    World world(size, border, sf::Color::White);
-    
+    World world(size, border, sf::Color::White);    
     sf::RenderWindow window(sf::VideoMode(size[0], size[1]), "SFML works!");
     window.setFramerateLimit(60);
 
     while (window.isOpen())
     {
-        robot.scan.performScan(robot.center[0],robot.center[1],robot.maxRange,world);
+        robot.scan.performScan(robot.center[0],robot.center[1],robot.radius,robot.maxRange,world);
         sf::Event event;
         while (window.pollEvent(event))
         {

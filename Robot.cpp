@@ -27,7 +27,6 @@ void Robot::forward(const World &world) {
 	float vs[2] = { vX,vY };
 	checkBorderCol(world, vs);
 	checkCircleCol(world, vs);
-	this->scan.performScan(center[0],center[1],maxRange,world);
 	update();
 	
 }
