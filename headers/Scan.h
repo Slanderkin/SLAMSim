@@ -13,7 +13,7 @@ public:
 	Scan(int);
 	Scan();
 	void performScan(float &cx, float &cy,float &cRad,float &maxRange, const World &world);
-	void getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f &colPoint, float &x1, float &y1, float &x2, float &y2, float &distAway);
+	float* getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f &colPoint, float &x1, float &y1, float &x2, float &y2, float &distAway);
 	void getBorderCollisionPoint(sf::Vector2f &colPoint, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 	sf::VertexArray scanLines [360];
 	sf::CircleShape endCircles[360];

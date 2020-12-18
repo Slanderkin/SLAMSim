@@ -16,6 +16,7 @@ World::World(float size[], float border[], sf::Color color) {
 
 
 void World::addCircle(sf::CircleShape circle) {
+	circle.setFillColor(sf::Color::Magenta);
 	World::circles.push_back(circle);
 
 }
