@@ -1,2 +1,2 @@
 # SLAMSim
-Use left click to spawn cylinders. Slightly unoptimized.
+Use left click to spawn cylinders, WASD to move. Slightly unoptimized.
