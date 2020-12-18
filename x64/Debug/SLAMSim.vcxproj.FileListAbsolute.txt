@@ -1,0 +1,2 @@
+C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.exe
+C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.pdb
