@@ -48,8 +48,8 @@ void Scan::performScan(float& cx, float& cy,float &cRad ,float& maxRange, const 
 		this->scanLines[i][1].position = sf::Vector2f(cx + maxRange * cos(i * M_PI / 180), cy - maxRange * sin(i * M_PI / 180));
 		vertexPoints[i][0] = {cx};
 		vertexPoints[i][1] = { cy };
-		vertexPoints[i][2] = { cx + maxRange * (float)cos(i * M_PI / 180) }; //Check janky math
-		vertexPoints[i][3] = { cy - maxRange * (float)sin(i * M_PI / 180) };//Check janky math
+		vertexPoints[i][2] = { cx + maxRange * (float)cos(i * M_PI / 180) };
+		vertexPoints[i][3] = { cy - maxRange * (float)sin(i * M_PI / 180) };
 		for (int z = 0; z < world.circles.size(); z++) {
 			float circlePos[2] = { world.circles[z].getPosition().x,world.circles[z].getPosition().y };
 			float circleRad = world.circles[z].getRadius();
@@ -102,19 +102,26 @@ void Scan::performScan(float& cx, float& cy,float &cRad ,float& maxRange, const 
 
 }
 
-void Scan::getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f& colPoint, float &x1,float &y1,float &x2,float &y2, float& distAway) {
+void Scan::getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f& colPoint, float& x1, float& y1, float& x2, float& y2, float& distAway) {
 
 
-	float currDist = pow(x2 - x1, 2) + pow(y2-y1, 2);
-	if (currDist < distAway){
+	float currDist = pow(x2 - x1, 2) + pow(y2 - y1, 2);
+	if (currDist < distAway) {
 		float R = circle.getRadius();
-		float minMag = 100000000;
+		float minMag;
+		if (colPoint.x == -1) {
+			 minMag = 10000000000;
+		}
+		else {
+			minMag = (colPoint.x-x1) * (colPoint.x - x1) + (colPoint.y-y1) * (colPoint.y - y1);
+		}
+		
 		float Q[2] = { circle.getPosition().x + R, circle.getPosition().y + R };
-		float V[2] = { x2 - x1,y2 - y1};
-		float a = V[0]*V[0] + V[1]*V[1];
+		float V[2] = { x2 - x1,y2 - y1 };
+		float a = V[0] * V[0] + V[1] * V[1];
 		float b = 2 * V[0] * (x1 - Q[0]) + 2 * V[1] * (y1 - Q[1]);
-		float c = x1*x1 + y1*y1 + Q[0]*Q[0] + Q[1]*Q[1] - 2 * (x1 * Q[0] + y1 * Q[1]) - R*R;
-		float disc = b*b - 4 * a * c;
+		float c = x1 * x1 + y1 * y1 + Q[0] * Q[0] + Q[1] * Q[1] - 2 * (x1 * Q[0] + y1 * Q[1]) - R * R;
+		float disc = b * b - 4 * a * c;
 
 		if (disc < 0) {
 			colPoint.x = -1;
@@ -134,8 +141,8 @@ void Scan::getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f& colPoin
 				float t1Mag = pow(t1 * V[0], 2) + pow(t1 * V[1], 2);
 				float t2Mag = pow(t2 * V[0], 2) + pow(t2 * V[1], 2);
 				if (t1Mag < t2Mag && t1Mag < minMag) {
-					colPoint.x = t1 * V[0];
-					colPoint.y = t1 * V[1];
+					colPoint.x = t1 * V[0]+x1;
+					colPoint.y = t1 * V[1]+y1;
 					distAway = currDist;
 				}
 				else if (t2Mag < t1Mag && t2Mag < minMag) {
@@ -143,14 +150,12 @@ void Scan::getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f& colPoin
 					colPoint.y = t2 * V[1] + y1;
 					distAway = currDist;
 				}
-
 			}
-
 		}
 	}
-		
-		
-		
+
+
+
 
 }
 

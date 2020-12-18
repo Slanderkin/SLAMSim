@@ -168,22 +168,6 @@
     <ClCompile Include="include\Robot.cpp" />
     <ClCompile Include="include\Scan.cpp" />
     <ClCompile Include="include\World.cpp" />
-    <ClCompile Include="SFML\examples\ftp\Ftp.cpp" />
-    <ClCompile Include="SFML\examples\island\Island.cpp" />
-    <ClCompile Include="SFML\examples\joystick\Joystick.cpp" />
-    <ClCompile Include="SFML\examples\opengl\OpenGL.cpp" />
-    <ClCompile Include="SFML\examples\pong\Pong.cpp" />
-    <ClCompile Include="SFML\examples\shader\Shader.cpp" />
-    <ClCompile Include="SFML\examples\sockets\Sockets.cpp" />
-    <ClCompile Include="SFML\examples\sockets\TCP.cpp" />
-    <ClCompile Include="SFML\examples\sockets\UDP.cpp" />
-    <ClCompile Include="SFML\examples\sound-capture\SoundCapture.cpp" />
-    <ClCompile Include="SFML\examples\sound\Sound.cpp" />
-    <ClCompile Include="SFML\examples\voip\Client.cpp" />
-    <ClCompile Include="SFML\examples\voip\Server.cpp" />
-    <ClCompile Include="SFML\examples\voip\VoIP.cpp" />
-    <ClCompile Include="SFML\examples\win32\Win32.cpp" />
-    <ClCompile Include="SFML\examples\window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Collision.h" />
@@ -191,7 +175,6 @@
     <ClInclude Include="headers\Scan.h" />
     <ClInclude Include="headers\StandardImports.h" />
     <ClInclude Include="headers\World.h" />
-    <ClInclude Include="SFML\examples\shader\Effect.hpp" />
     <ClInclude Include="SFML\include\SFML\Audio.hpp" />
     <ClInclude Include="SFML\include\SFML\Audio\AlResource.hpp" />
     <ClInclude Include="SFML\include\SFML\Audio\Export.hpp" />
