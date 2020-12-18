@@ -1,4 +1,2 @@
 # SLAMSim
-Initial sync (very rough)
-
-Use left click to spawn cylinders. Very unoptimized.
+Use left click to spawn cylinders. Slightly unoptimized.
