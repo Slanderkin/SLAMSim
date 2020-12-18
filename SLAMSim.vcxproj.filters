@@ -779,5 +779,31 @@
     <None Include="SFML\include\SFML\System\Vector3.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="x64\Debug\openal32.dll" />
+    <None Include="x64\Debug\sfml-audio-2.dll" />
+    <None Include="x64\Debug\sfml-audio-d-2.dll" />
+    <None Include="x64\Debug\sfml-graphics-2.dll" />
+    <None Include="x64\Debug\sfml-graphics-d-2.dll" />
+    <None Include="x64\Debug\sfml-network-2.dll" />
+    <None Include="x64\Debug\sfml-network-d-2.dll" />
+    <None Include="x64\Debug\sfml-system-2.dll" />
+    <None Include="x64\Debug\sfml-system-d-2.dll" />
+    <None Include="x64\Debug\sfml-window-2.dll" />
+    <None Include="x64\Debug\sfml-window-d-2.dll" />
+    <None Include="x64\Debug\SLAMSim.exe" />
+    <None Include="x64\Debug\SLAMSim.ilk" />
+    <None Include="x64\Debug\SLAMSim.pdb" />
+    <None Include="x64\Debug\vc142.idb" />
+    <None Include="x64\Debug\vc142.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="x64\Debug\main.obj" />
+    <Object Include="x64\Debug\Robot.obj" />
+    <Object Include="x64\Debug\Scan.obj" />
+    <Object Include="x64\Debug\World.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="x64\Debug\SLAMSim.log" />
+    <Text Include="x64\Debug\SLAMSim.vcxproj.FileListAbsolute.txt" />
   </ItemGroup>
 </Project>
