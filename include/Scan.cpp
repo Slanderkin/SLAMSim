@@ -247,6 +247,7 @@ float Scan::raycast_circle(sf::CircleShape circle, float scanAngle, float x0, fl
 	float dy = circle.getPosition().y + rc - y0;
 
 	float d = sqrt(dx * dx + dy * dy);
+	float noise = 0;
 
 	float theta = abs(scanAngle - atan2(dy, dx));
 
@@ -254,8 +255,10 @@ float Scan::raycast_circle(sf::CircleShape circle, float scanAngle, float x0, fl
 
 	float l = d * tan(theta);
 	float a = M_PI / 2 - theta;
-
-	return sqrt(l * l + d * d) - rc * sin(a - asin(l * sin(a) / rc)) / sin(a);
+	if (this->doGaussian) {
+		noise = 1250*dist(generator);
+	}
+	return sqrt(l * l + d * d) - rc * sin(a - asin(l * sin(a) / rc)) / sin(a) + noise;
 
 }
 
