@@ -3,28 +3,18 @@
 #include "StandardImports.h"
 
 
-Scan::Scan(int maxAngle) {
+
+Scan::Scan() :
+	dist(mean, stddev),
+	generator(std::random_device{}())
+{
 	this->hz = 0;
-	this->maxAngle = maxAngle;
+	this->timeStamp = NULL;
+	this->doGaussian = false;
 
 
-	for (int i = 0;i < this->maxAngle;i++) {
-		this->angles[i] = i;
-		sf::VertexArray line(sf::Lines, 2);
-		this->scanLines[i] = line;
-		sf::CircleShape circle(3);
-		circle.setPosition(-10, -10);
-		this->endCircles[i] = { circle };
-		for (int j = 0; j < 4; j++) {
-			this->vertexPoints[i][j] = { 0 };
-		}
-	}
-}
-
-Scan::Scan() {
-	this->hz = 0;
-	this->maxAngle = 360;
-	for (int i = 0;i < maxAngle;i++) {
+	
+	for (int i = 0;i < 360;i++){
 		this->angles[i] = i;
 		sf::VertexArray line(sf::Lines, 2);
 		this->scanLines[i] = line;
@@ -51,6 +41,7 @@ void Scan::performScan(float& cx, float& cy,float &cRad ,float& maxRange, const 
 		vertexPoints[i][1] = { cy };
 		vertexPoints[i][2] = { cx + maxRange * (float)cos(i * M_PI / 180) };
 		vertexPoints[i][3] = { cy - maxRange * (float)sin(i * M_PI / 180) };
+		
 		std::unique_ptr<float[]> returnArrPtr (new float[3]);
 
 		returnArrPtr[0] =-1;returnArrPtr[1] = -1;returnArrPtr[2] = -1;
@@ -88,11 +79,14 @@ void Scan::performScan(float& cx, float& cy,float &cRad ,float& maxRange, const 
 		else {
 
 		}
+		
+		
+
 		this->scanLines[i][1].position = sf::Vector2f(colPoint);
 		this->endCircles[i].setPosition(colPoint.x - endCircles[i].getRadius(), colPoint.y - endCircles[i].getRadius());
 	}
 
-
+	this->timeStamp = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
 }
 
@@ -120,6 +114,7 @@ float* Scan::getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f& colPo
 	float b = 2 * V[0] * (x1 - Q[0]) + 2 * V[1] * (y1 - Q[1]);
 	float c = x1 * x1 + y1 * y1 + Q[0] * Q[0] + Q[1] * Q[1] - 2 * (x1 * Q[0] + y1 * Q[1]) - R * R;
 	float disc = b * b - 4 * a * c;
+	
 
 	if (disc < 0) {
 		return retArr.release();
@@ -137,6 +132,10 @@ float* Scan::getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f& colPo
 			float t1Mag = pow(t1 * V[0], 2) + pow(t1 * V[1], 2);
 			float t2Mag = pow(t2 * V[0], 2) + pow(t2 * V[1], 2);
 			if (t1Mag < t2Mag && t1Mag < minMag) {
+
+				if (this->doGaussian) {
+					t1 += dist(generator);
+				}
 				retArr[0] = t1 * V[0] + x1;
 				retArr[1] = t1 * V[1] + y1;
 				retArr[2] = (retArr[0] -cx)* (retArr[0] - cx) + (retArr[1] -cy)* (retArr[1] - cy);
@@ -145,6 +144,9 @@ float* Scan::getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f& colPo
 				
 			}
 			else if (t2Mag < t1Mag && t2Mag < minMag) {
+				if (this->doGaussian) {
+					t2 += dist(generator);
+				}
 				retArr[0] = t2 * V[0] + x1;
 				retArr[1] = t2 * V[1] + y1;
 				retArr[2] = (retArr[0] - cx) * (retArr[0] - cx) + (retArr[1] - cy) * (retArr[1] - cy);
@@ -163,7 +165,9 @@ void Scan::getBorderCollisionPoint(sf::Vector2f& colPoint, float x1, float y1, f
 	float uB = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
 
 	if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) {
-
+		if (this->doGaussian) {
+			uA += dist(generator);
+		}
 		colPoint.x = x1 + (uA * (x2 - x1));
 		colPoint.y = y1 + (uA * (y2 - y1));
 	}

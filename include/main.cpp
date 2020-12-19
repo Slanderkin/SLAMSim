@@ -24,6 +24,7 @@ int main()
     while (window.isOpen())
     {
         robot.scan.performScan(robot.center[0],robot.center[1],robot.radius,robot.maxRange,world);
+        robot.checkBorderCol(world,robot.velocity[0],robot.heading );
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -50,6 +51,14 @@ int main()
                 if (event.key.code == sf::Keyboard::R) {
                     doLine = !doLine;
                 }
+                else if (event.key.code == sf::Keyboard::G) {
+                    robot.scan.doGaussian = !robot.scan.doGaussian;
+
+                }
+                else if (event.key.code == sf::Keyboard::F) {
+                    world.drawWorld = !world.drawWorld;
+
+                }
                 
             default:
                 break;
@@ -75,11 +84,17 @@ int main()
 
         //===============Draw Section===============
         window.clear();
-        window.draw(world.borderRect);
-        
-        for (sf::CircleShape circle : world.circles) {
-            window.draw(circle);
+
+
+        if (world.drawWorld) {
+            window.draw(world.borderRect);
+
+            for (sf::CircleShape circle : world.circles) {
+                window.draw(circle);
+            }
         }
+
+        
 
         //Figure out a way to fix this ugly hardcoding
         for (int i = 0; i < 360; i++) {

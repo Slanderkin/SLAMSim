@@ -5,6 +5,7 @@ World::World(float size[], float border[], sf::Color color) {
 	this->border[0] = border[0];this->border[1] = border[1];
 	this->color = color;
 	this->edges = { {border[0], border[1], size[0] - border[0],border[1]},{ border[0], border[1], border[0],size[0] -  border[1]},{size[0] - border[0], border[1], size[0] -  border[0],size[1] - border[1] },{ border[0], size[1] -  border[1], size[0] - border[0],size[1] -  border[1] } };
+	this->drawWorld = true;
 
 	circles = { }; //TopRight,TopLeft,BotLeft,BotRight
 
@@ -12,6 +13,7 @@ World::World(float size[], float border[], sf::Color color) {
 	borderRect.setPosition(sf::Vector2f(this->border[0], this->border[1]));
 	borderRect.setOutlineThickness(5);
 	borderRect.setFillColor(sf::Color::Black);
+	
 }
 
 

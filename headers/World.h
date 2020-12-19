@@ -25,6 +25,6 @@ public:
 
 	sf::RectangleShape borderRect; 
 	void addCircle(sf::CircleShape);
-
+	bool drawWorld;
 };
 #endif

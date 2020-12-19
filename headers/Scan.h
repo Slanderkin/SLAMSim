@@ -7,10 +7,12 @@
 
 class Scan {
 
-
-
+private:
+	double mean = 0.0;
+	double stddev = 0.001;
+	std::mt19937 generator;
+	std::normal_distribution<double> dist;
 public:
-	Scan(int);
 	Scan();
 	void performScan(float &cx, float &cy,float &cRad,float &maxRange, const World &world);
 	float* getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f &colPoint, float &x1, float &y1, float &x2, float &y2, float &distAway);
@@ -18,9 +20,11 @@ public:
 	sf::VertexArray scanLines [360];
 	sf::CircleShape endCircles[360];
 	float vertexPoints[360][4];
-	int angles [360];
-	int maxAngle;
+	int angles[360];
 	float hz; //currently unused
+	std::time_t timeStamp;
+	float ranges[360];
+	bool doGaussian;
 };
 
 
