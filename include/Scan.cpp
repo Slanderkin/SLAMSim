@@ -14,7 +14,7 @@ Scan::Scan(int maxAngle) {
 		this->scanLines[i] = line;
 		sf::CircleShape circle(3);
 		circle.setPosition(-10, -10);
-		this->endCircles[i] = circle;
+		this->endCircles[i] = { circle };
 		for (int j = 0; j < 4; j++) {
 			this->vertexPoints[i][j] = { 0 };
 		}
@@ -31,7 +31,7 @@ Scan::Scan() {
 		sf::CircleShape circle(3);
 		circle.setPosition(-10, -10);
 		circle.setFillColor(sf::Color::Blue);
-		this->endCircles[i] = circle;
+		this->endCircles[i] = { circle };
 		for (int j = 0; j < 4; j++) {
 			this->vertexPoints[i][j] = { 0 };
 		}
@@ -51,29 +51,30 @@ void Scan::performScan(float& cx, float& cy,float &cRad ,float& maxRange, const 
 		vertexPoints[i][1] = { cy };
 		vertexPoints[i][2] = { cx + maxRange * (float)cos(i * M_PI / 180) };
 		vertexPoints[i][3] = { cy - maxRange * (float)sin(i * M_PI / 180) };
-		float* returnArrPtr;
-		float blanks[3] = { -1,-1,-1 };
-		returnArrPtr = blanks;
+		std::unique_ptr<float[]> returnArrPtr (new float[3]);
+
+		returnArrPtr[0] =-1;returnArrPtr[1] = -1;returnArrPtr[2] = -1;
+
 		for (int z = 0; z < world.circles.size(); z++) {
 			float circlePos[2] = { world.circles[z].getPosition().x,world.circles[z].getPosition().y };
 			float circleRad = world.circles[z].getRadius();
 
 			if (!(circleRad + circlePos[0] < cx || circleRad + circlePos[1] > cy) && i<=90) {
-				returnArrPtr = getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway);
+				returnArrPtr.reset(getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway));
 			}
 			else if (!(circleRad + circlePos[0] > cx || circleRad + circlePos[1] > cy) && (i<=180 && i >=90)) {
-				returnArrPtr = getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway);
+				returnArrPtr.reset(getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway));
 			}
 			else if (!(circleRad + circlePos[0] > cx || circleRad + circlePos[1] < cy) && (i <= 270 && i >= 180)) {
-				returnArrPtr = getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway);
+				returnArrPtr.reset(getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway));
 			}
 			else if (!(circleRad + circlePos[0] < cx || circleRad + circlePos[1] < cy) && (i <= 360 && i >= 270)) {
-				returnArrPtr = getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway);
+				returnArrPtr.reset(getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway));
 			}
 
-			if ((*(returnArrPtr+2) < currMag && *(returnArrPtr + 2) != -1) || (currMag == -1 && *(returnArrPtr + 2) != -1)) {
-				colPoint.x = *(returnArrPtr);
-				colPoint.y = *(returnArrPtr+1);
+			if ((returnArrPtr[2] < currMag && returnArrPtr[2] != -1) || (currMag == -1 && returnArrPtr[2] != -1)) {
+				colPoint.x = returnArrPtr[0];
+				colPoint.y = returnArrPtr[1];
 			}
 			
 		}
@@ -97,10 +98,10 @@ void Scan::performScan(float& cx, float& cy,float &cRad ,float& maxRange, const 
 
 float* Scan::getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f& colPoint, float& x1, float& y1, float& x2, float& y2, float& distAway) {
 
-	float* retArr = new float[3];//x,y,Mag
-	retArr[0] = { -1 };
-	retArr[1] = { -1 };
-	retArr[2] = { -1 };
+	std::unique_ptr<float[]> retArr(new float[3]);//x,y,Mag
+	retArr[0] = -1;
+	retArr[1] = -1;
+	retArr[2] = -1;
 
 	float R = circle.getRadius();
 	float cx = circle.getPosition().x+R;
@@ -121,7 +122,7 @@ float* Scan::getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f& colPo
 	float disc = b * b - 4 * a * c;
 
 	if (disc < 0) {
-		return retArr;
+		return retArr.release();
 	}
 	else {
 		float sqrt_disc = sqrt(disc);
@@ -130,7 +131,7 @@ float* Scan::getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f& colPo
 
 		if (!((0 <= t1 && t1 <= 1) || (0 <= t2 && t2 <= 1))) {
 
-			return retArr;
+			return retArr.release();
 		}
 		else {
 			float t1Mag = pow(t1 * V[0], 2) + pow(t1 * V[1], 2);
@@ -138,17 +139,19 @@ float* Scan::getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f& colPo
 			if (t1Mag < t2Mag && t1Mag < minMag) {
 				retArr[0] = t1 * V[0] + x1;
 				retArr[1] = t1 * V[1] + y1;
-				retArr[2] = (retArr[0]-cx)* (retArr[0] - cx) + (retArr[1]-cy)* (retArr[1] - cy);
-				return retArr;
+				retArr[2] = (retArr[0] -cx)* (retArr[0] - cx) + (retArr[1] -cy)* (retArr[1] - cy);
+
+				return retArr.release();
+				
 			}
 			else if (t2Mag < t1Mag && t2Mag < minMag) {
 				retArr[0] = t2 * V[0] + x1;
 				retArr[1] = t2 * V[1] + y1;
 				retArr[2] = (retArr[0] - cx) * (retArr[0] - cx) + (retArr[1] - cy) * (retArr[1] - cy);
-				return retArr;
+				return retArr.release();
 			}
 			else {
-				return retArr;
+				return retArr.release();
 			}
 		}
 	}
