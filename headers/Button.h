@@ -16,9 +16,10 @@ private:
 public:
 	
 	
-	Button(float width, float height,float x,float y, sf::Color color,bool &toToggle, sf::Text& text);
+	Button(float width, float height,float x,float y, sf::Color color,bool *toToggle, sf::Text& text);
 	bool isClicked(float mouseX, float mouseY);
-	bool toToggle;
+	bool checkToggle(float mouseX, float mouseY);
+	bool *toToggle;
 	sf::RectangleShape rect;
 	sf::Color color;
 	sf::Text text;

@@ -1,7 +1,7 @@
 #include "Button.h"
 #include "StandardImports.h"
 
-Button::Button(float width,float height,float x,float y, sf::Color color, bool &toToggle, sf::Text& text) {
+Button::Button(float width,float height,float x,float y, sf::Color color, bool *toToggle, sf::Text& text) {
 	this->toToggle = toToggle;
 	this->width = width;
 	this->height = height;
@@ -16,6 +16,16 @@ Button::Button(float width,float height,float x,float y, sf::Color color, bool &
 	this->text = text;
 	this->text.setPosition(sf::Vector2f(x + width / 2-text.getLocalBounds().width/2, y + height / 2- text.getLocalBounds().height));
 
+}
+
+bool Button::checkToggle(float mouseX, float mouseY)
+{
+	if ((mouseX >= x && mouseX <= width + x) && (mouseY >= y && mouseY <= height + y))
+	{
+		*toToggle = !*toToggle;
+		return true;
+	}
+	return false;
 }
 
 bool Button::isClicked(float mouseX,float mouseY) {

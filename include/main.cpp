@@ -30,7 +30,7 @@ int main()
     sf::Font font;
     font.loadFromFile("tahoma.ttf");
 
-    bool bools[3] = { world.drawWorld,robot.scan.doGaussian,doLine };
+    bool *bools[3] = { &world.drawWorld, &robot.scan.doGaussian, &doLine };
     float sizes[3][2] = { {150.f,50.f},{150.f,50.f},{150.f,50.f} };
     float pos[3][2] = { {10.f,10.f},{200.f,10.f},{390.f,10.f} };
     std::string textStr[3] = { "Draw World","Gaussian", "Draw Lines" };
@@ -68,9 +68,7 @@ int main()
                     }
                     
                     for (int i = 0; i < buttonList.size(); i++) {
-                        if (buttonList[i].isClicked(event.mouseButton.x, event.mouseButton.y)) {
-                            buttonList[i].toToggle = !(buttonList[i].toToggle);
-                        }
+                        if (buttonList[i].checkToggle(event.mouseButton.x, event.mouseButton.y)) break;
                     }
 
                 }
