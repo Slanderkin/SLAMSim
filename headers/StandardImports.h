@@ -9,5 +9,6 @@
 #include <chrono>
 #include <ctime>
 #include <random>
+#include <string>
 
 #endif // !STANDARDIMPORTS_H

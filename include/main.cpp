@@ -1,12 +1,14 @@
 #include "Robot.h"
 #include "World.h"
 #include "Scan.h"
+#include "Button.h"
 #include "StandardImports.h"
+#include "Gui.h"
 
 int main()
 {
-    float size[2] = { 800,600 };
-    float border[2] = { 50,50 };
+    float size[2] = { 1000,800 };
+    float border[2] = { 150,150 };
 
     float center[2] = { size[0] / 2,size[1] / 2 };
     float heading = 0;
@@ -14,12 +16,35 @@ int main()
     float maxRange = 1000;
     float radius = 10.f;
     bool doLine = false;
+    bool placeHolder = false;
+
+    std::vector<Button> buttonList;
 
     Scan scan;
     Robot robot(center, heading, sf::Color::Red, velocity, maxRange,radius,scan);
     World world(size, border, sf::Color::White);    
     sf::RenderWindow window(sf::VideoMode(size[0], size[1]), "SLAM Sim!");
     window.setFramerateLimit(60);
+
+    //Draw buttons and their text, this needs to be its own function at some point
+    sf::Font font;
+    font.loadFromFile("tahoma.ttf");
+
+    bool bools[3] = { world.drawWorld,robot.scan.doGaussian,doLine };
+    float sizes[3][2] = { {150.f,50.f},{150.f,50.f},{150.f,50.f} };
+    float pos[3][2] = { {10.f,10.f},{200.f,10.f},{390.f,10.f} };
+    std::string textStr[3] = { "Draw World","Gaussian", "Draw Lines" };
+
+
+
+    sf::Color color = sf::Color::Blue;
+    for (int i = 0; i < 3; i++) {
+        sf::Text text(textStr[i], font, 24);
+        text.setFillColor(sf::Color::White);
+        Button button(sizes[i][0], sizes[i][1], pos[i][0], pos[i][1], color, bools[i], text);
+        buttonList.push_back(button);
+    }
+    
 
     while (window.isOpen())
     {
@@ -42,7 +67,11 @@ int main()
                         world.addCircle(newCircle);
                     }
                     
-                    
+                    for (int i = 0; i < buttonList.size(); i++) {
+                        if (buttonList[i].isClicked(event.mouseButton.x, event.mouseButton.y)) {
+                            buttonList[i].toToggle = !(buttonList[i].toToggle);
+                        }
+                    }
 
                 }
                 break;
@@ -105,9 +134,13 @@ int main()
                 window.draw(vertArr);
             }
         }
-        
+        for (int i = 0; i < buttonList.size();i++) {
+            window.draw(buttonList[i].rect);
+            window.draw(buttonList[i].text);
+        }
+       
         window.draw(robot.circle);
-        window.draw(robot.dirLine);
+;       window.draw(robot.dirLine);
         window.display();
     }
 

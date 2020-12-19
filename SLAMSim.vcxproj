@@ -164,13 +164,16 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\Button.cpp" />
     <ClCompile Include="include\main.cpp" />
     <ClCompile Include="include\Robot.cpp" />
     <ClCompile Include="include\Scan.cpp" />
     <ClCompile Include="include\World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\Collision.h" />
+    <ClInclude Include="headers\Button.h" />
+    <ClInclude Include="headers\Gui.h" />
+    <ClInclude Include="headers\Misc.h" />
     <ClInclude Include="headers\Robot.h" />
     <ClInclude Include="headers\Scan.h" />
     <ClInclude Include="headers\StandardImports.h" />

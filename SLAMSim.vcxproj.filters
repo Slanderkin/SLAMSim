@@ -27,11 +27,11 @@
     <ClCompile Include="include\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="include\Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\Collision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Robot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -336,6 +336,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SFML\include\SFML\Window.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Misc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

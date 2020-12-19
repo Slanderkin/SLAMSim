@@ -1,5 +1,5 @@
 #include "Robot.h"
-#include "Collision.h"
+#include "Misc.h"
 
 Robot::Robot(float center[], float heading, sf::Color color, float velocity[], float maxRange, float radius, Scan &scan)
 	: scan()

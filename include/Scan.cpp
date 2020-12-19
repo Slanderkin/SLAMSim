@@ -28,7 +28,12 @@ Scan::Scan() :
 	}
 }
 
+/*
+TODO According to Ryland:
+also in my humble opinion I think scan should return a struct with a list of angles and a list of distances
+and then convert that to cartesian points and offset to bot position in renderer
 
+*/
 void Scan::performScan(float& cx, float& cy,float &cRad ,float& maxRange, const World& world) {
 
 	for (int i = 0;i < 360;i++) {
@@ -50,16 +55,16 @@ void Scan::performScan(float& cx, float& cy,float &cRad ,float& maxRange, const 
 			float circlePos[2] = { world.circles[z].getPosition().x,world.circles[z].getPosition().y };
 			float circleRad = world.circles[z].getRadius();
 
-			if (!(circleRad + circlePos[0] < cx || circleRad + circlePos[1] > cy) && i<=90) {
+			if (!(circleRad + circlePos[0] < cx +cRad|| circleRad + circlePos[1] > cy +cRad) && i<=90) {
 				returnArrPtr.reset(getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway));
 			}
-			else if (!(circleRad + circlePos[0] > cx || circleRad + circlePos[1] > cy) && (i<=180 && i >=90)) {
+			else if (!(circleRad + circlePos[0] > cx + cRad || circleRad + circlePos[1] > cy + cRad) && (i<=180 && i >=90)) {
 				returnArrPtr.reset(getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway));
 			}
-			else if (!(circleRad + circlePos[0] > cx || circleRad + circlePos[1] < cy) && (i <= 270 && i >= 180)) {
+			else if (!(circleRad + circlePos[0] > cx + cRad || circleRad + circlePos[1] < cy + cRad) && (i <= 270 && i >= 180)) {
 				returnArrPtr.reset(getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway));
 			}
-			else if (!(circleRad + circlePos[0] < cx || circleRad + circlePos[1] < cy) && (i <= 360 && i >= 270)) {
+			else if (!(circleRad + circlePos[0] < cx + cRad || circleRad + circlePos[1] < cy + cRad) && (i <= 360 && i >= 270)) {
 				returnArrPtr.reset(getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway));
 			}
 
