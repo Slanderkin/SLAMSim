@@ -9,17 +9,20 @@ class Landmark {
 private:
 
 public:
-
+	Landmark();
 	Landmark(Vector2 location);
+	Landmark(Vector2 location, std::vector<float> variances);
 
 
-	float x;
-	float y;
+	Vector2 location;
+	std::vector<float> variances; //Sxx, Syy, Sxy
 	
 	sf::CircleShape landMark;
 	sf::CircleShape errorEllipse;
+	float ellipseHeading;
 
 	void updateLocation(Vector2 newLocation);
+	void updateEllipse();
 
 };
 

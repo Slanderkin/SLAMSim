@@ -54,7 +54,7 @@ int main()
     Robot robot(center, heading, sf::Color::Red, velocity, maxRange,radius,scan);
     World world(size, border, sf::Color::White);    
     sf::RenderWindow window(sf::VideoMode(size.x, size.y), "SLAM Sim!");
-    window.setFramerateLimit(60);
+    window.setVerticalSyncEnabled(true);
 
     //Draw buttons and their text, this needs to be its own function at some point
     sf::Font font;

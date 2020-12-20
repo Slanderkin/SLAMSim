@@ -165,7 +165,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\Button.cpp" />
+    <ClCompile Include="include\Landmark.cpp" />
     <ClCompile Include="include\main.cpp" />
+    <ClCompile Include="include\Particle.cpp" />
     <ClCompile Include="include\Robot.cpp" />
     <ClCompile Include="include\Scan.cpp" />
     <ClCompile Include="include\World.cpp" />
@@ -175,6 +177,7 @@
     <ClInclude Include="headers\Gui.h" />
     <ClInclude Include="headers\Landmark.h" />
     <ClInclude Include="headers\Misc.h" />
+    <ClInclude Include="headers\Particle.h" />
     <ClInclude Include="headers\Robot.h" />
     <ClInclude Include="headers\Scan.h" />
     <ClInclude Include="headers\StandardImports.h" />
