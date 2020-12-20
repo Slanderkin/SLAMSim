@@ -30,6 +30,7 @@ struct Vector2
 };
 
 Vector2 operator+(Vector2 a, Vector2 b);
+Vector2 operator-(Vector2 a, Vector2 b);
 Vector2 operator*(float c, Vector2 v);
 Vector2 operator/(Vector2 v, float c);
 

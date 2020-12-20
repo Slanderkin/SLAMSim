@@ -14,6 +14,7 @@ private:
 	void update();
 	void checkCircleCol(const World &world, Vector2 velocity);
 	void checkBorderCol(const World& world, Vector2 velocity);
+	float* circlesCollided(float c1x, float c1y, float c2x, float c2y, float c1rad, float c2rad);
 	
 public:
 	Robot(Vector2 center,float headingIn,sf::Color color,Vector2 velocity,float maxRangeIn,float radiusIn, Scan &scan); 

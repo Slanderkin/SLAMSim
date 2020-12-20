@@ -20,6 +20,11 @@ Vector2 operator+(Vector2 a, Vector2 b)
     return { a.x + b.x, a.y + b.y };
 }
 
+Vector2 operator-(Vector2 a, Vector2 b)
+{
+    return { a.x - b.x, a.y - b.y };
+}
+
 Vector2 operator*(float c, Vector2 v)
 {
     return { c * v.x, c * v.y };
@@ -158,17 +163,25 @@ int main()
         }
 
 
-        
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+                robot.turn(true);
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+                robot.turn(false);
+            }
             // w key is pressed: move our character
             robot.forward(world);
         }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-            robot.turn(true);
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            robot.turn(false);
+        else {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+                robot.turn(true);
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+                robot.turn(false);
+            }
+
         }
         
 
