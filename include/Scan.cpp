@@ -36,7 +36,7 @@ Scan::Observation* Scan::computeScanDerivatives(float minDist, Scan::Observation
 
 }
 
-Scan::Observation* Scan::performScan(float& cx, float& cy, float& cRad, float& maxRange, const World& world) {
+Scan::Observation* Scan::performScan(Vector2 origin, float& cRad, float& maxRange, const World& world) {
 	Scan::Observation* obs = new Scan::Observation;
 	obs->theta = std::array<float, 360> ();
 	obs->distance = std::array<float, 360>();
@@ -55,26 +55,26 @@ Scan::Observation* Scan::performScan(float& cx, float& cy, float& cRad, float& m
 			float circ_y = world.circles[z].getPosition().y + circ_r;
 			
 			//Quadrant filter for performance
-			if (circ_y - circ_r < cy && scanAngle <= 0)
+			if (circ_y - circ_r < origin.y && scanAngle <= 0)
 			{
-				if (circ_x - circ_r < cx && scanAngle <= -M_PI / 2)
+				if (circ_x - circ_r < origin.x && scanAngle <= -M_PI / 2)
 				{
-					newDist = raycast_circle(world.circles[z], scanAngle, cx, cy);
+					newDist = raycast_circle(world.circles[z], scanAngle, origin);
 				}
-				else if (circ_x + circ_r > cx && scanAngle >= -M_PI / 2)
+				else if (circ_x + circ_r > origin.x && scanAngle >= -M_PI / 2)
 				{
-					newDist = raycast_circle(world.circles[z], scanAngle, cx, cy);
+					newDist = raycast_circle(world.circles[z], scanAngle, origin);
 				}
 			}
-			else if (circ_y + circ_r > cy && scanAngle >= 0)
+			else if (circ_y + circ_r > origin.y && scanAngle >= 0)
 			{
-				if (circ_x - circ_r < cx && scanAngle >= M_PI / 2)
+				if (circ_x - circ_r < origin.x && scanAngle >= M_PI / 2)
 				{
-					newDist = raycast_circle(world.circles[z], scanAngle, cx, cy);
+					newDist = raycast_circle(world.circles[z], scanAngle, origin);
 				}
-				else if (circ_x + circ_r > cx && scanAngle <= M_PI / 2)
+				else if (circ_x + circ_r > origin.x && scanAngle <= M_PI / 2)
 				{
-					newDist = raycast_circle(world.circles[z], scanAngle, cx, cy);
+					newDist = raycast_circle(world.circles[z], scanAngle, origin);
 				}
 			}
 
@@ -89,7 +89,7 @@ Scan::Observation* Scan::performScan(float& cx, float& cy, float& cRad, float& m
 		if (minDist == NULL) {
 
 			for (int j = 0; j < 4; j++) {
-				newDist = raycast_wall(cx, cy, cx + maxRange * cos(scanAngle), cy + maxRange * sin(scanAngle), world.edges[j][0], world.edges[j][1], world.edges[j][2], world.edges[j][3]);
+				newDist = raycast_wall(origin, origin + Vector2(maxRange * cos(scanAngle), maxRange * sin(scanAngle)), Vector2(world.edges[j][0], world.edges[j][1]), Vector2(world.edges[j][2], world.edges[j][3]));
 				if (newDist != -1 && (minDist == NULL || newDist < minDist))
 				{
 					minDist = newDist;
@@ -115,13 +115,13 @@ Scan::Observation* Scan::performScan(float& cx, float& cy, float& cRad, float& m
 /*
 	RAYCAST HANDLING
 */
-float Scan::raycast_circle(sf::CircleShape circle, float scanAngle, float x0, float y0) {
+float Scan::raycast_circle(sf::CircleShape circle, float scanAngle, Vector2 origin) {
 
 	// First calculate the angle between the two tangent lines that intersect with the observer
 	float rc = circle.getRadius();
 
-	float dx = circle.getPosition().x + rc - x0;
-	float dy = circle.getPosition().y + rc - y0;
+	float dx = circle.getPosition().x + rc - origin.x;
+	float dy = circle.getPosition().y + rc - origin.y;
 
 	float d = sqrt(dx * dx + dy * dy);
 	
@@ -140,15 +140,15 @@ float Scan::raycast_circle(sf::CircleShape circle, float scanAngle, float x0, fl
 
 }
 
-float Scan::raycast_wall( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
+float Scan::raycast_wall( Vector2 origin, Vector2 end, Vector2 corA, Vector2 corB) {
 
-	float uA = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
-	float uB = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
+	float uA = ((corB.x - corA.x) * (origin.y - corA.y) - (corB.y - corA.y) * (origin.x - corA.x)) / ((corB.y - corA.y) * (end.x - origin.x) - (corB.x - corA.x) * (end.y - origin.y));
+	float uB = ((end.x - origin.x) * (origin.y - corA.y) - (end.y - origin.y) * (origin.x - corA.x)) / ((corB.y - corA.y) * (end.x - origin.x) - (corB.x - corA.x) * (end.y - origin.y));
 	float dx = 0;
 	float dy = 0;
 	if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) {
-		dx = uA * (x2 - x1);
-		dy = uA * (y2 - y1);
+		dx = uA * (end.x - origin.x);
+		dy = uA * (end.y - origin.y);
 		return sqrt(dx * dx + dy * dy);
 	}
 	return -1;
