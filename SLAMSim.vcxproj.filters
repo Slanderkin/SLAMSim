@@ -347,9 +347,6 @@
     <ClInclude Include="headers\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Misc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>

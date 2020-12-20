@@ -1,5 +1,4 @@
 #include "Robot.h"
-#include "Misc.h"
 #include "StandardImports.h"
 
 Robot::Robot(Vector2 center, float heading, sf::Color color, Vector2 velocity, float maxRange, float radius, Scan &scan)
