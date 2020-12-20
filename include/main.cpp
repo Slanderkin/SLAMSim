@@ -1,9 +1,20 @@
+#include "StandardImports.h"
+
 #include "Robot.h"
 #include "World.h"
 #include "Scan.h"
 #include "Button.h"
-#include "StandardImports.h"
+
 #include "Gui.h"
+
+
+
+
+
+struct ObsDraw {
+    std::array<sf::CircleShape, 360> endPoints;
+    std::array<sf::VertexArray, 360> scanLines;
+};
 
 int main()
 {
@@ -37,7 +48,7 @@ int main()
 
 
 
-    sf::Color color = sf::Color::Red;
+    sf::Color color = sf::Color::Blue;
     for (int i = 0; i < 3; i++) {
         sf::Text text(textStr[i], font, 24);
         text.setFillColor(sf::Color::White);
@@ -45,11 +56,38 @@ int main()
         buttonList.push_back(button);
     }
     
+    Scan::Observation* obs;
+    ObsDraw* od = new ObsDraw;
+    
+    // Struct holding things to draw
+    od->endPoints = std::array<sf::CircleShape, 360>();
+    od->scanLines = std::array<sf::VertexArray, 360>();
+    
+    // Populate the struct with new objects
+    for (sf::CircleShape &cs : od->endPoints) {
+        cs = sf::CircleShape(2);
+        cs.setFillColor(sf::Color::Green);
+    }
+    
+    sf::VertexArray line(sf::Lines, 2);
+    for (sf::VertexArray &va : od->scanLines) va = line;
 
+    // Main loop
     while (window.isOpen())
     {
-        robot.scan.performScan(robot.center[0],robot.center[1],robot.radius,robot.maxRange,world);
+        sf::Vector2f robot_center = sf::Vector2f(robot.center[0], robot.center[1]);
+
+        obs = robot.scan.performScan(robot_center.x, robot_center.y, robot.radius, robot.maxRange, world);
         robot.checkBorderCol(world,robot.velocity[0],robot.heading );
+        for (int i = 0; i < obs->theta.size(); i++)
+        {
+            sf::Vector2f end = sf::Vector2f(robot_center.x + obs->distance[i] * cos(obs->theta[i]), robot_center.y + obs->distance[i] * sin(obs->theta[i]));
+            od->endPoints[i].setPosition(end);
+            od->scanLines[i][0].position = robot_center;
+            od->scanLines[i][1].position = end;
+        }
+        
+        
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -77,16 +115,14 @@ int main()
             case sf::Event::KeyPressed:
                 if (event.key.code == sf::Keyboard::R) {
                     doLine = !doLine;
-                    buttonList[2].updateColor();
                 }
                 else if (event.key.code == sf::Keyboard::G) {
                     robot.scan.doGaussian = !robot.scan.doGaussian;
-                    buttonList[1].updateColor();
 
                 }
                 else if (event.key.code == sf::Keyboard::F) {
                     world.drawWorld = !world.drawWorld;
-                    buttonList[0].updateColor();
+
                 }
                 
             default:
@@ -126,11 +162,11 @@ int main()
         
 
         //Figure out a way to fix this ugly hardcoding
-        for (int i = 0; i < 360; i++) {
-            window.draw(robot.scan.endCircles[i]);
+        for (sf::CircleShape cs : od->endPoints) {
+            window.draw(cs);
         }
         if (doLine) {
-            for (sf::VertexArray vertArr : robot.scan.scanLines) {
+            for (sf::VertexArray vertArr : od->scanLines) {
                 window.draw(vertArr);
             }
         }
@@ -140,8 +176,10 @@ int main()
         }
        
         window.draw(robot.circle);
-;       window.draw(robot.dirLine);
+        window.draw(robot.dirLine);
         window.display();
+    
+        free(obs);
     }
 
     return 0;

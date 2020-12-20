@@ -10,5 +10,6 @@
 #include <ctime>
 #include <random>
 #include <string>
+#include <array>
 
 #endif // !STANDARDIMPORTS_H

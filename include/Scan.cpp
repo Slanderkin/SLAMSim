@@ -1,6 +1,4 @@
-#include "World.h"
 #include "Scan.h"
-#include "StandardImports.h"
 
 
 
@@ -11,104 +9,20 @@ Scan::Scan() :
 	this->hz = 0;
 	this->timeStamp = NULL;
 	this->doGaussian = false;
-
-
-	
-	for (int i = 0;i < 360;i++){
-		this->angles[i] = i;
-		sf::VertexArray line(sf::Lines, 2);
-		this->scanLines[i] = line;
-		sf::CircleShape circle(3);
-		circle.setPosition(-10, -10);
-		circle.setFillColor(sf::Color::Blue);
-		this->endCircles[i] = { circle };
-		for (int j = 0; j < 4; j++) {
-			this->vertexPoints[i][j] = { 0 };
-		}
-	}
 }
 
-/*
-TODO According to Ryland:
-also in my humble opinion I think scan should return a struct with a list of angles and a list of distances
-and then convert that to cartesian points and offset to bot position in renderer
+Scan::Observation* Scan::performScan(float& cx, float& cy, float& cRad, float& maxRange, const World& world) {
+	Scan::Observation* obs = new Scan::Observation;
+	obs->theta = std::array<float, 360> ();
+	obs->distance = std::array<float, 360>();
 
-*/
-/*
-void Scan::performScan(float& cx, float& cy,float &cRad ,float& maxRange, const World& world) {
-
-	for (int i = 0;i < 360;i++) {
-		sf::Vector2f colPoint(-1, -1);
-		float currMag = -1;
-		float distAway = 100000000000;
-		this->scanLines[i][0].position = sf::Vector2f(cx, cy);
-		this->scanLines[i][1].position = sf::Vector2f(cx + maxRange * cos(i * M_PI / 180), cy - maxRange * sin(i * M_PI / 180));
-		vertexPoints[i][0] = {cx};
-		vertexPoints[i][1] = { cy };
-		vertexPoints[i][2] = { cx + maxRange * (float)cos(i * M_PI / 180) };
-		vertexPoints[i][3] = { cy - maxRange * (float)sin(i * M_PI / 180) };
-		
-		std::unique_ptr<float[]> returnArrPtr (new float[3]);
-
-		returnArrPtr[0] =-1;returnArrPtr[1] = -1;returnArrPtr[2] = -1;
-
-		for (int z = 0; z < world.circles.size(); z++) {
-			float circlePos[2] = { world.circles[z].getPosition().x,world.circles[z].getPosition().y };
-			float circleRad = world.circles[z].getRadius();
-
-			if (!(circleRad + circlePos[0] < cx +cRad|| circleRad + circlePos[1] > cy +cRad) && i<=90) {
-				returnArrPtr.reset(getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway));
-			}
-			else if (!(circleRad + circlePos[0] > cx + cRad || circleRad + circlePos[1] > cy + cRad) && (i<=180 && i >=90)) {
-				returnArrPtr.reset(getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway));
-			}
-			else if (!(circleRad + circlePos[0] > cx + cRad || circleRad + circlePos[1] < cy + cRad) && (i <= 270 && i >= 180)) {
-				returnArrPtr.reset(getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway));
-			}
-			else if (!(circleRad + circlePos[0] < cx + cRad || circleRad + circlePos[1] < cy + cRad) && (i <= 360 && i >= 270)) {
-				returnArrPtr.reset(getCircleCollisionPoint(world.circles[z], colPoint, vertexPoints[i][0], vertexPoints[i][1], vertexPoints[i][2], vertexPoints[i][3], distAway));
-			}
-
-			if ((returnArrPtr[2] < currMag && returnArrPtr[2] != -1) || (currMag == -1 && returnArrPtr[2] != -1)) {
-				colPoint.x = returnArrPtr[0];
-				colPoint.y = returnArrPtr[1];
-			}
-			
-		}
-		if (colPoint.x == -1) {
-
-			for (int j = 0; j < 4; j++) {
-				getBorderCollisionPoint(colPoint, scanLines[i][0].position.x, scanLines[i][0].position.y, scanLines[i][1].position.x, scanLines[i][1].position.y, world.edges[j][0], world.edges[j][1], world.edges[j][2], world.edges[j][3]);
-			}
-
-		}
-		else {
-
-		}
-		
-		
-
-		this->scanLines[i][1].position = sf::Vector2f(colPoint);
-		this->endCircles[i].setPosition(colPoint.x - endCircles[i].getRadius(), colPoint.y - endCircles[i].getRadius());
-	}
-
-	this->timeStamp = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-
-}
-*/
-void Scan::performScan(float& cx, float& cy, float& cRad, float& maxRange, const World& world) {
 	float scanAngle;
 	for (int i = 0; i < 360; i++) {
 		scanAngle = (i - 180) * M_PI / 180;
 		sf::Vector2f colPoint(-1, -1);
 		float newDist = -1;
 		float minDist = 100000000000;
-		this->scanLines[i][0].position = sf::Vector2f(cx, cy);
-		this->scanLines[i][1].position = sf::Vector2f(cx + maxRange * cos(scanAngle), cy + maxRange * sin(scanAngle));
-		vertexPoints[i][0] = { cx };
-		vertexPoints[i][1] = { cy };
-		vertexPoints[i][2] = { cx + maxRange * (float)cos(scanAngle) };
-		vertexPoints[i][3] = { cy + maxRange * (float)sin(scanAngle) };
+
 		std::unique_ptr<float[]> returnArrPtr(new float[3]);
 
 		returnArrPtr[0] = -1; returnArrPtr[1] = -1; returnArrPtr[2] = -1;
@@ -156,23 +70,23 @@ void Scan::performScan(float& cx, float& cy, float& cRad, float& maxRange, const
 			}
 
 		}
-
 		if (colPoint.x == -1) {
 
 			for (int j = 0; j < 4; j++) {
-				getBorderCollisionPoint(colPoint, scanLines[i][0].position.x, scanLines[i][0].position.y, scanLines[i][1].position.x, scanLines[i][1].position.y, world.edges[j][0], world.edges[j][1], world.edges[j][2], world.edges[j][3]);
+				newDist = getBorderCollisionDist(cx, cy, cx + maxRange * cos(scanAngle), cy + maxRange * sin(scanAngle), world.edges[j][0], world.edges[j][1], world.edges[j][2], world.edges[j][3]);
+				if (newDist != -1 && newDist < minDist)
+				{
+					minDist = newDist;
+				}
 			}
 
 		}
-		else {
 
-		}
-		this->scanLines[i][1].position = sf::Vector2f(colPoint);
-		this->endCircles[i].setPosition(colPoint.x - endCircles[i].getRadius(), colPoint.y - endCircles[i].getRadius());
+		obs->theta[i] = scanAngle;
+		obs->distance[i] = minDist;
 	}
 
-
-
+	return obs;
 }
 
 float* Scan::getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f& colPoint, float& x1, float& y1, float& x2, float& y2, float& distAway) {
@@ -277,4 +191,22 @@ void Scan::getBorderCollisionPoint(sf::Vector2f& colPoint, float x1, float y1, f
 		colPoint.x = x1 + (uA * (x2 - x1));
 		colPoint.y = y1 + (uA * (y2 - y1));
 	}
+}
+
+float Scan::getBorderCollisionDist( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
+
+	float uA = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
+	float uB = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
+	float dx = 0;
+	float dy = 0;
+	if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) {
+		if (this->doGaussian) {
+			uA += dist(generator);
+		}
+		dx = uA * (x2 - x1);
+		dy = uA * (y2 - y1);
+		return sqrt(dx * dx + dy * dy);
+	}
+	return -1;
+	
 }
