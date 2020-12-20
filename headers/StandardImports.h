@@ -17,6 +17,11 @@ struct Vector2
 {
     float x;
     float y;
+    Vector2(float xx, float yy)
+    {
+        x = xx;
+        y = yy;
+    }
 };
 
 Vector2 operator+(Vector2 a, Vector2 b);
