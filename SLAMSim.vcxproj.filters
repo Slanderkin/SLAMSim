@@ -347,6 +347,9 @@
     <ClInclude Include="headers\Gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Landmark.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

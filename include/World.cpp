@@ -1,16 +1,17 @@
 #include "World.h"
+#include "StandardImports.h"
 
-World::World(float size[], float border[], sf::Color color) {
-	this->size[0] = size[0];this->size[1] = size[1];
-	this->border[0] = border[0];this->border[1] = border[1];
+World::World(Vector2 size, Vector2 border, sf::Color color) {
+	this->size = size;
+	this->border = border;
 	this->color = color;
-	this->edges = { {border[0], border[1], size[0] - border[0],border[1]},{ border[0], border[1], border[0],size[0] -  border[1]},{size[0] - border[0], border[1], size[0] -  border[0],size[1] - border[1] },{ border[0], size[1] -  border[1], size[0] - border[0],size[1] -  border[1] } };
+	this->edges = { {border.x, border.y, size.x - border.x,border.y},{ border.x, border.y, border.x,size.x -  border.y},{size.x - border.x, border.y, size.x -  border.x,size.y - border.y },{ border.x, size.y -  border.y, size.x - border.x,size.y -  border.y } };
 	this->drawWorld = false;
 
 	circles = { }; //TopRight,TopLeft,BotLeft,BotRight
 
-	borderRect = sf::RectangleShape(sf::Vector2f(this->size[0] - 2 * this->border[0], this->size[1] - 2 * this->border[1]));
-	borderRect.setPosition(sf::Vector2f(this->border[0], this->border[1]));
+	borderRect = sf::RectangleShape(sf::Vector2f(this->size.x - 2 * this->border.x, this->size.y - 2 * this->border.y));
+	borderRect.setPosition(sf::Vector2f(this->border.x, this->border.y));
 	borderRect.setOutlineThickness(5);
 	borderRect.setOutlineColor(sf::Color::Magenta);
 	borderRect.setFillColor(sf::Color::Black);

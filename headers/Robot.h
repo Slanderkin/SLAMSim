@@ -12,16 +12,16 @@ class Robot {
 
 private:
 	void update();
-	void checkCircleCol(const World &world, float vs[2]);
-	void checkBorderCol(const World& world, float vs[2]);
+	void checkCircleCol(const World &world, Vector2 velocity);
+	void checkBorderCol(const World& world, Vector2 velocity);
 	
 public:
-	Robot(float centerIn[],float headingIn,sf::Color color,float velocityIn[],float maxRangeIn,float radiusIn, Scan &scan);
+	Robot(Vector2 center,float headingIn,sf::Color color,Vector2 velocity,float maxRangeIn,float radiusIn, Scan &scan); 
 
-	float center [2];
+	Vector2 center;
 	float heading;
 	sf::Color color;
-	float velocity [2];
+	Vector2 velocity;//Velocity is linV,angV
 	float maxRange;
 	sf::CircleShape circle;
 	sf::RectangleShape dirLine;

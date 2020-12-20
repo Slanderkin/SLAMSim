@@ -4,7 +4,6 @@
 #include "World.h"
 #include "Scan.h"
 #include "Button.h"
-
 #include "Gui.h"
 
 
@@ -38,12 +37,12 @@ int main()
     Vector2 b = { 5, 9.3 };
     Vector2 c = a + b;
     printf("%f %f\n", c.x, c.y);
-    float size[2] = { 1000,800 };
-    float border[2] = { 150,150 };
+    Vector2 size = { 1000,800 };
+    Vector2 border = { 150,150 };
 
-    float center[2] = { size[0] / 2,size[1] / 2 };
+    Vector2 center = size/2;
     float heading = 0;
-    float velocity[2] = {5,3};
+    Vector2 velocity = {5,3}; //Linear,angular
     float maxRange = 1000;
     float radius = 10.f;
     bool doLine = false;
@@ -54,7 +53,7 @@ int main()
     Scan scan;
     Robot robot(center, heading, sf::Color::Red, velocity, maxRange,radius,scan);
     World world(size, border, sf::Color::White);    
-    sf::RenderWindow window(sf::VideoMode(size[0], size[1]), "SLAM Sim!");
+    sf::RenderWindow window(sf::VideoMode(size.x, size.y), "SLAM Sim!");
     window.setFramerateLimit(60);
 
     //Draw buttons and their text, this needs to be its own function at some point
@@ -95,10 +94,10 @@ int main()
     // Main loop
     while (window.isOpen())
     {
-        sf::Vector2f robot_center = sf::Vector2f(robot.center[0], robot.center[1]);
+        sf::Vector2f robot_center = sf::Vector2f(robot.center.x, robot.center.y);
 
         obs = robot.scan.performScan(robot_center.x, robot_center.y, robot.radius, robot.maxRange, world);
-        robot.checkBorderCol(world,robot.velocity[0],robot.heading );
+        robot.checkBorderCol(world,robot.velocity.x,robot.heading );
         
         // Create drawn elements from obs vector
         for (int i = 0; i < obs->theta.size(); i++)
@@ -120,7 +119,7 @@ int main()
             case sf::Event::MouseButtonPressed:
                 if (event.mouseButton.button == sf::Mouse::Left){
                     float rad = 10;
-                    if (!(event.mouseButton.x - rad < world.border[0] || event.mouseButton.y - rad < world.border[1] || event.mouseButton.x +rad > world.size[0] - world.border[0] || event.mouseButton.y + rad> world.size[1] - world.border[1])) {
+                    if (!(event.mouseButton.x - rad < world.border.x || event.mouseButton.y - rad < world.border.y || event.mouseButton.x +rad > world.size.x - world.border.x || event.mouseButton.y + rad> world.size.y - world.border.y)) {
                         sf::CircleShape newCircle(rad);
                         newCircle.setPosition(event.mouseButton.x - rad, event.mouseButton.y - rad);
                         world.addCircle(newCircle);

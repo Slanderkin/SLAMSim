@@ -173,6 +173,7 @@
   <ItemGroup>
     <ClInclude Include="headers\Button.h" />
     <ClInclude Include="headers\Gui.h" />
+    <ClInclude Include="headers\Landmark.h" />
     <ClInclude Include="headers\Misc.h" />
     <ClInclude Include="headers\Robot.h" />
     <ClInclude Include="headers\Scan.h" />

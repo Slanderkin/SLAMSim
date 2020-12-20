@@ -10,19 +10,15 @@
 
 class World {
 
-private:
-
-	void init(float size[], float border[], sf::Color color);
 
 public:
-	World(float size[], float border[],sf::Color color);
+	World(Vector2 size, Vector2 border,sf::Color color);
 
-	float size [2];
+	Vector2 size;
+	Vector2 border;
 	std::vector<std::vector<float>> edges;
 	sf::Color color;
-	float border [2];
 	std::vector<sf::CircleShape> circles;
-
 	sf::RectangleShape borderRect; 
 	void addCircle(sf::CircleShape);
 	bool drawWorld;
