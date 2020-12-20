@@ -1,61 +1,50 @@
-﻿Build started 12/20/2020 1:16:22 PM.
+﻿Build started 12/20/2020 1:20:13 PM.
 Logging verbosity is set to: Normal.     1>Project "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
          Touching "x64\Debug\SLAMSim.tlog\unsuccessfulbuild".
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\CL.exe /c /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\include" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /permissive- /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc142.pdb" /Gd /TP /FC /errorReport:prompt include\main.cpp include\Robot.cpp include\Scan.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\CL.exe /c /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\include" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /permissive- /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc142.pdb" /Gd /TP /FC /errorReport:prompt include\main.cpp
          main.cpp
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(37,26): warning C4305: 'argument': truncation from 'double' to 'float'
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(56,55): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(56,47): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(129,93): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(129,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-         Robot.cpp
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(26,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(27,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-         Scan.cpp
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(25,23): warning C4244: 'argument': conversion from 'double' to 'std::array<float,360>::size_type', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(26,23): warning C4244: 'argument': conversion from 'double' to 'std::array<float,360>::size_type', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(46,33): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(104,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(136,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(137,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-         Generating Code...
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers" /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\lib" "sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" "sfml-network-d.lib" "sfml-audio-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.lib" /MACHINE:X64 x64\Debug\Button.obj
-         x64\Debug\main.obj
-         x64\Debug\Robot.obj
-         x64\Debug\Scan.obj
-         x64\Debug\World.obj
-         x64\Debug\main.obj
-         x64\Debug\Robot.obj
-         x64\Debug\Scan.obj
-         x64\Debug\World.obj
-         SLAMSim.vcxproj -> C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.exe
-       FinalizeBuildStatus:
-         Deleting file "x64\Debug\SLAMSim.tlog\unsuccessfulbuild".
-         Touching "x64\Debug\SLAMSim.tlog\SLAMSim.lastbuildstate".
-     1>Done Building Project "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target(s)).
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(34,26): warning C4305: 'argument': truncation from 'double' to 'float'
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(41,11): error C2040: 'size': 'float [2]' differs in levels of indirection from 'Vector2'
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(42,11): error C2040: 'border': 'float [2]' differs in levels of indirection from 'Vector2'
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(45,26): error C2088: '/': illegal for struct
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(102,105): error C2660: 'Scan::performScan': function does not take 5 arguments
+       C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers\Scan.h(26,21): message : see declaration of 'Scan::performScan'
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(105,17): error C2371: 'robot_center': redefinition; different basic types
+       C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(100): message : see declaration of 'robot_center'
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(105,54): error C2676: binary '[': 'Vector2' does not define this operator or a conversion to a type acceptable to the predefined operator
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(105,71): error C2676: binary '[': 'Vector2' does not define this operator or a conversion to a type acceptable to the predefined operator
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(107,52): error C2676: binary '[': 'Vector2' does not define this operator or a conversion to a type acceptable to the predefined operator
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(107,68): error C2664: 'void Robot::checkBorderCol(const World &,float,float)': cannot convert argument 2 from 'float' to 'Vector2'
+       C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(107,68): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+       C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers\Robot.h(16,7): message : see declaration of 'Robot::checkBorderCol'
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(137,93): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(137,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+     1>Done Building Project "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
        "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
        (ClCompile target) -> 
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(37,26): warning C4305: 'argument': truncation from 'double' to 'float'
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(56,55): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(56,47): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(129,93): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(129,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(26,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(27,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(25,23): warning C4244: 'argument': conversion from 'double' to 'std::array<float,360>::size_type', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(26,23): warning C4244: 'argument': conversion from 'double' to 'std::array<float,360>::size_type', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(46,33): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(104,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(136,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(137,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(34,26): warning C4305: 'argument': truncation from 'double' to 'float'
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(137,93): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(137,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 
-    13 Warning(s)
-    0 Error(s)
 
-Time Elapsed 00:00:02.53
+       "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
+       (ClCompile target) -> 
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(41,11): error C2040: 'size': 'float [2]' differs in levels of indirection from 'Vector2'
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(42,11): error C2040: 'border': 'float [2]' differs in levels of indirection from 'Vector2'
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(45,26): error C2088: '/': illegal for struct
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(102,105): error C2660: 'Scan::performScan': function does not take 5 arguments
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(105,17): error C2371: 'robot_center': redefinition; different basic types
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(105,54): error C2676: binary '[': 'Vector2' does not define this operator or a conversion to a type acceptable to the predefined operator
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(105,71): error C2676: binary '[': 'Vector2' does not define this operator or a conversion to a type acceptable to the predefined operator
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(107,52): error C2676: binary '[': 'Vector2' does not define this operator or a conversion to a type acceptable to the predefined operator
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(107,68): error C2664: 'void Robot::checkBorderCol(const World &,float,float)': cannot convert argument 2 from 'float' to 'Vector2'
+
+    3 Warning(s)
+    9 Error(s)
+
+Time Elapsed 00:00:00.74
