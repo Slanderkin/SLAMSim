@@ -11,6 +11,30 @@ Scan::Scan() :
 	this->doGaussian = false;
 }
 
+Scan::Observation* Scan::computeScanDerivatives(float minDist, Scan::Observation* obs) {
+	Scan::Observation* der = new Scan::Observation;
+	der->theta = std::array<float, 360>();
+	der->distance = std::array<float, 360>();
+	der->distance[0] = 0;der->distance[359] = 0;
+	der->theta[0] = obs->theta[0];der->theta[359] = obs->theta[359];
+	float l = 0;
+	float r = 0;
+	float currDer = 0;
+	for (int i = 1; i < obs->theta.size()-1;i++) {
+		der->theta[i] = obs->theta[i];
+		l = obs->distance[i - 1.0];
+		r = obs->distance[i + 1.0];
+		if (l > minDist && r > minDist) {
+			currDer = (r - l) / (2 * (float)M_PI / 180);
+			der->distance[i] = currDer;
+		}
+		else {
+			der->distance[i] = 0;
+		}
+	}
+
+}
+
 Scan::Observation* Scan::performScan(float& cx, float& cy, float& cRad, float& maxRange, const World& world) {
 	Scan::Observation* obs = new Scan::Observation;
 	obs->theta = std::array<float, 360> ();
