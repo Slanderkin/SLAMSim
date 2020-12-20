@@ -96,7 +96,7 @@ int main()
     {
         sf::Vector2f robot_center = sf::Vector2f(robot.center.x, robot.center.y);
 
-        obs = robot.scan.performScan(robot_center.x, robot_center.y, robot.radius, robot.maxRange, world);
+        obs = robot.scan.performScan(center, robot.radius, robot.maxRange, world);
         robot.checkBorderCol(world,robot.velocity.x,robot.heading );
         
         // Create drawn elements from obs vector
