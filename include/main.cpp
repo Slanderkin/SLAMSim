@@ -94,16 +94,16 @@ int main()
     // Main loop
     while (window.isOpen())
     {
-        sf::Vector2f robot_center = sf::Vector2f(robot.center.x, robot.center.y);
+        Vector2 robot_center = Vector2(robot.center.x, robot.center.y);
 
-        obs = robot.scan.performScan(center, robot.radius, robot.maxRange, world);
+        obs = robot.scan.performScan(robot_center, robot.radius, robot.maxRange, world);
         robot.checkBorderCol(world,robot.velocity.x,robot.heading );
         
         // Create drawn elements from obs vector
         for (int i = 0; i < obs->theta.size(); i++)
         {
             od->endPoints[i].setPosition(sf::Vector2f(robot_center.x + obs->distance[i] * cos(obs->theta[i]) - pointRad, robot_center.y + obs->distance[i] * sin(obs->theta[i]) - pointRad));
-            od->scanLines[i][0].position = robot_center;
+            od->scanLines[i][0].position = sf::Vector2f(robot_center.x, robot_center.y);
             od->scanLines[i][1].position = sf::Vector2f(robot_center.x + obs->distance[i] * cos(obs->theta[i]), robot_center.y + obs->distance[i] * sin(obs->theta[i]));
         }
         
