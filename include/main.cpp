@@ -81,10 +81,9 @@ int main()
         robot.checkBorderCol(world,robot.velocity[0],robot.heading );
         for (int i = 0; i < obs->theta.size(); i++)
         {
-            sf::Vector2f end = sf::Vector2f(robot_center.x + obs->distance[i] * cos(obs->theta[i]) - pointRad, robot_center.y + obs->distance[i] * sin(obs->theta[i]) - pointRad);
-            od->endPoints[i].setPosition(end);
+            od->endPoints[i].setPosition(sf::Vector2f(robot_center.x + obs->distance[i] * cos(obs->theta[i]) - pointRad, robot_center.y + obs->distance[i] * sin(obs->theta[i]) - pointRad));
             od->scanLines[i][0].position = robot_center;
-            od->scanLines[i][1].position = end;
+            od->scanLines[i][1].position = sf::Vector2f(robot_center.x + obs->distance[i] * cos(obs->theta[i]), robot_center.y + obs->distance[i] * sin(obs->theta[i]));
         }
         
         
