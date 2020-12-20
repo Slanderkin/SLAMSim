@@ -7,10 +7,6 @@
 
 #include "Gui.h"
 
-
-
-
-
 struct ObsDraw {
     std::array<sf::CircleShape, 360> endPoints;
     std::array<sf::VertexArray, 360> scanLines;
@@ -34,10 +30,7 @@ Vector2 operator/(Vector2 v, float c)
 
 int main()
 {
-    Vector2 a = { 1,2 };
-    Vector2 b = { 5, 9.3 };
-    Vector2 c = a + b;
-    printf("%f %f\n", c.x, c.y);
+
     float size[2] = { 1000,800 };
     float border[2] = { 150,150 };
 
@@ -95,16 +88,15 @@ int main()
     // Main loop
     while (window.isOpen())
     {
-        sf::Vector2f robot_center = sf::Vector2f(robot.center[0], robot.center[1]);
-
-        obs = robot.scan.performScan(robot_center.x, robot_center.y, robot.radius, robot.maxRange, world);
+        Vector2 robot_center = Vector2(robot.center[0], robot.center[1]);
+        obs = robot.scan.performScan(robot_center, robot.radius, robot.maxRange, world);
         robot.checkBorderCol(world,robot.velocity[0],robot.heading );
         
         // Create drawn elements from obs vector
         for (int i = 0; i < obs->theta.size(); i++)
         {
             od->endPoints[i].setPosition(sf::Vector2f(robot_center.x + obs->distance[i] * cos(obs->theta[i]) - pointRad, robot_center.y + obs->distance[i] * sin(obs->theta[i]) - pointRad));
-            od->scanLines[i][0].position = robot_center;
+            od->scanLines[i][0].position = sf::Vector2f(robot_center.x, robot_center.y);
             od->scanLines[i][1].position = sf::Vector2f(robot_center.x + obs->distance[i] * cos(obs->theta[i]), robot_center.y + obs->distance[i] * sin(obs->theta[i]));
         }
         
