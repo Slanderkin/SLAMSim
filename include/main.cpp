@@ -47,7 +47,7 @@ int main()
     std::string textStr[3] = { "Draw World","Gaussian", "Draw Lines" };
 
         
-    sf::Color color = sf::Color::Blue;
+    sf::Color color = sf::Color::Red;
     for (int i = 0; i < 3; i++) {
         sf::Text text(textStr[i], font, 24);
         text.setFillColor(sf::Color::White);
@@ -70,7 +70,7 @@ int main()
     }
     
     sf::VertexArray line(sf::Lines, 2);
-    for (sf::VertexArray &va : od->scanLines) va = line;
+    for (sf::VertexArray &va : od->scanLines) va = line; //Watch doing these kind of enhanced for loops with sf:: stuff, as long as its out of a loop its fine but otherwise it tanks perf
 
     // Main loop
     while (window.isOpen())
@@ -106,7 +106,10 @@ int main()
                     }
                     
                     for (int i = 0; i < buttonList.size(); i++) {
-                        if (buttonList[i].checkToggle(event.mouseButton.x, event.mouseButton.y)) break;
+                        if (buttonList[i].checkToggle(event.mouseButton.x, event.mouseButton.y)) {
+                            buttonList[i].checkColor();
+                            break;
+                        }
                     }
 
                 }
@@ -115,13 +118,16 @@ int main()
             case sf::Event::KeyPressed:
                 if (event.key.code == sf::Keyboard::R) {
                     doLine = !doLine;
+                    buttonList[2].checkColor();
                 }
                 else if (event.key.code == sf::Keyboard::G) {
                     robot.scan.doGaussian = !robot.scan.doGaussian;
+                    buttonList[1].checkColor();
 
                 }
                 else if (event.key.code == sf::Keyboard::F) {
                     world.drawWorld = !world.drawWorld;
+                    buttonList[0].checkColor();
 
                 }
                 
@@ -135,7 +141,7 @@ int main()
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {
-            // left key is pressed: move our character
+            // w key is pressed: move our character
             robot.forward(world);
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
