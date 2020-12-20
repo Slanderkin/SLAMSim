@@ -46,8 +46,7 @@ int main()
     float pos[3][2] = { {10.f,10.f},{200.f,10.f},{390.f,10.f} };
     std::string textStr[3] = { "Draw World","Gaussian", "Draw Lines" };
 
-
-
+        
     sf::Color color = sf::Color::Blue;
     for (int i = 0; i < 3; i++) {
         sf::Text text(textStr[i], font, 24);
@@ -64,8 +63,9 @@ int main()
     od->scanLines = std::array<sf::VertexArray, 360>();
     
     // Populate the struct with new objects
+    float pointRad = 2;
     for (sf::CircleShape &cs : od->endPoints) {
-        cs = sf::CircleShape(2);
+        cs = sf::CircleShape(pointRad);
         cs.setFillColor(sf::Color::Green);
     }
     
@@ -81,7 +81,7 @@ int main()
         robot.checkBorderCol(world,robot.velocity[0],robot.heading );
         for (int i = 0; i < obs->theta.size(); i++)
         {
-            sf::Vector2f end = sf::Vector2f(robot_center.x + obs->distance[i] * cos(obs->theta[i]), robot_center.y + obs->distance[i] * sin(obs->theta[i]));
+            sf::Vector2f end = sf::Vector2f(robot_center.x + obs->distance[i] * cos(obs->theta[i]) - pointRad, robot_center.y + obs->distance[i] * sin(obs->theta[i]) - pointRad);
             od->endPoints[i].setPosition(end);
             od->scanLines[i][0].position = robot_center;
             od->scanLines[i][1].position = end;
