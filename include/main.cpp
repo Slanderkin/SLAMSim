@@ -37,7 +37,7 @@ int main()
 
 
 
-    sf::Color color = sf::Color::Blue;
+    sf::Color color = sf::Color::Red;
     for (int i = 0; i < 3; i++) {
         sf::Text text(textStr[i], font, 24);
         text.setFillColor(sf::Color::White);
@@ -77,14 +77,16 @@ int main()
             case sf::Event::KeyPressed:
                 if (event.key.code == sf::Keyboard::R) {
                     doLine = !doLine;
+                    buttonList[2].updateColor();
                 }
                 else if (event.key.code == sf::Keyboard::G) {
                     robot.scan.doGaussian = !robot.scan.doGaussian;
+                    buttonList[1].updateColor();
 
                 }
                 else if (event.key.code == sf::Keyboard::F) {
                     world.drawWorld = !world.drawWorld;
-
+                    buttonList[0].updateColor();
                 }
                 
             default:

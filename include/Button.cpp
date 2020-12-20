@@ -23,9 +23,19 @@ bool Button::checkToggle(float mouseX, float mouseY)
 	if ((mouseX >= x && mouseX <= width + x) && (mouseY >= y && mouseY <= height + y))
 	{
 		*toToggle = !*toToggle;
+		updateColor();
 		return true;
 	}
 	return false;
+}
+
+void Button::updateColor() {
+	if (*toToggle) {
+		this->rect.setFillColor(sf::Color::Green);
+	}
+	else {
+		this->rect.setFillColor(sf::Color::Red);
+	}
 }
 
 bool Button::isClicked(float mouseX,float mouseY) {

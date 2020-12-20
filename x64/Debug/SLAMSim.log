@@ -1,17 +1,23 @@
-﻿Build started 12/19/2020 6:25:11 PM.
+﻿Build started 12/19/2020 9:50:21 PM.
 Logging verbosity is set to: Normal.     1>Project "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
          Creating "x64\Debug\SLAMSim.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\CL.exe /c /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\include" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /permissive- /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc142.pdb" /Gd /TP /FC /errorReport:prompt include\Scan.cpp
-         Scan.cpp
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(102,32): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(105,31): warning C4305: 'initializing': truncation from '__int64' to 'float'
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(217,27): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(228,27): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(257,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(259,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(272,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\CL.exe /c /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\include" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /permissive- /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc142.pdb" /Gd /TP /FC /errorReport:prompt include\Button.cpp include\Robot.cpp include\main.cpp
+         Button.cpp
+         Robot.cpp
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(25,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(26,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(78,30): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(78,30): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(78,71): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(78,71): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         main.cpp
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(26,58): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(26,49): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(71,93): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(71,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers" /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\lib" "sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" "sfml-network-d.lib" "sfml-audio-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.lib" /MACHINE:X64 x64\Debug\Button.obj
          x64\Debug\main.obj
@@ -32,15 +38,18 @@ Build succeeded.
 
        "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
        (ClCompile target) -> 
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(102,32): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(105,31): warning C4305: 'initializing': truncation from '__int64' to 'float'
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(217,27): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(228,27): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(257,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(259,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(272,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(25,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(26,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(78,30): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(78,30): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(78,71): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Robot.cpp(78,71): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(26,58): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(26,49): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(71,93): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\main.cpp(71,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 
-    7 Warning(s)
+    10 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:00.92
+Time Elapsed 00:00:02.27
