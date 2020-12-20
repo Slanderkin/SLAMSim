@@ -99,7 +99,7 @@ void Scan::performScan(float& cx, float& cy,float &cRad ,float& maxRange, const 
 void Scan::performScan(float& cx, float& cy, float& cRad, float& maxRange, const World& world) {
 	float scanAngle;
 	for (int i = 0; i < 360; i++) {
-		scanAngle = (i - 180) * M_PI / 180;
+		scanAngle = (i - 180.) * M_PI / 180;
 		sf::Vector2f colPoint(-1, -1);
 		float newDist = -1;
 		float minDist = 100000000000;
@@ -119,9 +119,9 @@ void Scan::performScan(float& cx, float& cy, float& cRad, float& maxRange, const
 			float circ_r = world.circles[z].getRadius();
 			float circ_x = world.circles[z].getPosition().x + circ_r;
 			float circ_y = world.circles[z].getPosition().y + circ_r;
-			
 			if (circ_y - circ_r < cy && scanAngle <= 0)
 			{
+				
 				if (circ_x - circ_r < cx && scanAngle <= -M_PI / 2)
 				{
 					newDist = raycast_circle(world.circles[z], scanAngle, cx, cy);
@@ -142,6 +142,7 @@ void Scan::performScan(float& cx, float& cy, float& cRad, float& maxRange, const
 					newDist = raycast_circle(world.circles[z], scanAngle, cx, cy);
 				}
 			}
+			if (this->doGaussian && newDist > 0) newDist += 1000*dist(generator);
 			
 			if (newDist > 0 && newDist < minDist)
 			{
@@ -247,15 +248,15 @@ float Scan::raycast_circle(sf::CircleShape circle, float scanAngle, float x0, fl
 	float dy = circle.getPosition().y + rc - y0;
 
 	float d = sqrt(dx * dx + dy * dy);
-
+	float theta_max = asin(rc / d);
 	float theta = abs(scanAngle - atan2(dy, dx));
-
-	if (theta > abs(atan2(rc, d))) return -1.;
-
+	
+	if (theta > theta_max && abs(theta - 2*M_PI) > theta_max) return -1.;
 	float l = d * tan(theta);
-	float a = M_PI / 2 - theta;
+	float c = M_PI / 2 - theta;
+	float a = M_PI - asin(l / rc * sin(c)) - c;
 
-	return sqrt(l * l + d * d) - rc * sin(a - asin(l * sin(a) / rc)) / sin(a);
+	return sqrt(l * l + d * d) - rc * sin(a) / sin(c);
 
 }
 
