@@ -12,4 +12,15 @@
 #include <string>
 #include <array>
 
+
+struct Vector2
+{
+    float x;
+    float y;
+};
+
+Vector2 operator+(Vector2 a, Vector2 b);
+Vector2 operator*(float c, Vector2 v);
+Vector2 operator/(Vector2 v, float c);
+
 #endif // !STANDARDIMPORTS_H
