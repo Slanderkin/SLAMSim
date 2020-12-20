@@ -25,11 +25,9 @@ public:
 	Scan();
 	Scan::Observation* performScan(float &cx, float &cy,float &cRad,float &maxRange, const World &world);
 	Scan::Observation* computeScanDerivatives(float minDist, Scan::Observation* obs);
-	float* getCircleCollisionPoint(sf::CircleShape circle, sf::Vector2f &colPoint, float &x1, float &y1, float &x2, float &y2, float &distAway);
+	
 	float raycast_circle(sf::CircleShape circle, float scanAngle, float x0, float y0);
-
-	void getBorderCollisionPoint(sf::Vector2f &colPoint, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
-	float getBorderCollisionDist(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
+	float raycast_wall(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 	float hz; //currently unused
 	std::time_t timeStamp;
 	bool doGaussian;
