@@ -143,6 +143,11 @@ void Scan::performScan(float& cx, float& cy, float& cRad, float& maxRange, const
 				}
 			}
 			
+			if (doGaussian && newDist > 0)
+			{
+				newDist += 1000 * dist(generator);
+			}
+
 			if (newDist > 0 && newDist < minDist)
 			{
 				minDist = newDist;
@@ -247,18 +252,16 @@ float Scan::raycast_circle(sf::CircleShape circle, float scanAngle, float x0, fl
 	float dy = circle.getPosition().y + rc - y0;
 
 	float d = sqrt(dx * dx + dy * dy);
-	float noise = 0;
-
+	
+	float theta_max = asin(rc / d);
 	float theta = abs(scanAngle - atan2(dy, dx));
 
-	if (theta > abs(atan2(rc, d))) return -1.;
-
+	if (theta > theta_max && abs(theta - 2 * M_PI) > theta_max) return -1.;
 	float l = d * tan(theta);
-	float a = M_PI / 2 - theta;
-	if (this->doGaussian) {
-		noise = 1250*dist(generator);
-	}
-	return sqrt(l * l + d * d) - rc * sin(a - asin(l * sin(a) / rc)) / sin(a) + noise;
+	float c = M_PI / 2 - theta;
+	float a = M_PI - asin(l / rc * sin(c)) - c;
+
+	return sqrt(l * l + d * d) - rc * sin(a) / sin(c);
 
 }
 
