@@ -413,6 +413,7 @@
     <None Include="SFML\bin\sfml-system-d-2.dll" />
     <None Include="SFML\bin\sfml-window-2.dll" />
     <None Include="SFML\bin\sfml-window-d-2.dll" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Object Include="x64\Debug\Robot.obj" />

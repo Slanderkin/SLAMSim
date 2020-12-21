@@ -39,7 +39,7 @@ Vector2 operator/(Vector2 v, float c)
 int main()
 {
     Vector2 a = { 1,2 };
-    Vector2 b = { 5, 9.3 };
+    Vector2 b = { 5, 9.3f };
     Vector2 c = a + b;
     printf("%f %f\n", c.x, c.y);
     Vector2 size = { 1000,800 };
@@ -58,7 +58,7 @@ int main()
     Scan scan;
     Robot robot(center, heading, sf::Color::Red, velocity, maxRange,radius,scan);
     World world(size, border, sf::Color::White);    
-    sf::RenderWindow window(sf::VideoMode(size.x, size.y), "SLAM Sim!");
+    sf::RenderWindow window(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
     window.setVerticalSyncEnabled(true);
 
     //Draw buttons and their text, this needs to be its own function at some point
@@ -131,7 +131,7 @@ int main()
                     }
                     
                     for (int i = 0; i < buttonList.size(); i++) {
-                        if (buttonList[i].checkToggle(event.mouseButton.x, event.mouseButton.y)) {
+                        if (buttonList[i].checkToggle((float)event.mouseButton.x, (float)event.mouseButton.y)) {
                             buttonList[i].checkColor();
                             break;
                         }

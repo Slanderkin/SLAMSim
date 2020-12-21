@@ -109,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)SFML\include;C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers;C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim;C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Eigen;$(SolutionDir)SFML\include;C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers;C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim;C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)SFML\include;C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers;C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim;C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Eigen;$(SolutionDir)SFML\include;C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers;C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim;C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -281,6 +281,7 @@
     <ClInclude Include="SFML\include\SFML\Window\WindowStyle.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="README.md" />
     <None Include="SFML\bin\openal32.dll" />
     <None Include="SFML\bin\sfml-audio-2.dll" />
@@ -331,5 +332,12 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\Eigen.3.3.3\build\native\Eigen.targets" Condition="Exists('packages\Eigen.3.3.3\build\native\Eigen.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Eigen.3.3.3\build\native\Eigen.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Eigen.3.3.3\build\native\Eigen.targets'))" />
+  </Target>
 </Project>

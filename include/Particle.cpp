@@ -1,5 +1,6 @@
 #include "Particle.h"
 #include "StandardImports.h"
+#include <Eigen/Dense>
 
 
 Particle::Particle(Vector2 position, float heading) {
