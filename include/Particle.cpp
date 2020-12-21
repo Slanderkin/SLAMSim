@@ -115,7 +115,7 @@ Qt_cov holds the variances Sxx,Sxy,Syy:
 	|Sxy,Syy|
 */
 void Particle::initializeLandmark(Vector2 measurement, std::vector<Vector2> Qt_cov) {
-	Vector2 landmarkPos = {position.x+measurement.x*cos(measurement.y*M_PI/180),position.y + measurement.x * sin(measurement.y * M_PI / 180) };
+	Vector2 landmarkPos = {position.x+measurement.x*(float)cos(measurement.y*M_PI/180),position.y + measurement.x *(float) sin(measurement.y * M_PI / 180) };
 	std::vector<Vector2> H = dhLandmark(landmarkPos);
 	float determinate = 1 / (H[0].x * H[1].y - H[0].y * H[1].x);
 	float Sxx = 1/(determinate* determinate)*(H[1].y*(Qt_cov[0].x* H[1].y - Qt_cov[0].y*H[0].y)  +  -H[0].y*(H[1].y*Qt_cov[1].x-H[0].y*Qt_cov[1].y));

@@ -28,7 +28,7 @@ public:
 	sf::RectangleShape dirLine;
 	float radius;
 	Scan scan;
-	void checkBorderCol(const World& world, float linVelocity,float heading);
+	void move(const World& world, Vector2 control);
 	void forward(const World &world);
 	void turn(bool isLeft);
 	void checkScanCol(const World& world);

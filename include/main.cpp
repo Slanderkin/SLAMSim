@@ -102,7 +102,7 @@ int main()
         Vector2 robot_center = Vector2(robot.center.x, robot.center.y);
 
         obs = robot.scan.performScan(robot_center, robot.radius, robot.maxRange, world);
-        robot.checkBorderCol(world,robot.velocity.x,robot.heading );
+        //robot.checkBorderCol(world,robot.velocity.x,robot.heading );
         
         // Create drawn elements from obs vector
         for (int i = 0; i < obs->theta.size(); i++)
@@ -166,13 +166,15 @@ int main()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-                robot.turn(true);
+                robot.move(world, Vector2(2, 0.75));
+               
             }
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                robot.turn(false);
+                robot.move(world, Vector2(0.75, 2));
+                
             }
             // w key is pressed: move our character
-            robot.forward(world);
+            robot.move(world, Vector2(5, 5));
         }
         else {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
