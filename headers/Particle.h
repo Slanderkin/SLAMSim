@@ -19,7 +19,11 @@ public:
 	std::vector<Vector2> hForLandMark(int landMarkNum);
 	std::vector<Vector2> dhLandmark(Vector2 landMarkPos);
 	std::vector<Vector2> get_H_QL(int landMarkNum,std::vector<Vector2> Qt_cov);
-	float getWl(int landMarkNum,float measurement, std::vector<Vector2> Qt_cov);
+	float getWl(int landMarkNum,  Vector2 measurement, std::vector<Vector2> Qt_cov);
+	std::vector<float> getLikelihoods(int numLandmarks, Vector2 measurement, std::vector<Vector2> Qt_cov);
+	void initializeLandmark(Vector2 measurement,std::vector<Vector2> Qt_cov);
+	void updateLandmark(int landMarkNum, Vector2 measurement, std::vector<Vector2> Qt_cov);
+	
 
 };
 
