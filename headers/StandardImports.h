@@ -11,7 +11,7 @@
 #include <random>
 #include <string>
 #include <array>
-
+#include <Eigen/Dense>
 
 struct Vector2
 {
