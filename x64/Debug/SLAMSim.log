@@ -1,14 +1,15 @@
-﻿Build started 12/21/2020 2:23:47 PM.
+﻿Build started 12/21/2020 6:20:18 PM.
 Logging verbosity is set to: Normal.     1>Project "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
          Touching "x64\Debug\SLAMSim.tlog\unsuccessfulbuild".
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\CL.exe /c /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\packages\Eigen.3.3.3\build\native\../..//build/native/include/" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\Eigen" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\include" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D HAS_EIGEN /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /permissive- /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc142.pdb" /Gd /TP /FC /errorReport:prompt include\Particle.cpp
-         Particle.cpp
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Particle.cpp(42,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Particle.cpp(98,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\CL.exe /c /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\packages\Eigen.3.3.3\build\native\../..//build/native/include/" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\Eigen" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\include" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D HAS_EIGEN /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /permissive- /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc142.pdb" /Gd /TP /FC /errorReport:prompt include\FastSLAM.cpp
+         FastSLAM.cpp
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(33,24): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(34,24): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers" /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\lib" "sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" "sfml-network-d.lib" "sfml-audio-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.lib" /MACHINE:X64 x64\Debug\Button.obj
+         x64\Debug\FastSLAM.obj
          x64\Debug\Landmark.obj
          x64\Debug\main.obj
          x64\Debug\Particle.obj
@@ -19,10 +20,6 @@ Logging verbosity is set to: Normal.     1>Project "C:\Users\Sean\Documents\Fall
          x64\Debug\Robot.obj
          x64\Debug\Scan.obj
          x64\Debug\World.obj
-     1>x64\Debug\main.obj : warning LNK4042: object specified more than once; extras ignored
-     1>x64\Debug\Robot.obj : warning LNK4042: object specified more than once; extras ignored
-     1>x64\Debug\Scan.obj : warning LNK4042: object specified more than once; extras ignored
-     1>x64\Debug\World.obj : warning LNK4042: object specified more than once; extras ignored
          SLAMSim.vcxproj -> C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.exe
        FinalizeBuildStatus:
          Deleting file "x64\Debug\SLAMSim.tlog\unsuccessfulbuild".
@@ -33,18 +30,10 @@ Build succeeded.
 
        "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
        (ClCompile target) -> 
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Particle.cpp(42,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Particle.cpp(98,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(33,24): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(34,24): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
 
-
-       "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
-       (Link target) -> 
-         x64\Debug\main.obj : warning LNK4042: object specified more than once; extras ignored
-         x64\Debug\Robot.obj : warning LNK4042: object specified more than once; extras ignored
-         x64\Debug\Scan.obj : warning LNK4042: object specified more than once; extras ignored
-         x64\Debug\World.obj : warning LNK4042: object specified more than once; extras ignored
-
-    6 Warning(s)
+    2 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:02.96
+Time Elapsed 00:00:01.97

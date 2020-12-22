@@ -11,7 +11,7 @@ Scan::Scan() :
 	this->doGaussian = false;
 }
 
-Scan::Observation* Scan::computeScanDerivatives(float minDist, Scan::Observation* obs) {
+Scan::Observation* Scan::computeScanDerivatives(Scan::Observation* obs) {
 	Scan::Observation* der = new Scan::Observation;
 	der->theta = std::array<float, 360>();
 	der->distance = std::array<float, 360>();
@@ -24,13 +24,10 @@ Scan::Observation* Scan::computeScanDerivatives(float minDist, Scan::Observation
 		der->theta[i] = obs->theta[i];
 		l = obs->distance[i - 1.0];
 		r = obs->distance[i + 1.0];
-		if (l > minDist && r > minDist) {
-			currDer = (r - l) / (2 * (float)M_PI / 180);
-			der->distance[i] = currDer;
-		}
-		else {
-			der->distance[i] = 0;
-		}
+
+		currDer = (r - l) / (2 * (float)M_PI / 180);
+		der->distance[i] = currDer;
+
 	}
 	return der;
 
@@ -108,7 +105,8 @@ Scan::Observation* Scan::performScan(Vector2 origin, float& cRad, float& maxRang
 		obs->theta[i] = scanAngle;
 		obs->distance[i] = minDist;
 	}
-
+	Scan::Observation* ders = computeScanDerivatives(obs);
+	std::vector<Eigen::Vector2f> cylinders = findCylinders(ders, obs,100);
 	return obs;
 }
 
@@ -153,4 +151,50 @@ float Scan::raycast_wall( Vector2 origin, Vector2 end, Vector2 corA, Vector2 cor
 	}
 	return -1;
 	
+}
+
+std::vector<Eigen::Vector2f> Scan::findCylinders(Scan::Observation* derivative, Scan::Observation* foundScan, float jump) {
+	Scan::Observation* der = derivative;
+	Scan::Observation* scan = foundScan;
+	bool onCylinder = false;
+	float sumRay = 0;
+	float sumDepth = 0;
+	int rays = 0;
+	std::vector<Eigen::Vector2f> cylinderList = {}; //
+
+
+	for (int i = 0; i < der->distance.size();i++) {
+		if (der->distance[i] < -jump) {
+			onCylinder = true;
+			sumRay = 0;
+			sumDepth = 0;
+			rays = 0;
+		}
+		else if(der->distance[i] > jump && onCylinder && rays != 0) {
+			cylinderList.push_back(Eigen::Vector2f(sumRay / rays, sumDepth / rays));
+		}
+		else {
+			sumRay += i;
+			sumDepth += scan->distance[i];
+			rays++;
+		}
+
+	}
+
+	return cylinderList;
+
+}
+
+std::vector<Eigen::Matrix2f> Scan::getCylinders(float jump, std::vector<Eigen::Vector2f> cylinders) {
+	std::vector<Eigen::Vector2f> cylinderList = cylinders;
+	std::vector<Eigen::Matrix2f> toRet = {};
+	Eigen::Matrix2f cylinder;
+	for (int i = 0; i < cylinderList.size();i++) {
+		cylinder << cylinderList[i][1], cylinderList[i][0],
+			cylinderList[i][1] * cos(cylinderList[i][0] * M_PI), cylinderList[i][1] * sin(cylinderList[i][0] * M_PI);
+		toRet.push_back(cylinder);
+	}
+	return toRet;
+
+
 }

@@ -14,6 +14,7 @@ public:
 	Particle(Eigen::Vector2f position, float heading);
 	Eigen::Vector2f position;
 	float heading;
+	std::vector<float> landmarkCounters;
 	std::vector<Eigen::Vector2f> landMarkLocations;
 	std::vector<Eigen::Matrix2f> landMarkCov;
 
@@ -25,8 +26,9 @@ public:
 	std::vector<float> getLikelihoods(int numLandmarks, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
 	void initializeLandmark(Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
 	void updateLandmark(int landMarkNum, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
-	
-
+	float update_particle(int numLandmarks,float minLikleihood, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
+	void decrementVisibleLandmarkCounters();
+	void removeBadLandmarks();
 };
 
 

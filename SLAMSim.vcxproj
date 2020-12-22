@@ -165,6 +165,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\Button.cpp" />
+    <ClCompile Include="include\FastSLAM.cpp" />
     <ClCompile Include="include\Landmark.cpp" />
     <ClCompile Include="include\main.cpp" />
     <ClCompile Include="include\Particle.cpp" />
@@ -174,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Button.h" />
+    <ClInclude Include="headers\FastSLAM.h" />
     <ClInclude Include="headers\Gui.h" />
     <ClInclude Include="headers\Landmark.h" />
     <ClInclude Include="headers\Particle.h" />

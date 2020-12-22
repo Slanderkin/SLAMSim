@@ -9,6 +9,7 @@ Particle::Particle(Eigen::Vector2f position, float heading) {
 	this->heading = heading;
 	this->landMarkLocations = {};
 	this->landMarkCov = {};
+	this->landmarkCounters = {};
 
 }
 /*
@@ -147,3 +148,55 @@ void Particle::updateLandmark(int landMarkNum, Eigen::Vector2f measurement, Eige
 	landMarkLocations[landMarkNum] += K * deltaZ;
 	landMarkCov[landMarkNum] = (Eigen::Matrix2f::Identity(2,2)-(K*H_QL[0]))* landMarkCov[landMarkNum];
 }
+
+
+float Particle::update_particle(int numLandmarks, float minLikleihood, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov) {
+
+	std::vector<float> likelihoods = getLikelihoods(numLandmarks, measurement, Qt_cov);
+	//std::vector<float>::iterator result = );
+	float maxIndex = likelihoods[std::distance(likelihoods.begin(), std::max_element(std::begin(likelihoods), std::end(likelihoods)))];
+
+	if (likelihoods.size() == 0 ||  likelihoods[maxIndex]< minLikleihood) {
+		initializeLandmark(measurement,Qt_cov);
+		landmarkCounters.push_back(1);
+		return minLikleihood;
+	}
+	else {
+		updateLandmark(maxIndex, measurement, Qt_cov);
+		landmarkCounters[maxIndex] += 2;
+		return likelihoods[maxIndex];
+	}
+}
+
+void Particle::decrementVisibleLandmarkCounters() {
+
+	for (int i = 0; i < landmarkCounters.size(); i++) {
+		landmarkCounters[i]--;
+	}
+
+}
+
+
+void Particle::removeBadLandmarks() {
+
+	std::vector<float> counter = {};
+	std::vector<Eigen::Vector2f> location = {};
+	std::vector<Eigen::Matrix2f> cov = {};
+
+	for (int i = 0; i < landmarkCounters.size(); i++) {
+		if (landmarkCounters[i] >= 0)
+		{
+			counter.push_back(landmarkCounters[i]);
+			location.push_back(landMarkLocations[i]);
+			cov.push_back(landMarkCov[i]);
+		}
+			
+	}
+	landmarkCounters = counter;
+	landMarkLocations = location;
+	landMarkCov = cov;
+
+
+
+}
+
