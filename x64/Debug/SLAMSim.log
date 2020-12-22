@@ -1,55 +1,56 @@
-﻿Build started 12/22/2020 3:02:46 PM.
+﻿Build started 12/22/2020 4:10:43 PM.
 Logging verbosity is set to: Normal.     1>Project "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
-         Creating "x64\Debug\SLAMSim.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "x64\Debug\SLAMSim.tlog\unsuccessfulbuild".
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\CL.exe /c /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\packages\Eigen.3.3.3\build\native\../..//build/native/include/" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\Eigen" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\include" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D HAS_EIGEN /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /permissive- /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc142.pdb" /Gd /TP /FC /errorReport:prompt include\Scan.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\CL.exe /c /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\packages\Eigen.3.3.3\build\native\../..//build/native/include/" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\Eigen" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\include" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D HAS_EIGEN /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /permissive- /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc142.pdb" /Gd /TP /FC /errorReport:prompt include\Button.cpp include\FastSLAM.cpp include\Landmark.cpp include\Particle.cpp include\Robot.cpp include\Scan.cpp include\World.cpp include\main.cpp
+         Button.cpp
+     1>c1xx : fatal error C1083: Cannot open source file: 'include\Button.cpp': No such file or directory
+         FastSLAM.cpp
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(34,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(35,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(49,53): warning C4244: '=': conversion from 'unsigned __int64' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(52,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(62,15): warning C4244: 'initializing': conversion from '__int64' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(67,62): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+         Landmark.cpp
+     1>c1xx : fatal error C1083: Cannot open source file: 'include\Landmark.cpp': No such file or directory
+         Particle.cpp
+     1>c1xx : fatal error C1083: Cannot open source file: 'include\Particle.cpp': No such file or directory
+         Robot.cpp
+     1>c1xx : fatal error C1083: Cannot open source file: 'include\Robot.cpp': No such file or directory
          Scan.cpp
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(25,23): warning C4244: 'argument': conversion from 'double' to 'std::array<float,360>::size_type', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(26,23): warning C4244: 'argument': conversion from 'double' to 'std::array<float,360>::size_type', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(43,33): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(101,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(109,79): warning C4305: 'argument': truncation from 'double' to 'float'
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(110,59): warning C4305: 'argument': truncation from 'double' to 'float'
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(135,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(136,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(195,23): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(195,80): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers" /LIBPATH:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\lib" "sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" "sfml-network-d.lib" "sfml-audio-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.lib" /MACHINE:X64 x64\Debug\Button.obj
-         x64\Debug\FastSLAM.obj
-         x64\Debug\Landmark.obj
-         x64\Debug\main.obj
-         x64\Debug\Particle.obj
-         x64\Debug\Robot.obj
-         x64\Debug\Scan.obj
-         x64\Debug\World.obj
-         x64\Debug\main.obj
-         x64\Debug\Robot.obj
-         x64\Debug\Scan.obj
-         x64\Debug\World.obj
-         SLAMSim.vcxproj -> C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\x64\Debug\SLAMSim.exe
-       FinalizeBuildStatus:
-         Deleting file "x64\Debug\SLAMSim.tlog\unsuccessfulbuild".
-         Touching "x64\Debug\SLAMSim.tlog\SLAMSim.lastbuildstate".
-     1>Done Building Project "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target(s)).
+     1>c1xx : fatal error C1083: Cannot open source file: 'include\Scan.cpp': No such file or directory
+         World.cpp
+     1>c1xx : fatal error C1083: Cannot open source file: 'include\World.cpp': No such file or directory
+         main.cpp
+     1>c1xx : fatal error C1083: Cannot open source file: 'include\main.cpp': No such file or directory
+         Generating Code...
+     1>Done Building Project "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
        "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
        (ClCompile target) -> 
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(25,23): warning C4244: 'argument': conversion from 'double' to 'std::array<float,360>::size_type', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(26,23): warning C4244: 'argument': conversion from 'double' to 'std::array<float,360>::size_type', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(43,33): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(101,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(109,79): warning C4305: 'argument': truncation from 'double' to 'float'
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(110,59): warning C4305: 'argument': truncation from 'double' to 'float'
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(135,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(136,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(195,23): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\Scan.cpp(195,80): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(34,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(35,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(49,53): warning C4244: '=': conversion from 'unsigned __int64' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(52,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(62,15): warning C4244: 'initializing': conversion from '__int64' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(67,62): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
 
-    10 Warning(s)
-    0 Error(s)
 
-Time Elapsed 00:00:02.02
+       "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
+       (ClCompile target) -> 
+         c1xx : fatal error C1083: Cannot open source file: 'include\Button.cpp': No such file or directory
+         c1xx : fatal error C1083: Cannot open source file: 'include\Landmark.cpp': No such file or directory
+         c1xx : fatal error C1083: Cannot open source file: 'include\Particle.cpp': No such file or directory
+         c1xx : fatal error C1083: Cannot open source file: 'include\Robot.cpp': No such file or directory
+         c1xx : fatal error C1083: Cannot open source file: 'include\Scan.cpp': No such file or directory
+         c1xx : fatal error C1083: Cannot open source file: 'include\World.cpp': No such file or directory
+         c1xx : fatal error C1083: Cannot open source file: 'include\main.cpp': No such file or directory
+
+    6 Warning(s)
+    7 Error(s)
+
+Time Elapsed 00:00:01.76

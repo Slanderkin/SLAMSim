@@ -165,13 +165,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\Button.cpp" />
-    <ClCompile Include="include\FastSLAM.cpp" />
+    <ClCompile Include="src\Button.cpp" />
+    <ClCompile Include="src\FastSLAM.cpp" />
     <ClCompile Include="include\Landmark.cpp" />
     <ClCompile Include="include\main.cpp" />
     <ClCompile Include="include\Particle.cpp" />
     <ClCompile Include="include\Robot.cpp" />
     <ClCompile Include="include\Scan.cpp" />
     <ClCompile Include="include\World.cpp" />
+    <ClCompile Include="src\Landmark.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Particle.cpp" />
+    <ClCompile Include="src\Robot.cpp" />
+    <ClCompile Include="src\Scan.cpp" />
+    <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Button.h" />
@@ -183,6 +190,15 @@
     <ClInclude Include="headers\Scan.h" />
     <ClInclude Include="headers\StandardImports.h" />
     <ClInclude Include="headers\World.h" />
+    <ClInclude Include="include\Button.h" />
+    <ClInclude Include="include\FastSLAM.h" />
+    <ClInclude Include="include\Gui.h" />
+    <ClInclude Include="include\Landmark.h" />
+    <ClInclude Include="include\Particle.h" />
+    <ClInclude Include="include\Robot.h" />
+    <ClInclude Include="include\Scan.h" />
+    <ClInclude Include="include\StandardImports.h" />
+    <ClInclude Include="include\World.h" />
     <ClInclude Include="SFML\include\SFML\Audio.hpp" />
     <ClInclude Include="SFML\include\SFML\Audio\AlResource.hpp" />
     <ClInclude Include="SFML\include\SFML\Audio\Export.hpp" />
