@@ -3,13 +3,14 @@
 
 //using Vector2 = Eigen::Vector2f;
 
-Particle::Particle(Eigen::Vector2f position, float heading) {
+Particle::Particle(Eigen::Vector2f position, float heading, sf::CircleShape marker) {
 
 	this->position = position;
 	this->heading = heading;
 	this->landMarkLocations = {};
 	this->landMarkCov = {};
 	this->landmarkCounters = {};
+	this->marker = marker;
 
 }
 /*
@@ -33,7 +34,8 @@ void Particle::move(Eigen::Vector2f vel) {
 		position = position + linVel;
 		heading += vel(1);
 	}
-
+	marker.setPosition(sf::Vector2f(position(0)+marker.getRadius(),position(1) + marker.getRadius()));
+	marker.setRotation(heading - 90);
 }
 
 Eigen::Vector2f Particle::landMarkPose(int landMarkNum) {
@@ -75,7 +77,9 @@ Eigen::Matrix2f Particle::dhLandmark(Eigen::Vector2f landMarkPos) {
 std::vector<Eigen::Matrix2f> Particle::get_H_QL(int landMarkNum, Eigen::Matrix2f Qt_cov) {
 	Eigen::Matrix2f H = dhLandmark(landMarkLocations[landMarkNum]);
 	Eigen::Matrix2f landMarkCov = this->landMarkCov[landMarkNum];
-	Eigen::Matrix2f QL = H*(landMarkCov*H.transpose()) + Qt_cov;
+	Eigen::Matrix2f QL = Qt_cov;
+	QL.noalias() += (landMarkCov * H.transpose());
+	QL.noalias() = QL*H;
 	std::vector<Eigen::Matrix2f> toRet = {H,QL};
 	return toRet;
 
@@ -154,9 +158,14 @@ float Particle::update_particle(int numLandmarks, float minLikleihood, Eigen::Ve
 
 	std::vector<float> likelihoods = getLikelihoods(numLandmarks, measurement, Qt_cov);
 	//std::vector<float>::iterator result = );
-	float maxIndex = likelihoods[std::distance(likelihoods.begin(), std::max_element(std::begin(likelihoods), std::end(likelihoods)))];
+	float maxIndex;
+	float maxLikelihood =-1;
+	if (likelihoods.size() != 0) {
+		maxIndex = likelihoods[std::distance(likelihoods.begin(), std::max_element(std::begin(likelihoods), std::end(likelihoods)))];
+		maxLikelihood = likelihoods[maxIndex];
+	}
 
-	if (likelihoods.size() == 0 ||  likelihoods[maxIndex]< minLikleihood) {
+	if (likelihoods.size() == 0 || maxLikelihood < minLikleihood) {
 		initializeLandmark(measurement,Qt_cov);
 		landmarkCounters.push_back(1);
 		return minLikleihood;
@@ -164,7 +173,7 @@ float Particle::update_particle(int numLandmarks, float minLikleihood, Eigen::Ve
 	else {
 		updateLandmark(maxIndex, measurement, Qt_cov);
 		landmarkCounters[maxIndex] += 2;
-		return likelihoods[maxIndex];
+		return maxLikelihood;
 	}
 }
 

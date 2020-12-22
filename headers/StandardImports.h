@@ -12,6 +12,7 @@
 #include <string>
 #include <array>
 #include <Eigen/Dense>
+#include <stdlib.h>
 
 struct Vector2
 {

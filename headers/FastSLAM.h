@@ -10,7 +10,7 @@ public:
 	FastSLAM(float robotWidth,Eigen::Vector2f controlFactors,Eigen::Vector2f measurementStddev,float minimumLikelihood, std::vector<Particle> initialParticles);
 	float robotWidth;
 	Eigen::Vector2f controlFactors; //Motion,Turn
-	Eigen::Vector2f measurementStddev;
+	Eigen::Vector2f measurementStddev; //Dist,angle
 	float minimumLikelihood;
 	std::vector<Particle> particles;
 
@@ -20,8 +20,9 @@ public:
 	std::normal_distribution<double> dist;
 
 	void predict(Eigen::Vector2f control);
-	std::vector<float> updateComputeWeights();
-	//std::vector<Particle> resample();
+	std::vector<float> updateComputeWeights(std::vector<Eigen::Matrix2f> cylinders);
+	std::vector<Particle> resample(std::vector<float> weights);
+	void correct(std::vector<Eigen::Matrix2f> cylinders);
 
 };
 

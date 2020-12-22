@@ -5,6 +5,8 @@
 #include "Scan.h"
 #include "Button.h"
 #include "Gui.h"
+#include "Particle.h"
+#include "FastSLAM.h"
 
 
 
@@ -51,7 +53,7 @@ int main()
     float maxRange = 1000;
     float radius = 10.f;
     bool doLine = false;
-    bool placeHolder = false;
+    bool placeHolder = false; 
 
     std::vector<Button> buttonList;
 
@@ -60,6 +62,15 @@ int main()
     World world(size, border, sf::Color::White);    
     sf::RenderWindow window(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
     window.setVerticalSyncEnabled(true);
+
+    //Particle initialization
+    int numParticles = 10;
+    std::vector<Particle> initialParticles;
+    for (int i = 0;i < numParticles;i++) {
+        initialParticles.push_back(Particle(Eigen::Vector2f(200, 200), 45, sf::CircleShape(10, 3)));
+    }
+
+    FastSLAM fastSLAM(robot.radius, Eigen::Vector2f(.1, .1), Eigen::Vector2f(20, 15), 0.001,initialParticles);
 
     //Draw buttons and their text, this needs to be its own function at some point
     sf::Font font;
@@ -102,6 +113,7 @@ int main()
         Vector2 robot_center = Vector2(robot.center.x, robot.center.y);
 
         obs = robot.scan.performScan(robot_center, robot.radius, robot.maxRange, world);
+        std::cout << robot.scan.cylinders.size() << "\n";
         //robot.checkBorderCol(world,robot.velocity.x,robot.heading );
         
         // Create drawn elements from obs vector
@@ -162,26 +174,37 @@ int main()
                 
         }
 
-
+        Vector2 control(0, 0);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-                robot.move(world, Vector2(2, 0.75));
+                control = { 6, 4 };
+                robot.move(world, control);
                
             }
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                robot.move(world, Vector2(0.75, 2));
+                control = { 4,6 };
+                robot.move(world, control);
                 
             }
-            // w key is pressed: move our character
-            robot.move(world, Vector2(5, 5));
+            else {
+                // w key is pressed: move our character
+                control = { 5,5 };
+                robot.move(world, control);
+            }
+            
+            //fastSLAM.predict(Eigen::Vector2f(control.x, control.y));
+            //fastSLAM.correct(robot.scan.cylinders);
+
         }
         else {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-                robot.turn(true);
+                control = { 1, -1 };
+                robot.move(world, control);
             }
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                robot.turn(false);
+                control = { -1, 1 };
+                robot.move(world, control);
             }
 
         }
@@ -200,8 +223,17 @@ int main()
             }
         }
 
+        /*
+        for (int i = 0;i < robot.scan.cylinders.size();i++) {
+            sf::CircleShape cs(7);
+            cs.setPosition(robot.scan.cylinders[i](2) + 7, robot.scan.cylinders[i](3) + 7);
+            window.draw(cs);
+        }
         
-
+        for (int i = 0;i < fastSLAM.particles.size();i++) {
+            window.draw(fastSLAM.particles[i].marker);
+        }
+        */
         //Figure out a way to fix this ugly hardcoding
         for (sf::CircleShape cs : od->endPoints) {
             window.draw(cs);

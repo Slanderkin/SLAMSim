@@ -34,10 +34,20 @@ void Robot::move(const World& world, Vector2 control) {
 	float r = control.y;
 	float alpha = 0;
 	float R = 0;
-	float x1 = 0;
-	float y1 = 0;
+	float x1 = center.x;
+	float y1 = center.y;
 
-	if (r < l) {
+	if (r == -l) {
+		if (r < l) {
+			turn(true);
+
+		}
+		else {
+			turn(false);
+
+		}
+	}
+	else if (r < l) {
 		alpha = (l - r) / (radius*2);
 		R = r / alpha;
 		x1 = center.x + (R + radius) * (sin(heading*M_PI/180)-sin(heading * M_PI / 180-alpha));

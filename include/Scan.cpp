@@ -106,7 +106,8 @@ Scan::Observation* Scan::performScan(Vector2 origin, float& cRad, float& maxRang
 		obs->distance[i] = minDist;
 	}
 	Scan::Observation* ders = computeScanDerivatives(obs);
-	std::vector<Eigen::Vector2f> cylinders = findCylinders(ders, obs,100);
+	std::vector<Eigen::Vector2f> cylinders = findCylinders(ders, obs,100*180/M_PI);
+	this->cylinders = getCylinders(100 * 180 / M_PI,cylinders);
 	return obs;
 }
 
@@ -191,7 +192,7 @@ std::vector<Eigen::Matrix2f> Scan::getCylinders(float jump, std::vector<Eigen::V
 	Eigen::Matrix2f cylinder;
 	for (int i = 0; i < cylinderList.size();i++) {
 		cylinder << cylinderList[i][1], cylinderList[i][0],
-			cylinderList[i][1] * cos(cylinderList[i][0] * M_PI), cylinderList[i][1] * sin(cylinderList[i][0] * M_PI);
+			cylinderList[i][1] * cos(cylinderList[i][0] * M_PI/180), cylinderList[i][1] * sin(cylinderList[i][0] * M_PI/180);
 		toRet.push_back(cylinder);
 	}
 	return toRet;
