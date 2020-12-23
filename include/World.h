@@ -13,6 +13,11 @@ class World {
 
 public:
 	World(Vector2 size, Vector2 border,sf::Color color);
+	World();
+	void attachWindow(sf::RenderWindow *w);
+	void draw();
+
+	sf::RenderWindow *window;
 
 	Vector2 size;
 	Vector2 border;

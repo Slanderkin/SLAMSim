@@ -42,7 +42,7 @@ Scan::Observation* Scan::performScan(Vector2 origin, float& cRad, float& maxRang
 	for (int i = 0; i < 360; i++) {
 		scanAngle = (i - 180.) * M_PI / 180;
 		float newDist;
-		float minDist = NULL;
+		float minDist = NAN;
 
 		for (int z = 0; z < world.circles.size(); z++) {
 			newDist = -1;
@@ -76,18 +76,18 @@ Scan::Observation* Scan::performScan(Vector2 origin, float& cRad, float& maxRang
 			}
 
 			// See if this is first distance or shortest distance
-			if (newDist > 0 && (minDist == NULL || newDist < minDist))
+			if (newDist > 0 && (isnan(minDist) || newDist < minDist))
 			{
 				minDist = newDist;
 			}
 
 		}
 		// If no distance was found see what wall it hit
-		if (minDist == NULL) {
+		if (isnan(minDist)) {
 
 			for (int j = 0; j < 4; j++) {
 				newDist = raycast_wall(origin, origin + Vector2(maxRange * cos(scanAngle), maxRange * sin(scanAngle)), Vector2(world.edges[j][0], world.edges[j][1]), Vector2(world.edges[j][2], world.edges[j][3]));
-				if (newDist != -1 && (minDist == NULL || newDist < minDist))
+				if (newDist != -1 && (isnan(minDist) || newDist < minDist))
 				{
 					minDist = newDist;
 				}

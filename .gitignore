@@ -335,6 +335,11 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+.vscode/
+# Build
+build/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+sfml-app
+

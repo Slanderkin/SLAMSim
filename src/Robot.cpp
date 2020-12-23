@@ -1,7 +1,6 @@
 #include "Robot.h"
-#include "StandardImports.h"
 
-Robot::Robot(Vector2 center, float heading, sf::Color color, Vector2 velocity, float maxRange, float radius, Scan &scan)
+Robot::Robot(Vector2 center, float heading, sf::Color color, Vector2 velocity, float maxRange, float radius, World *w)
 	: scan()
 {
 	this->center = center;//X,Y
@@ -10,7 +9,10 @@ Robot::Robot(Vector2 center, float heading, sf::Color color, Vector2 velocity, f
 	this->velocity = velocity; //Linear,Angular
 	this->maxRange = maxRange;
 	this->radius = radius;
-	this->scan = scan;
+	this->world = w;
+
+	this->scan = Scan();
+	this->drawRays = false;
 
 	circle = sf::CircleShape(10.f);
 	dirLine = sf::RectangleShape(sf::Vector2f(20.f, 2.f));
@@ -105,6 +107,8 @@ void Robot::update() {
 	circle.setPosition(center.x - radius, center.y - radius);
 	dirLine.setPosition(center.x, center.y);
 	dirLine.setRotation(heading);
+
+	this->obs = this->scan.performScan(this->center, this->radius, this->maxRange, *(this->world));
 }
 
 void Robot::checkBorderCol(const World &world, Vector2 newPos) {
@@ -159,4 +163,40 @@ float* Robot::circlesCollided(float c1x, float c1y, float c2x, float c2y, float 
 		result[1] = -sin(angle) * distToMove;
 	}
 	return result;
+}
+
+void Robot::attachObs(Scan::Observation *o)
+{
+	this->obs = o;
+}
+
+// DRAW HANDLING
+void Robot::attachWindow(sf::RenderWindow *w)
+{
+	this->window = w;
+}
+
+void Robot::draw()
+{
+	float circ_size = 2;
+    sf::VertexArray line(sf::Lines, 2);
+    sf::CircleShape end_circ(circ_size);
+    sf::Vector2f circ_offset = sf::Vector2f(circ_size, circ_size);
+    end_circ.setFillColor(sf::Color::Green);
+    sf::Vector2f end_pos;
+	Vector2 robot_center = this->center;
+    for (int i = 0; i < this->obs->theta.size(); i++)
+    {
+        end_pos = sf::Vector2f(robot_center.x + this->obs->distance[i] * cos(this->obs->theta[i]), robot_center.y + this->obs->distance[i] * sin(obs->theta[i]));
+        end_circ.setPosition(end_pos - circ_offset);
+        this->window->draw(end_circ);
+        if(this->drawRays)
+        {
+            line[0].position = sf::Vector2f(robot_center.x, robot_center.y);
+            line[1].position = end_pos;
+            this->window->draw(line);
+        }
+    }
+	this->window->draw(this->circle);
+	this->window->draw(this->dirLine);
 }
