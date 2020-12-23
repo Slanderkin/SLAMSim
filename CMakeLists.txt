@@ -28,11 +28,7 @@ file(GLOB all_SRCS
 
 add_executable(SLAMSim ${all_SRCS})
 
-# IF UNIX LINK TO SFML THROUGH DYNAMIC LIBRARY
 if (UNIX)
-	find_package(SFML 2 REQUIRED network audio graphics window system)
-	if (SFML_FOUND)
-	 include_directories(${SFML_INCLUDE_DIR})
-	  target_link_libraries(SLAMSim sfml-graphics sfml-window sfml-system)
-	endif (SFML_FOUND)
+        file(GLOB LIBRARIES "${PROJECT_SOURCE_DIR}/lib/SFML/*.dylib")
+        target_link_libraries(SLAMSim ${LIBRARIES})
 endif (UNIX)
