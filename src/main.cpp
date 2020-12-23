@@ -8,15 +8,6 @@
 #include "Particle.h"
 #include "FastSLAM.h"
 
-
-
-
-
-struct ObsDraw {
-    std::array<sf::CircleShape, 360> endPoints;
-    std::array<sf::VertexArray, 360> scanLines;
-};
-
 Vector2 operator+(Vector2 a, Vector2 b)
 {
     return { a.x + b.x, a.y + b.y };
@@ -37,13 +28,31 @@ Vector2 operator/(Vector2 v, float c)
     return { v.x / c, v.y / c };
 }
 
+void draw_obs(sf::RenderWindow &win, Scan::Observation *obs, Vector2 robot_center, bool draw_rays)
+{
+    float circ_size = 2;
+    sf::VertexArray line(sf::Lines, 2);
+    sf::CircleShape end_circ(circ_size);
+    sf::Vector2f circ_offset = sf::Vector2f(circ_size, circ_size);
+    end_circ.setFillColor(sf::Color::Green);
+    sf::Vector2f end_pos;
+    for (int i = 0; i < obs->theta.size(); i++)
+    {
+        end_pos = sf::Vector2f(robot_center.x + obs->distance[i] * cos(obs->theta[i]), robot_center.y + obs->distance[i] * sin(obs->theta[i]));
+        end_circ.setPosition(end_pos - circ_offset);
+        win.draw(end_circ);
+        if(draw_rays)
+        {
+            line[0].position = sf::Vector2f(robot_center.x, robot_center.y);
+            line[1].position = end_pos;
+            win.draw(line);
+        }
+    }
+           
+}
 
 int main()
 {
-    Vector2 a = { 1,2 };
-    Vector2 b = { 5, 9.3f };
-    Vector2 c = a + b;
-    printf("%f %f\n", c.x, c.y);
     Vector2 size = { 1000,800 };
     Vector2 border = { 150,150 };
 
@@ -52,6 +61,7 @@ int main()
     Vector2 velocity = {5,3}; //Linear,angular
     float maxRange = 1000;
     float radius = 10.f;
+
     bool doLine = false;
     bool placeHolder = false; 
 
@@ -91,22 +101,7 @@ int main()
     }
     
     Scan::Observation* obs;
-    ObsDraw* od = new ObsDraw;
     
-    // Struct holding things to draw
-    od->endPoints = std::array<sf::CircleShape, 360>();
-    od->scanLines = std::array<sf::VertexArray, 360>();
-    
-    // Populate the struct with new objects
-    float pointRad = 2;
-    for (sf::CircleShape &cs : od->endPoints) {
-        cs = sf::CircleShape(pointRad);
-        cs.setFillColor(sf::Color::Green);
-    }
-    
-    sf::VertexArray line(sf::Lines, 2);
-    for (sf::VertexArray &va : od->scanLines) va = line; //Watch doing these kind of enhanced for loops with sf:: stuff, as long as its out of a loop its fine but otherwise it tanks perf
-
     // Main loop
     while (window.isOpen())
     {
@@ -114,16 +109,7 @@ int main()
 
         obs = robot.scan.performScan(robot_center, robot.radius, robot.maxRange, world);
         std::cout << robot.scan.cylinders.size() << "\n";
-        //robot.checkBorderCol(world,robot.velocity.x,robot.heading );
-        
-        // Create drawn elements from obs vector
-        for (int i = 0; i < obs->theta.size(); i++)
-        {
-            od->endPoints[i].setPosition(sf::Vector2f(robot_center.x + obs->distance[i] * cos(obs->theta[i]) - pointRad, robot_center.y + obs->distance[i] * sin(obs->theta[i]) - pointRad));
-            od->scanLines[i][0].position = sf::Vector2f(robot_center.x, robot_center.y);
-            od->scanLines[i][1].position = sf::Vector2f(robot_center.x + obs->distance[i] * cos(obs->theta[i]), robot_center.y + obs->distance[i] * sin(obs->theta[i]));
-        }
-        
+        //robot.checkBorderCol(world,robot.velocity.x,robot.heading );    
         
         sf::Event event;
         while (window.pollEvent(event))
@@ -209,8 +195,6 @@ int main()
 
         }
         
-
-
         //===============Draw Section===============
         window.clear();
 
@@ -235,19 +219,13 @@ int main()
         }
         */
         //Figure out a way to fix this ugly hardcoding
-        for (sf::CircleShape cs : od->endPoints) {
-            window.draw(cs);
-        }
-        if (doLine) {
-            for (sf::VertexArray vertArr : od->scanLines) {
-                window.draw(vertArr);
-            }
-        }
+        
         for (int i = 0; i < buttonList.size();i++) {
             window.draw(buttonList[i].rect);
             window.draw(buttonList[i].text);
         }
-       
+    
+        draw_obs(window, obs, robot_center, doLine);
         window.draw(robot.circle);
         window.draw(robot.dirLine);
         window.display();
