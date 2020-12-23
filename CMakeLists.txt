@@ -29,6 +29,11 @@ file(GLOB all_SRCS
 add_executable(SLAMSim ${all_SRCS})
 
 if (UNIX)
-        file(GLOB LIBRARIES "${PROJECT_SOURCE_DIR}/lib/SFML/*.dylib")
-        target_link_libraries(SLAMSim ${LIBRARIES})
+        if (APPLE)
+                file(GLOB LIBRARIES "${PROJECT_SOURCE_DIR}/lib/SFML/*.dylib")
+                target_link_libraries(SLAMSim ${LIBRARIES})
+        else ()
+                file(GLOB LIBRARIES "${PROJECT_SOURCE_DIR}/SFML/lib/*.lib")
+                target_link_libraries(SLAMSim ${LIBRARIES})
+        endif ()
 endif (UNIX)
