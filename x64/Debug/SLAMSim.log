@@ -1,20 +1,30 @@
-﻿Build started 12/22/2020 4:10:43 PM.
+﻿Build started 12/22/2020 4:24:51 PM.
 Logging verbosity is set to: Normal.     1>Project "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
          Touching "x64\Debug\SLAMSim.tlog\unsuccessfulbuild".
+     1>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of Button.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\Button.cpp, src\Button.cpp.
+     1>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of Landmark.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\Landmark.cpp, src\Landmark.cpp.
+     1>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of main.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\main.cpp, src\main.cpp.
+     1>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of Particle.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\Particle.cpp, src\Particle.cpp.
+     1>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of Robot.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\Robot.cpp, src\Robot.cpp.
+     1>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of Scan.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\Scan.cpp, src\Scan.cpp.
+     1>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of World.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\World.cpp, src\World.cpp.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\CL.exe /c /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\packages\Eigen.3.3.3\build\native\../..//build/native/include/" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\Eigen" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\include" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\headers" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D HAS_EIGEN /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /permissive- /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc142.pdb" /Gd /TP /FC /errorReport:prompt include\Button.cpp include\FastSLAM.cpp include\Landmark.cpp include\Particle.cpp include\Robot.cpp include\Scan.cpp include\World.cpp include\main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\bin\HostX86\x64\CL.exe /c /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\packages\Eigen.3.3.3\build\native\../..//build/native/include/" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\Eigen" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SFML\include" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim" /I"C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include" /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D HAS_EIGEN /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /permissive- /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc142.pdb" /Gd /TP /FC /errorReport:prompt include\Button.cpp src\Button.cpp src\FastSLAM.cpp include\Landmark.cpp include\main.cpp include\Particle.cpp include\Robot.cpp include\Scan.cpp include\World.cpp src\Landmark.cpp src\main.cpp src\Particle.cpp src\Robot.cpp src\Scan.cpp src\World.cpp
          Button.cpp
      1>c1xx : fatal error C1083: Cannot open source file: 'include\Button.cpp': No such file or directory
+         Button.cpp
          FastSLAM.cpp
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(34,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(35,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(49,53): warning C4244: '=': conversion from 'unsigned __int64' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(52,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(62,15): warning C4244: 'initializing': conversion from '__int64' to 'float', possible loss of data
-     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(67,62): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\FastSLAM.cpp(34,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\FastSLAM.cpp(35,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\FastSLAM.cpp(49,53): warning C4244: '=': conversion from 'unsigned __int64' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\FastSLAM.cpp(52,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\FastSLAM.cpp(62,15): warning C4244: 'initializing': conversion from '__int64' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\FastSLAM.cpp(67,62): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
          Landmark.cpp
      1>c1xx : fatal error C1083: Cannot open source file: 'include\Landmark.cpp': No such file or directory
+         main.cpp
+     1>c1xx : fatal error C1083: Cannot open source file: 'include\main.cpp': No such file or directory
          Particle.cpp
      1>c1xx : fatal error C1083: Cannot open source file: 'include\Particle.cpp': No such file or directory
          Robot.cpp
@@ -23,34 +33,115 @@ Logging verbosity is set to: Normal.     1>Project "C:\Users\Sean\Documents\Fall
      1>c1xx : fatal error C1083: Cannot open source file: 'include\Scan.cpp': No such file or directory
          World.cpp
      1>c1xx : fatal error C1083: Cannot open source file: 'include\World.cpp': No such file or directory
+         Landmark.cpp
          main.cpp
-     1>c1xx : fatal error C1083: Cannot open source file: 'include\main.cpp': No such file or directory
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\main.cpp(73,110): warning C4305: 'argument': truncation from 'double' to 'float'
+         Particle.cpp
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Particle.cpp(45,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Particle.cpp(103,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Particle.cpp(165,31): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Particle.cpp(174,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Particle.cpp(175,20): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+         Robot.cpp
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(53,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(54,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(55,81): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(60,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(61,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(62,81): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(66,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(67,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+         Scan.cpp
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(25,23): warning C4244: 'argument': conversion from 'double' to 'std::array<float,360>::size_type', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(26,23): warning C4244: 'argument': conversion from 'double' to 'std::array<float,360>::size_type', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(43,33): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(101,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(109,79): warning C4305: 'argument': truncation from 'double' to 'float'
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(110,59): warning C4305: 'argument': truncation from 'double' to 'float'
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(135,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(136,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(195,23): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+     1>C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(195,80): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+         World.cpp
          Generating Code...
      1>Done Building Project "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
        "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
+       (WarnCompileDuplicatedFilename target) -> 
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of Button.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\Button.cpp, src\Button.cpp.
+
+
+       "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of Landmark.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\Landmark.cpp, src\Landmark.cpp.
+
+
+       "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of main.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\main.cpp, src\main.cpp.
+
+
+       "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of Particle.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\Particle.cpp, src\Particle.cpp.
+
+
+       "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of Robot.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\Robot.cpp, src\Robot.cpp.
+
+
+       "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of Scan.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\Scan.cpp, src\Scan.cpp.
+
+
+       "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1006,5): warning MSB8027: Two or more files with the name of World.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are include\World.cpp, src\World.cpp.
+
+
+       "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
        (ClCompile target) -> 
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(34,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(35,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(49,53): warning C4244: '=': conversion from 'unsigned __int64' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(52,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(62,15): warning C4244: 'initializing': conversion from '__int64' to 'float', possible loss of data
-         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\include\FastSLAM.cpp(67,62): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\FastSLAM.cpp(34,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\FastSLAM.cpp(35,25): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\FastSLAM.cpp(49,53): warning C4244: '=': conversion from 'unsigned __int64' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\FastSLAM.cpp(52,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\FastSLAM.cpp(62,15): warning C4244: 'initializing': conversion from '__int64' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\FastSLAM.cpp(67,62): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\main.cpp(73,110): warning C4305: 'argument': truncation from 'double' to 'float'
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Particle.cpp(45,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Particle.cpp(103,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Particle.cpp(165,31): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Particle.cpp(174,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Particle.cpp(175,20): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(53,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(54,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(55,81): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(60,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(61,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(62,81): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(66,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Robot.cpp(67,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(25,23): warning C4244: 'argument': conversion from 'double' to 'std::array<float,360>::size_type', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(26,23): warning C4244: 'argument': conversion from 'double' to 'std::array<float,360>::size_type', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(43,33): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(101,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(109,79): warning C4305: 'argument': truncation from 'double' to 'float'
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(110,59): warning C4305: 'argument': truncation from 'double' to 'float'
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(135,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(136,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(195,23): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+         C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\src\Scan.cpp(195,80): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
 
 
        "C:\Users\Sean\Documents\Fall 2020\Misc\SLAMcourse\MyStuff\SlamSim\SLAMSim\SLAMSim.vcxproj" (Build target) (1) ->
        (ClCompile target) -> 
          c1xx : fatal error C1083: Cannot open source file: 'include\Button.cpp': No such file or directory
          c1xx : fatal error C1083: Cannot open source file: 'include\Landmark.cpp': No such file or directory
+         c1xx : fatal error C1083: Cannot open source file: 'include\main.cpp': No such file or directory
          c1xx : fatal error C1083: Cannot open source file: 'include\Particle.cpp': No such file or directory
          c1xx : fatal error C1083: Cannot open source file: 'include\Robot.cpp': No such file or directory
          c1xx : fatal error C1083: Cannot open source file: 'include\Scan.cpp': No such file or directory
          c1xx : fatal error C1083: Cannot open source file: 'include\World.cpp': No such file or directory
-         c1xx : fatal error C1083: Cannot open source file: 'include\main.cpp': No such file or directory
 
-    6 Warning(s)
+    37 Warning(s)
     7 Error(s)
 
-Time Elapsed 00:00:01.76
+Time Elapsed 00:00:10.47
