@@ -15,7 +15,8 @@ include_directories(
 
 # IF WINDOWS LINK TO SFML THROUGH STATIC LIBRARY
 if (WIN32)
-	include_directories(${PROJECT_SOURCE_DIR}/SFML/include)
+        include_directories(${PROJECT_SOURCE_DIR}/SFML/include)
+        link_directories(${PROJECT_SOURCE_DIR}/SFML/lib)
 endif (WIN32)
 
 file(GLOB all_SRCS

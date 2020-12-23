@@ -8,6 +8,9 @@
 #include <algorithm>
 #include <chrono>
 #include <ctime>
+#include <vector>
+#include <map>
+#include <string>
 #include <random>
 #include <string>
 #include <array>
