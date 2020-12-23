@@ -2,9 +2,7 @@
 
 WindowManager::WindowManager(sf::RenderWindow &w)
 {
-    this->window = w;
-    rays_on = false;
-    addButton
+    this->rays_on = false;
 }
 
 void WindowManager::addButton(sf::Text t, sf::Color c, bool *b)
