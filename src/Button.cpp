@@ -18,28 +18,15 @@ Button::Button(float width,float height,float x,float y, sf::Color color, bool *
 
 }
 
-bool Button::checkToggle(float mouseX, float mouseY)
+bool Button::toggle()
 {
-	if ((mouseX >= x && mouseX <= width + x) && (mouseY >= y && mouseY <= height + y))
-	{
-		*toToggle = !*toToggle;
-		return true;
-	}
-	return false;
+	*toToggle = !*toToggle;
+	rect.setFillColor((*toToggle)?(sf::Color::Green):(sf::Color::Red));
+	return *toToggle;
 }
 
 
 //Deprecated
 bool Button::isClicked(float mouseX,float mouseY) {
 	return((mouseX >= x && mouseX <= width + x) && (mouseY >= y && mouseY <= height + y));
-	
-}
-
-void Button::checkColor() {
-	if (*toToggle) {
-		rect.setFillColor(sf::Color::Green);
-	}
-	else {
-		rect.setFillColor(sf::Color::Red);
-	}
 }

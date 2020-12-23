@@ -129,8 +129,8 @@ int main()
                     }
                     
                     for (int i = 0; i < buttonList.size(); i++) {
-                        if (buttonList[i].checkToggle((float)event.mouseButton.x, (float)event.mouseButton.y)) {
-                            buttonList[i].checkColor();
+                        if (buttonList[i].isClicked((float)event.mouseButton.x, (float)event.mouseButton.y)) {
+                            buttonList[i].toggle();
                             break;
                         }
                     }
@@ -140,17 +140,13 @@ int main()
             
             case sf::Event::KeyPressed:
                 if (event.key.code == sf::Keyboard::R) {
-                    doLine = !doLine;
-                    buttonList[2].checkColor();
+                    buttonList[2].toggle();
                 }
                 else if (event.key.code == sf::Keyboard::G) {
-                    robot.scan.doGaussian = !robot.scan.doGaussian;
-                    buttonList[1].checkColor();
-
+                    buttonList[1].toggle();
                 }
                 else if (event.key.code == sf::Keyboard::F) {
-                    world.drawWorld = !world.drawWorld;
-                    buttonList[0].checkColor();
+                    buttonList[0].toggle();
 
                 }
                 
