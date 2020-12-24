@@ -42,7 +42,6 @@ int main()
     std::vector<Button> buttonList;
 
     sf::RenderWindow window(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
-    //window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(60);
     
     // Initialize World
