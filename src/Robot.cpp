@@ -11,6 +11,8 @@ Robot::Robot(Vector2 center, float heading, sf::Color color, Vector2 velocity, f
 	this->radius = radius;
 	this->world = w;
 
+	this->drawViews = std::vector<DrawView*>();
+
 	this->scan = Scan();
 	this->drawRays = false;
 
@@ -171,13 +173,14 @@ void Robot::attachObs(Scan::Observation *o)
 }
 
 // DRAW HANDLING
-void Robot::attachWindow(sf::RenderWindow *w)
+void Robot::addDrawView(DrawView *dv)
 {
-	this->window = w;
+	this->drawViews.push_back(dv);
 }
 
 void Robot::draw()
 {
+
 	float circ_size = 2;
     sf::VertexArray line(sf::Lines, 2);
     sf::CircleShape end_circ(circ_size);
@@ -185,24 +188,29 @@ void Robot::draw()
     end_circ.setFillColor(sf::Color::Green);
     sf::Vector2f end_pos;
 	Vector2 robot_center = this->center;
-    for (int i = 0; i < this->obs->theta.size(); i++)
-    {
-        end_pos = sf::Vector2f(robot_center.x + this->obs->distance[i] * cos(this->obs->theta[i]), robot_center.y + this->obs->distance[i] * sin(obs->theta[i]));
-        end_circ.setPosition(end_pos - circ_offset);
-        this->window->draw(end_circ);
-        if(this->drawRays)
-        {
-            line[0].position = sf::Vector2f(robot_center.x, robot_center.y);
-            line[1].position = end_pos;
-            this->window->draw(line);
-        }
-    }
-	for (int i =0;i<this->scan.cylinders.size();i++){
-		sf::CircleShape toDraw(7);
-		toDraw.setPosition(sf::Vector2f(this->scan.cylinders[i](1,0)-7,this->scan.cylinders[i](1,1)-7));
-		this->window->draw(toDraw);
-	}
 
-	this->window->draw(this->circle);
-	this->window->draw(this->dirLine);
+	for (DrawView *dv : drawViews)
+	{
+		dv->window->setView(*(dv->view));
+		for (int i = 0; i < this->obs->theta.size(); i++)
+		{
+			end_pos = sf::Vector2f(robot_center.x + this->obs->distance[i] * cos(this->obs->theta[i]), robot_center.y + this->obs->distance[i] * sin(obs->theta[i]));
+			end_circ.setPosition(end_pos - circ_offset);
+			dv->window->draw(end_circ);
+			if(this->drawRays)
+			{
+				line[0].position = sf::Vector2f(robot_center.x, robot_center.y);
+				line[1].position = end_pos;
+				dv->window->draw(line);
+			}
+		}
+		for (int i =0;i<this->scan.cylinders.size();i++){
+			sf::CircleShape toDraw(7);
+			toDraw.setPosition(sf::Vector2f(this->scan.cylinders[i](1,0)-7,this->scan.cylinders[i](1,1)-7));
+			dv->window->draw(toDraw);
+		}
+
+		dv->window->draw(this->circle);
+		dv->window->draw(this->dirLine);
+	}
 }

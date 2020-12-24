@@ -14,7 +14,9 @@
 #include <random>
 #include <string>
 #include <array>
+#include <Eigen/Core>
 #include <Eigen/Dense>
+
 #include <stdlib.h>
 
 struct Vector2
@@ -31,6 +33,13 @@ struct Vector2
         x = xx;
         y = yy;
     }
+};
+
+struct DrawView
+{
+    sf::RenderWindow *window;
+    sf::View *view;
+    Vector2 *center;
 };
 
 Vector2 operator+(Vector2 a, Vector2 b);

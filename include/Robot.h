@@ -22,7 +22,7 @@ public:
 	void update();
 
 	void attachObs(Scan::Observation *o);
-	void attachWindow(sf::RenderWindow *w);
+	void addDrawView(DrawView *dv);
 	void draw();
 
 	// DRAW RELATED VARIABLES
@@ -37,6 +37,7 @@ public:
 	float maxRange;
 	sf::CircleShape circle;
 	sf::RectangleShape dirLine;
+	std::vector<DrawView*> drawViews;
 	float radius;
 	Scan scan;
 	World *world;

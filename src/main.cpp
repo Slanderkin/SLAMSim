@@ -30,6 +30,8 @@ Vector2 operator/(Vector2 v, float c)
 
 int main()
 {
+
+    std::vector<DrawView *> drawViews = std::vector<DrawView *>();
     Vector2 size = { 1000,800 };
     Vector2 border = { 150,150 };
 
@@ -43,15 +45,38 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
     window.setFramerateLimit(60);
-    
+
     // Initialize World
     World world(size, border, sf::Color::White);    
-    world.attachWindow(&window);
+    
 
     // Initialize Robot
     Robot robot(center, heading, sf::Color::Red, velocity, maxRange, radius, &world);
-    robot.attachWindow(&window);
+    
 
+    DrawView *env_frame = new DrawView;
+    env_frame->window = &window;
+    env_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1000.f, 800.f));
+    env_frame->center = &(robot.center);
+    drawViews.push_back(env_frame);
+    world.addDrawView(env_frame);
+    robot.addDrawView(env_frame);
+
+    DrawView *robot_frame = new DrawView;
+    robot_frame->window = &window;
+    robot_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1000.f, 800.f));
+    robot_frame->view->setViewport(sf::FloatRect(0.7f, 0.f, 0.3f, 0.3f));
+    robot_frame->center = new Vector2(size.x/2,size.y/2);
+    drawViews.push_back(robot_frame);
+    world.addDrawView(robot_frame);
+    robot.addDrawView(robot_frame);
+
+    DrawView *button_frame = new DrawView;
+    button_frame->window = &window;
+    button_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1000.f, 200.f));
+    button_frame->view->setViewport(sf::FloatRect(0.0f, 0.f, 1.f, 0.25f));
+    button_frame->center = new Vector2(500,100);
+    drawViews.push_back(button_frame);
     //Particle initialization
     int numParticles = 10;
     std::vector<Particle> initialParticles;
@@ -66,7 +91,7 @@ int main()
 
     // Button value setup
     bool *bools[3] = { &world.drawWorld, &robot.scan.doGaussian, &robot.drawRays };
-    float sizes[3][2] = { {150.f,50.f},{150.f,50.f},{150.f,50.f} };
+    float sizes[3][2] = { {150.f,50.f}, {150.f,50.f},{150.f,50.f} };
     float pos[3][2] = { {10.f,10.f},{200.f,10.f},{390.f,10.f} };
     std::string textStr[3] = { "Draw World","Gaussian", "Draw Lines" };
 
@@ -84,11 +109,17 @@ int main()
     // Main loop
     while (window.isOpen())
     {
+        
         // Section where update events are called 
         robot.update();
         
         //===============Draw Section===============
         window.clear();
+        for (DrawView *dv : drawViews)
+        {
+            dv->view->setCenter(sf::Vector2f(dv->center->x, dv->center->y));
+            //printf("x: %f, y: %f", dv->center->x, dv->center->y);
+        }
 
         // Have world and robot draw what they need
         world.draw();
@@ -100,6 +131,7 @@ int main()
         }
         
         // Draw the buttons
+        button_frame->window->setView(*(button_frame->view));
         for (int i = 0; i < buttonList.size();i++) {
             window.draw(buttonList[i].rect);
             window.draw(buttonList[i].text);
@@ -107,6 +139,7 @@ int main()
     
         // Display the completed window
         window.display();
+        env_frame->window->setView(*(env_frame->view));
 
         // ===============Update Section===============
         sf::Event event;
@@ -118,11 +151,12 @@ int main()
                 break;
                 
             case sf::Event::MouseButtonPressed:
+                //
                 if (event.mouseButton.button == sf::Mouse::Left){
                     float rad = 10;
                     if (!(event.mouseButton.x - rad < world.border.x || event.mouseButton.y - rad < world.border.y || event.mouseButton.x +rad > world.size.x - world.border.x || event.mouseButton.y + rad> world.size.y - world.border.y)) {
                         sf::CircleShape newCircle(rad);
-                        newCircle.setPosition(event.mouseButton.x - rad, event.mouseButton.y - rad);
+                        newCircle.setPosition(window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)) - sf::Vector2f(rad, rad));
                         world.addCircle(newCircle);
                     }
                     
