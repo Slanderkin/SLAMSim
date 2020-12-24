@@ -10,6 +10,8 @@ World::World(Vector2 size, Vector2 border, sf::Color color) {
 	this->edges = { {border.x, border.y, size.x - border.x,border.y},{ border.x, border.y, border.x,size.x -  border.y},{size.x - border.x, border.y, size.x -  border.x,size.y - border.y },{ border.x, size.y -  border.y, size.x - border.x,size.y -  border.y } };
 	this->drawWorld = false;
 
+	this->drawViews = std::vector<DrawView*>();
+
 	circles = std::vector<sf::CircleShape>(); //TopRight,TopLeft,BotLeft,BotRight
 
 	borderRect = sf::RectangleShape(sf::Vector2f(this->size.x - 2 * this->border.x, this->size.y - 2 * this->border.y));
@@ -27,19 +29,24 @@ void World::addCircle(sf::CircleShape circle) {
 
 }
 
-void World::attachWindow(sf::RenderWindow *w)
+void World::addDrawView(DrawView *dv)
 {
-	this->window = w;
+	this->drawViews.push_back(dv);
 }
 
 void World::draw()
 {
-	if(this->drawWorld == true)
-	{
-		this->window->draw(this->borderRect);
 
-		for (sf::CircleShape circle : this->circles) {
-			this->window->draw(circle);
+	for (DrawView *dv : drawViews)
+	{
+		dv->window->setView(*(dv->view));
+		if(this->drawWorld == true)
+		{
+			dv->window->draw(this->borderRect);
+
+			for (sf::CircleShape circle : this->circles) {
+				dv->window->draw(circle);
+			}
 		}
 	}
 }
