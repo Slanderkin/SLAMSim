@@ -32,6 +32,8 @@ int main()
 {
 
     std::vector<DrawView *> drawViews = std::vector<DrawView *>();
+    std::vector<sf::RenderWindow *> windows = std::vector<sf::RenderWindow *>();
+
     Vector2 size = { 1000,800 };
     Vector2 border = { 150,150 };
 
@@ -44,6 +46,9 @@ int main()
     std::vector<Button> buttonList;
 
     sf::RenderWindow window(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
+    windows.push_back(&window);
+    sf::RenderWindow window2(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
+    windows.push_back(&window2);
     window.setFramerateLimit(60);
 
     // Initialize World
@@ -63,9 +68,8 @@ int main()
     robot.addDrawView(env_frame);
 
     DrawView *robot_frame = new DrawView;
-    robot_frame->window = &window;
+    robot_frame->window = &window2;
     robot_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1000.f, 800.f));
-    robot_frame->view->setViewport(sf::FloatRect(0.7f, 0.f, 0.3f, 0.3f));
     robot_frame->center = new Vector2(size.x/2,size.y/2);
     drawViews.push_back(robot_frame);
     world.addDrawView(robot_frame);
@@ -114,7 +118,7 @@ int main()
         robot.update();
         
         //===============Draw Section===============
-        window.clear();
+        for(sf::RenderWindow *w : windows) w->clear();
         for (DrawView *dv : drawViews)
         {
             dv->view->setCenter(sf::Vector2f(dv->center->x, dv->center->y));
@@ -138,7 +142,7 @@ int main()
         }
     
         // Display the completed window
-        window.display();
+    for(sf::RenderWindow *w : windows) w->display();
         env_frame->window->setView(*(env_frame->view));
 
         // ===============Update Section===============
@@ -154,9 +158,10 @@ int main()
                 //
                 if (event.mouseButton.button == sf::Mouse::Left){
                     float rad = 10;
-                    if (!(event.mouseButton.x - rad < world.border.x || event.mouseButton.y - rad < world.border.y || event.mouseButton.x +rad > world.size.x - world.border.x || event.mouseButton.y + rad> world.size.y - world.border.y)) {
+                    sf::Vector2f worldMousePos = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                    if (!(worldMousePos.x - rad < world.border.x || worldMousePos.y - rad < world.border.y || worldMousePos.x +rad > world.size.x - world.border.x || worldMousePos.y + rad> world.size.y - world.border.y)) {
                         sf::CircleShape newCircle(rad);
-                        newCircle.setPosition(window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)) - sf::Vector2f(rad, rad));
+                        newCircle.setPosition(worldMousePos - sf::Vector2f(rad, rad));
                         world.addCircle(newCircle);
                     }
                     
