@@ -106,7 +106,20 @@ Scan::Observation* Scan::performScan(Vector2 origin, float& cRad, float& maxRang
 		obs->distance[i] = minDist;
 	}
 	Scan::Observation* ders = computeScanDerivatives(obs);
-	std::vector<Eigen::Vector2f> cylinders = findCylinders(ders, obs,10*180/M_PI);
+	/*
+	std::string dist = "";
+	std::string der = "";
+	std::string angle = "";
+	for (int i =0;i<obs->distance.size();i++){
+		dist+= std::to_string(obs->distance[i]) + ",";
+		der += std::to_string(ders->distance[i]) + ",";
+		angle+= std::to_string(obs->theta[i]) + ",";
+	}
+	std::cout << dist << std::endl;
+	std::cout << der << std::endl;
+	std::cout << angle <<std::endl;
+	*/
+	std::vector<Eigen::Vector2f> cylinders = findCylinders(ders, obs,750);
 	this->cylinders = getCylinders(100 * 180 / M_PI,cylinders,origin);
 	return obs;
 }
@@ -153,7 +166,11 @@ float Scan::raycast_wall( Vector2 origin, Vector2 end, Vector2 corA, Vector2 cor
 	return -1;
 	
 }
+/*
+TODO:
+Fix edge case of cylinder going across -pi,pi
 
+*/
 std::vector<Eigen::Vector2f> Scan::findCylinders(Scan::Observation* derivative, Scan::Observation* foundScan, float jump) {
 	Scan::Observation* der = derivative;
 	Scan::Observation* scan = foundScan;
@@ -172,7 +189,7 @@ std::vector<Eigen::Vector2f> Scan::findCylinders(Scan::Observation* derivative, 
 			rays = 0;
 		}
 		else if(der->distance[i] > jump && onCylinder && rays !=0) {
-			if (rays >= 3){
+			if (rays <= 60){
 				cylinderList.push_back(Eigen::Vector2f(sumRay / rays, sumDepth / rays));
 				
 			}
@@ -195,12 +212,11 @@ std::vector<Eigen::Matrix2f> Scan::getCylinders(float jump, std::vector<Eigen::V
 	std::vector<Eigen::Vector2f> cylinderList = cylinders;
 	std::vector<Eigen::Matrix2f> toRet = {};
 	Eigen::Matrix2f cylinder;
-	float offset = -5;
+	float offset = 10;
 	for (int i = 0; i < cylinderList.size();i++) {
 		cylinderList[i][1] += offset;
 		cylinder << cylinderList[i][1], cylinderList[i][0],
 			cylinderList[i][1] * cos(cylinderList[i][0])+origin.x, cylinderList[i][1] * sin(cylinderList[i][0])+origin.y;
-		std::cout << cylinder(0,0)  << "__" << cylinder(0,1) << "__" << cylinder(1,0) << "__" << cylinder(1,1) << "\n";
 		toRet.push_back(cylinder);
 	}
 	return toRet;

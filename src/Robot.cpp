@@ -199,7 +199,7 @@ void Robot::draw()
     }
 	for (int i =0;i<this->scan.cylinders.size();i++){
 		sf::CircleShape toDraw(7);
-		toDraw.setPosition(sf::Vector2f(this->scan.cylinders[i](1,0)+7,this->scan.cylinders[i](1,1)+7));
+		toDraw.setPosition(sf::Vector2f(this->scan.cylinders[i](1,0)-7,this->scan.cylinders[i](1,1)-7));
 		this->window->draw(toDraw);
 	}
 
