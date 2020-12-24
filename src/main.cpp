@@ -94,11 +94,11 @@ int main()
         world.draw();
         robot.draw();
 
-        /*
+        
         for (int i = 0;i < fastSLAM.particles.size();i++) {
             window.draw(fastSLAM.particles[i].marker);
         }
-        */
+        
         // Draw the buttons
         for (int i = 0; i < buttonList.size();i++) {
             window.draw(buttonList[i].rect);
@@ -159,36 +159,39 @@ int main()
         {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
                 control = { 6, 4 };
-                robot.move(world, control);
+                
                
             }
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
                 control = { 4,6 };
-                robot.move(world, control);
+
                 
             }
             else {
                 // w key is pressed: move our character
                 control = { 5,5 };
-                robot.move(world, control);
+
             }
             
-            //fastSLAM.predict(Eigen::Vector2f(control.x, control.y));
-            //fastSLAM.correct(robot.scan.cylinders);
+            
 
         }
         else {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-                control = { 1, -1 };
-                robot.move(world, control);
+                control = { 14, -14 };
+
             }
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                control = { -1, 1 };
-                robot.move(world, control);
+                control = { -14, 14 };
+
             }
 
         }
-        
+        robot.move(world, control);
+        if(control.y != 0 && control.x !=0){
+            fastSLAM.predict(Eigen::Vector2f(control.x, control.y));
+            //fastSLAM.correct(robot.scan.cylinders);
+        }
     }
 
     return 0;
