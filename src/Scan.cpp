@@ -25,7 +25,7 @@ Scan::Observation* Scan::computeScanDerivatives(Scan::Observation* obs) {
 		l = obs->distance[i - 1.0];
 		r = obs->distance[i + 1.0];
 
-		currDer = (r - l) / (2 * (float)M_PI / 180);
+		currDer = (r - l) / (obs->theta[i+1]-obs->theta[i-1]);
 		der->distance[i] = currDer;
 
 	}
@@ -106,8 +106,8 @@ Scan::Observation* Scan::performScan(Vector2 origin, float& cRad, float& maxRang
 		obs->distance[i] = minDist;
 	}
 	Scan::Observation* ders = computeScanDerivatives(obs);
-	std::vector<Eigen::Vector2f> cylinders = findCylinders(ders, obs,100*180/M_PI);
-	this->cylinders = getCylinders(100 * 180 / M_PI,cylinders);
+	std::vector<Eigen::Vector2f> cylinders = findCylinders(ders, obs,10*180/M_PI);
+	this->cylinders = getCylinders(100 * 180 / M_PI,cylinders,origin);
 	return obs;
 }
 
@@ -171,11 +171,16 @@ std::vector<Eigen::Vector2f> Scan::findCylinders(Scan::Observation* derivative, 
 			sumDepth = 0;
 			rays = 0;
 		}
-		else if(der->distance[i] > jump && onCylinder && rays != 0) {
-			cylinderList.push_back(Eigen::Vector2f(sumRay / rays, sumDepth / rays));
+		else if(der->distance[i] > jump && onCylinder && rays !=0) {
+			if (rays >= 3){
+				cylinderList.push_back(Eigen::Vector2f(sumRay / rays, sumDepth / rays));
+				
+			}
+			onCylinder = false;
+			
 		}
 		else {
-			sumRay += i;
+			sumRay += der->theta[i];
 			sumDepth += scan->distance[i];
 			rays++;
 		}
@@ -186,13 +191,16 @@ std::vector<Eigen::Vector2f> Scan::findCylinders(Scan::Observation* derivative, 
 
 }
 
-std::vector<Eigen::Matrix2f> Scan::getCylinders(float jump, std::vector<Eigen::Vector2f> cylinders) {
+std::vector<Eigen::Matrix2f> Scan::getCylinders(float jump, std::vector<Eigen::Vector2f> cylinders,Vector2 origin) {
 	std::vector<Eigen::Vector2f> cylinderList = cylinders;
 	std::vector<Eigen::Matrix2f> toRet = {};
 	Eigen::Matrix2f cylinder;
+	float offset = -5;
 	for (int i = 0; i < cylinderList.size();i++) {
+		cylinderList[i][1] += offset;
 		cylinder << cylinderList[i][1], cylinderList[i][0],
-			cylinderList[i][1] * cos(cylinderList[i][0] * M_PI/180), cylinderList[i][1] * sin(cylinderList[i][0] * M_PI/180);
+			cylinderList[i][1] * cos(cylinderList[i][0])+origin.x, cylinderList[i][1] * sin(cylinderList[i][0])+origin.y;
+		std::cout << cylinder(0,0)  << "__" << cylinder(0,1) << "__" << cylinder(1,0) << "__" << cylinder(1,1) << "\n";
 		toRet.push_back(cylinder);
 	}
 	return toRet;
