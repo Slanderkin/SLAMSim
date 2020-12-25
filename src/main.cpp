@@ -62,8 +62,8 @@ int main()
 
     DrawView *env_frame = new DrawView;
     env_frame->window = &window;
-    env_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1200.f, 1200.f));
-    env_frame->view->setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
+    env_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1200.f, 800.f));
+    env_frame->view->setViewport(sf::FloatRect(0.25f, 0.f, 0.75f, 1.f));
     env_frame->center = new Vector2(600.f,400.f);
     drawViews.push_back(env_frame);
     world.addDrawView(env_frame);
@@ -71,8 +71,8 @@ int main()
 
     DrawView *robot_frame = new DrawView;
     robot_frame->window = &window;
-    robot_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 800.f, 800.f));
-    robot_frame->view->setViewport(sf::FloatRect(0.5f, 0.f, 0.5f, 1.f));
+    robot_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 800.f, 1600.f));
+    robot_frame->view->setViewport(sf::FloatRect(0.f, 0.f, 0.25f, 1.f));
     robot_frame->center = &(robot.center);
     drawViews.push_back(robot_frame);
     world.addDrawView(robot_frame);
@@ -134,7 +134,10 @@ int main()
 
         
         for (int i = 0;i < fastSLAM.particles.size();i++) {
-            window.draw(fastSLAM.particles[i].marker);
+            robot_frame->window->setView(*(robot_frame->view));
+            robot_frame->window->draw(fastSLAM.particles[i].marker);
+            env_frame->window->setView(*(env_frame->view));
+            env_frame->window->draw(fastSLAM.particles[i].marker);
         }
         
         // Draw the buttons
@@ -201,21 +204,14 @@ int main()
         {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
                 control = { 6, 4 };
-                
-               
             }
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
                 control = { 4,6 };
-
-                
             }
             else {
                 // w key is pressed: move our character
                 control = { 5,5 };
-
             }
-            
-            
 
         }
         else {
