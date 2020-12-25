@@ -69,14 +69,14 @@ int main()
     world.addDrawView(env_frame);
     robot.addDrawView(env_frame);
 
-    DrawView *robot_frame = new DrawView;
-    robot_frame->window = &window;
-    robot_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 200.f, 400.f));
-    robot_frame->view->setViewport(sf::FloatRect(0.f, 0.f, 0.25f, 1.f));
-    robot_frame->center = &(robot.center);
-    drawViews.push_back(robot_frame);
-    world.addDrawView(robot_frame);
-    robot.addDrawView(robot_frame);
+    DrawView *focus_frame = new DrawView;
+    focus_frame->window = &window;
+    focus_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 200.f, 400.f));
+    focus_frame->view->setViewport(sf::FloatRect(0.f, 0.f, 0.25f, 1.f));
+    focus_frame->center = &(robot.center);
+    drawViews.push_back(focus_frame);
+    world.addDrawView(focus_frame);
+    robot.addDrawView(focus_frame);
 
     DrawView *button_frame = new DrawView;
     button_frame->window = &window;
@@ -134,8 +134,8 @@ int main()
 
         
         for (int i = 0;i < fastSLAM.particles.size();i++) {
-            robot_frame->window->setView(*(robot_frame->view));
-            robot_frame->window->draw(fastSLAM.particles[i].marker);
+            focus_frame->window->setView(*(focus_frame->view));
+            focus_frame->window->draw(fastSLAM.particles[i].marker);
             env_frame->window->setView(*(env_frame->view));
             env_frame->window->draw(fastSLAM.particles[i].marker);
         }
@@ -184,9 +184,9 @@ int main()
                     sf::Vector2f worldMousePos = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
                     if(std::sqrt((worldMousePos.x-robot.center.x)*(worldMousePos.x-robot.center.x) + (worldMousePos.y-robot.center.y)*(worldMousePos.y-robot.center.y)) < rad)
                     {
-                        robot_frame->center = &(robot.center);
+                        focus_frame->center = &(robot.center);
                     }
-                    else robot_frame->center = new Vector2(worldMousePos.x, worldMousePos.y);
+                    else focus_frame->center = new Vector2(worldMousePos.x, worldMousePos.y);
                 }
                 break;
             
