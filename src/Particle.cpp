@@ -16,6 +16,8 @@ Particle::Particle(Eigen::Vector2f position, float heading, sf::CircleShape mark
 /*
 Moves this particle according to the velocity given.
 vel is the linear and angular velocity respectively
+
+TODO: Update to L/R control
 */
 void Particle::move(Eigen::Vector2f vel) {
 	//vel is linear,angular

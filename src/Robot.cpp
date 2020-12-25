@@ -43,11 +43,11 @@ void Robot::move(const World& world, Vector2 control) {
 
 	if (r == -l) {
 		if (r < l) {
-			turn(true);
+			heading -= (l-r)/this->radius;
 
 		}
 		else {
-			turn(false);
+			heading += (r-l)/this->radius;
 
 		}
 	}
