@@ -46,7 +46,7 @@ int main()
     std::vector<Button> buttonList;
 
     //sf::RenderWindow window(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
-    sf::RenderWindow window(sf::VideoMode(1000, 500), "SLAM Sim!");
+    sf::RenderWindow window(sf::VideoMode(1400, 700), "SLAM Sim!");
     windows.push_back(&window);
     //sf::RenderWindow window2(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
     //windows.push_back(&window2);
@@ -170,9 +170,9 @@ int main()
                         newCircle.setPosition(worldMousePos - sf::Vector2f(rad, rad));
                         world.addCircle(newCircle);
                     }
-                    
+                    sf::Vector2f buttonMousePos = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y), *(button_frame->view));
                     for (int i = 0; i < buttonList.size(); i++) {
-                        if (buttonList[i].isClicked((float)event.mouseButton.x, (float)event.mouseButton.y)) {
+                        if (buttonList[i].isClicked((float)buttonMousePos.x, (float)buttonMousePos.y)) {
                             buttonList[i].toggle();
                             break;
                         }
