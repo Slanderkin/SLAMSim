@@ -34,7 +34,7 @@ int main()
     std::vector<DrawView *> drawViews = std::vector<DrawView *>();
     std::vector<sf::RenderWindow *> windows = std::vector<sf::RenderWindow *>();
 
-    Vector2 size = { 1000,800 };
+    Vector2 size = { 1200,800 };
     Vector2 border = { 150,150 };
 
     Vector2 center = size/2;
@@ -45,10 +45,11 @@ int main()
 
     std::vector<Button> buttonList;
 
-    sf::RenderWindow window(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
+    //sf::RenderWindow window(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
+    sf::RenderWindow window(sf::VideoMode(1000, 500), "SLAM Sim!");
     windows.push_back(&window);
-    sf::RenderWindow window2(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
-    windows.push_back(&window2);
+    //sf::RenderWindow window2(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
+    //windows.push_back(&window2);
     window.setFramerateLimit(60);
 
     // Initialize World
@@ -61,25 +62,27 @@ int main()
 
     DrawView *env_frame = new DrawView;
     env_frame->window = &window;
-    env_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1000.f, 800.f));
-    env_frame->center = &(robot.center);
+    env_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1200.f, 1200.f));
+    env_frame->view->setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
+    env_frame->center = new Vector2(600.f,400.f);
     drawViews.push_back(env_frame);
     world.addDrawView(env_frame);
     robot.addDrawView(env_frame);
 
     DrawView *robot_frame = new DrawView;
-    robot_frame->window = &window2;
-    robot_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1000.f, 800.f));
-    robot_frame->center = new Vector2(size.x/2,size.y/2);
+    robot_frame->window = &window;
+    robot_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 800.f, 800.f));
+    robot_frame->view->setViewport(sf::FloatRect(0.5f, 0.f, 0.5f, 1.f));
+    robot_frame->center = &(robot.center);
     drawViews.push_back(robot_frame);
     world.addDrawView(robot_frame);
     robot.addDrawView(robot_frame);
 
     DrawView *button_frame = new DrawView;
     button_frame->window = &window;
-    button_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1000.f, 200.f));
-    button_frame->view->setViewport(sf::FloatRect(0.0f, 0.f, 1.f, 0.25f));
-    button_frame->center = new Vector2(500,100);
+    button_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1600.f, 200.f));
+    button_frame->view->setViewport(sf::FloatRect(0.f, 0.f, 1.f, 0.25f));
+    button_frame->center = new Vector2(800,100);
     drawViews.push_back(button_frame);
     //Particle initialization
     int numParticles = 10;
