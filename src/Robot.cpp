@@ -33,7 +33,7 @@ Make the turning more accurate to the two wheel model
 Modles a two wheel robot seperated  by a width of 2*radius
 The vector control consists of the distance travelled by each wheel (l,r)
 */
-void Robot::move(const World& world, Vector2 control) {
+void Robot::move(Vector2 control) {
 	float l = control.x;
 	float r = control.y;
 	float alpha = 0;
@@ -71,8 +71,8 @@ void Robot::move(const World& world, Vector2 control) {
 		y1 = center.y + l * sin(heading * M_PI / 180);
 	}
 
-	checkBorderCol(world, Vector2(x1,y1));
-	checkCircleCol(world, Vector2(x1, y1));
+	checkBorderCol(*(this->world), Vector2(x1, y1));
+	checkCircleCol(*(this->world), Vector2(x1, y1));
 	update();
 
 }

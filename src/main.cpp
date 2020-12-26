@@ -234,7 +234,7 @@ int main()
             }
 
         }
-        robot.move(world, control);
+        robot.move(control);
         if(control.y != 0 && control.x !=0){
             fastSLAM.predict(Eigen::Vector2f(control.x, control.y));
             //fastSLAM.correct(robot.scan.cylinders);

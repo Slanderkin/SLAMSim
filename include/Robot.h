@@ -41,7 +41,7 @@ public:
 	float radius;
 	Scan scan;
 	World *world;
-	void move(const World& world, Vector2 control);
+	void move(Vector2 control);
 	void forward(const World &world);
 	void turn(bool isLeft);
 	void checkScanCol(const World& world);
