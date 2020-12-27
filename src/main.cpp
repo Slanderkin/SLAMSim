@@ -225,11 +225,11 @@ int main()
         }
         else {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-                control = { 14, -14 };
+                control = { 7, -7 };
 
             }
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                control = { -14, 14 };
+                control = { -7, 7 };
 
             }
 

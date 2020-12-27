@@ -43,11 +43,11 @@ void Robot::move(Vector2 control) {
 
 	if (r == -l) {
 		if (r < l) {
-			heading -= (l-r)/this->radius;
+			heading -= 2*(l-r)/this->radius;
 
 		}
 		else {
-			heading += (r-l)/this->radius;
+			heading += 2*(r-l)/this->radius;
 
 		}
 	}

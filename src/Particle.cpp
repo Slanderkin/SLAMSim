@@ -11,6 +11,8 @@ Particle::Particle(Eigen::Vector2f position, float heading, sf::CircleShape mark
 	this->landMarkCov = {};
 	this->landmarkCounters = {};
 	this->marker = marker;
+	this->marker.setOrigin(marker.getRadius(),marker.getRadius());
+	this->radius = marker.getRadius();
 
 }
 /*
@@ -20,24 +22,55 @@ vel is the linear and angular velocity respectively
 TODO: Update to L/R control
 */
 void Particle::move(Eigen::Vector2f vel) {
-	//vel is linear,angular
-	Eigen::Vector2f linVel( vel(0) * (float)cos(heading * M_PI / 180),vel(0) * (float)sin(heading * M_PI / 180) );
-	
-	if (vel(0) == vel(1)) {
-		position = position + linVel;
+
+	float l = vel(0);
+	float r = vel(1);
+	float alpha = 0;
+	float R = 0;
+	float cx = marker.getPosition().x;
+	float cy = marker.getPosition().y;
+	float x1 = cx;
+	float y1 = cy;
+
+
+	if (r == -l) {
+		if (r < l) {
+			heading -= (l-r)/radius;
+
+		}
+		else {
+			heading += (r-l)/radius;
+
+		}
+		marker.setRotation(heading - 90);
+		return;
 	}
-	//Right hand turn, subtracting angle
-	else if (vel(1) < 0) {
-		position = position + linVel;
-		heading += vel(1);
+	else if (r < l) {
+		alpha = (l - r) / (radius*2);
+		R = r / alpha;
+		x1 = cx + (R + radius) * (sin(heading*M_PI/180)-sin(heading * M_PI / 180-alpha));
+		y1 = cy + (R + radius) * (-cos(heading * M_PI / 180) + cos(heading * M_PI / 180 - alpha));
+		heading = (fmod((heading * M_PI / 180 - alpha + M_PI), (2 * M_PI)) - M_PI)*180/M_PI;
 	}
-	//Lefft hand turn, adding angle
-	else if (vel(1) > 0) {
-		position = position + linVel;
-		heading += vel(1);
+	else if (l < r) {
+		alpha = (r - l) / (radius * 2);
+		R = l / alpha;
+		x1 = cx + (R + radius) * (-sin(heading * M_PI / 180) + sin(heading * M_PI / 180 + alpha));
+		y1 = cy + (R + radius) * (cos(heading * M_PI / 180) - cos(heading * M_PI / 180 + alpha));
+		heading = (fmod((heading * M_PI / 180 + alpha + M_PI), (2 * M_PI)) - M_PI)*180/M_PI;
+
 	}
-	marker.setPosition(sf::Vector2f(position(0)+marker.getRadius(),position(1) + marker.getRadius()));
+	else {
+		x1 = cx + l * cos(heading * M_PI / 180);
+		y1 = cy + l * sin(heading * M_PI / 180);
+	}
+
+	marker.setPosition(sf::Vector2f(x1,y1));
 	marker.setRotation(heading - 90);
+
+
+
+
 }
 
 Eigen::Vector2f Particle::landMarkPose(int landMarkNum) {

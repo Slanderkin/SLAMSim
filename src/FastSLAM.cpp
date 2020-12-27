@@ -17,22 +17,30 @@ generator(std::random_device{}())
 
 void FastSLAM::predict(Eigen::Vector2f control) {
 
-	float l = control(0);
-	float r = control(1);
-	float lStd = sqrt((controlFactors(0)*l)* (controlFactors(0) * l) + (controlFactors(1)*(l-r))* (controlFactors(1) * (l - r)));
-	float rStd = sqrt((controlFactors(0) * r) * (controlFactors(0) * r) + (controlFactors(1) * (l - r)) * (controlFactors(1) * (l - r)));
-
-
+	float l0 = control(0);
+	float r0 = control(1);
+	float lStd = sqrt((controlFactors(0) * l0) * (controlFactors(0) * l0) + (controlFactors(1) * (l0 - r0)) * (controlFactors(1) * (l0 - r0)));
+	float rStd = sqrt((controlFactors(0) * r0) * (controlFactors(0) * r0) + (controlFactors(1) * (l0 - r0)) * (controlFactors(1) * (l0 - r0)));
 	std::mt19937 generatorL(std::random_device{}());
 	std::mt19937 generatorR(std::random_device{}());
 	std::normal_distribution<double> distl(0,lStd);
 	std::normal_distribution<double> distr(0, rStd);
-
+	float l=0;
+	float r=0;
 
 	for (int i = 0;i < particles.size();i++) {
-
+		l=l0;
+		r=r0;
+		if(l == -r){
+			float delta = distl(generatorL);
+			l -= delta;
+			r += delta;
+			std::cout << l << "__" << r << std::endl;
+		}
+		else{
 		l += distl(generatorL);
 		r += distr(generatorR);
+		}
 		particles[i].move(Eigen::Vector2f(l, r));
 	}
 }
