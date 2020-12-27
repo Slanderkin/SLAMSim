@@ -118,7 +118,7 @@ void Robot::checkBorderCol(const World &world, Vector2 newPos) {
 		center.x = world.border.x+radius;
 
 	}
-	else if (newPos.x >= world.size.x - world.border.x) {
+	else if (newPos.x+radius >= world.size.x - world.border.x) {
 		center.x = world.size.x - world.border.x-radius;
 
 	}
