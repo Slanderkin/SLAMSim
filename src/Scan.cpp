@@ -119,8 +119,8 @@ Scan::Observation* Scan::performScan(Vector2 origin, float& cRad, float& maxRang
 	std::cout << der << std::endl;
 	std::cout << angle <<std::endl;
 	*/
-	std::vector<Eigen::Vector2f> cylinders = findCylinders(ders, obs,750);
-	this->cylinders = getCylinders(100 * 180 / M_PI,cylinders,origin);
+	std::vector<Eigen::Vector2f> cylinderVec = findCylinders(ders, obs,750);
+	this->cylinders = getCylinders(100 * 180 / M_PI,cylinderVec,origin);
 	return obs;
 }
 
@@ -217,9 +217,10 @@ std::vector<Eigen::Matrix2f> Scan::getCylinders(float jump, std::vector<Eigen::V
 		cylinderList[i][1] += offset;
 		cylinder << cylinderList[i][1], cylinderList[i][0],
 			cylinderList[i][1] * cos(cylinderList[i][0])+origin.x, cylinderList[i][1] * sin(cylinderList[i][0])+origin.y;
-		toRet.push_back(cylinder);
+		if (!(isnan(cylinder(0,0)) || isnan(cylinder(0,1)) ) || isnan(cylinder(1,0))  || isnan(cylinder(1,1)) ){
+			toRet.push_back(cylinder);
+		}
+		
 	}
 	return toRet;
-
-
 }

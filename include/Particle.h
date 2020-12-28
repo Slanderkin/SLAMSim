@@ -26,7 +26,7 @@ public:
 	std::vector<Eigen::Matrix2f> get_H_QL(int landMarkNum, Eigen::Matrix2f);
 	float getWl(int landMarkNum, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
 	std::vector<float> getLikelihoods(int numLandmarks, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
-	void initializeLandmark(Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
+	bool initializeLandmark(Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
 	void updateLandmark(int landMarkNum, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
 	float update_particle(int numLandmarks,float minLikleihood, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
 	void decrementVisibleLandmarkCounters();

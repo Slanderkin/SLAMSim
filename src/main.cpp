@@ -45,6 +45,12 @@ int main()
 
     std::vector<Button> buttonList;
 
+    std::vector<float> cylXVals = {660, 250 , 900 , 375};
+    std::vector<float> cylYVals = {300, 550, 600, 225};
+    float worldCylRad = 10;
+    bool doPreset = true;
+    
+
     //sf::RenderWindow window(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
     sf::RenderWindow window(sf::VideoMode(1400, 700), "SLAM Sim!");
     windows.push_back(&window);
@@ -53,9 +59,16 @@ int main()
     window.setFramerateLimit(60);
 
     // Initialize World
-    World world(size, border, sf::Color::White);    
+    World world(size, border, sf::Color::White);   
+    if(doPreset){
+        for(int i =0; i<cylXVals.size(); i++){
+            sf::CircleShape newCircle(worldCylRad);
+            newCircle.setPosition(sf::Vector2f(cylXVals[i],cylYVals[i]) - sf::Vector2f(worldCylRad, worldCylRad));
+            world.addCircle(newCircle);
+        }
+    } 
     
-
+    
     // Initialize Robot
     Robot robot(center, heading, sf::Color::Red, velocity, maxRange, radius, &world);
     
@@ -84,13 +97,22 @@ int main()
     button_frame->view->setViewport(sf::FloatRect(0.f, 0.f, 1.f, 0.25f));
     button_frame->center = new Vector2(800,100);
     drawViews.push_back(button_frame);
+
+
     //Particle initialization
-    int numParticles = 10;
+    int numParticles = 20;
+    std::random_device rdx;
+    std::random_device rdy;
+    std::default_random_engine engX(rdx());
+    std::default_random_engine engY(rdy());
+    std::uniform_real_distribution<> distX(150,950);
+    std::uniform_real_distribution<> distY(150,550);
+
     std::vector<Particle> initialParticles;
     for (int i = 0;i < numParticles;i++) {
-        initialParticles.push_back(Particle(Eigen::Vector2f(200, 200), 45, sf::CircleShape(10, 3)));
+        initialParticles.push_back(Particle(Eigen::Vector2f(robot.center.x,robot.center.y), robot.heading, sf::CircleShape(2)));
     }
-    FastSLAM fastSLAM(robot.radius, Eigen::Vector2f(.1, .1), Eigen::Vector2f(20, 15), 0.001,initialParticles);
+    FastSLAM fastSLAM(robot.radius, Eigen::Vector2f(0.05, .05), Eigen::Vector2f(20, 15), 0.0001,initialParticles);
 
     //Import the fount
     sf::Font font;
@@ -148,7 +170,7 @@ int main()
         }
     
         // Display the completed window
-    for(sf::RenderWindow *w : windows) w->display();
+        for(sf::RenderWindow *w : windows) w->display();
         env_frame->window->setView(*(env_frame->view));
 
         // ===============Update Section===============
@@ -235,10 +257,16 @@ int main()
 
         }
         robot.move(control);
-        if(control.y != 0 && control.x !=0){
-            fastSLAM.predict(Eigen::Vector2f(control.x, control.y));
-            //fastSLAM.correct(robot.scan.cylinders);
+        fastSLAM.predict(Eigen::Vector2f(control.x, control.y));
+        fastSLAM.correct(robot.scan.cylinders);
+        
+        for(int i =0;i<fastSLAM.particles.size();i++){
+
+            std::cout << fastSLAM.particles[i].position[0] << "___" << fastSLAM.particles[i].position[1] << "___" << fastSLAM.particles[i].heading << "___"<< robot.center.x  << "___" << robot.center.y  << "___" << robot.heading << std::endl;
+
+            
         }
+
     }
 
     return 0;

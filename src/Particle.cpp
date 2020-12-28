@@ -12,7 +12,9 @@ Particle::Particle(Eigen::Vector2f position, float heading, sf::CircleShape mark
 	this->landmarkCounters = {};
 	this->marker = marker;
 	this->marker.setOrigin(marker.getRadius(),marker.getRadius());
-	this->radius = marker.getRadius();
+	this->marker.setPosition(position[0],position[1]);
+	this->marker.setRotation(heading-90);
+	this->radius = 10;
 
 }
 /*
@@ -35,11 +37,11 @@ void Particle::move(Eigen::Vector2f vel) {
 
 	if (r == -l) {
 		if (r < l) {
-			heading -= (l-r)/radius;
+			heading -= 2*(l-r)/radius;
 
 		}
 		else {
-			heading += (r-l)/radius;
+			heading += 2*(r-l)/radius;
 
 		}
 		marker.setRotation(heading - 90);
@@ -64,12 +66,9 @@ void Particle::move(Eigen::Vector2f vel) {
 		x1 = cx + l * cos(heading * M_PI / 180);
 		y1 = cy + l * sin(heading * M_PI / 180);
 	}
-
+	position = {x1,y1};
 	marker.setPosition(sf::Vector2f(x1,y1));
 	marker.setRotation(heading - 90);
-
-
-
 
 }
 
@@ -87,8 +86,9 @@ Eigen::Vector2f Particle::landMarkPose(int landMarkNum) {
 Eigen::Matrix2f Particle::hForLandMark(int landMarkNum) {
 
 	Eigen::Matrix2f toRet;
-	toRet << landMarkPose(landMarkNum)(0), landMarkPose(landMarkNum)(1),
-		 position(0), position(1);
+	Eigen::Vector2f pose = landMarkPose(landMarkNum);
+	toRet << pose[0], pose[1],
+		 position[0], position[1];
 	return toRet;
 }
 
@@ -113,8 +113,8 @@ std::vector<Eigen::Matrix2f> Particle::get_H_QL(int landMarkNum, Eigen::Matrix2f
 	Eigen::Matrix2f H = dhLandmark(landMarkLocations[landMarkNum]);
 	Eigen::Matrix2f landMarkCov = this->landMarkCov[landMarkNum];
 	Eigen::Matrix2f QL = Qt_cov;
-	QL.noalias() += (landMarkCov * H.transpose());
-	QL.noalias() = QL*H;
+	QL.noalias() += H*(landMarkCov * H.transpose());
+
 	std::vector<Eigen::Matrix2f> toRet = {H,QL};
 	return toRet;
 
@@ -131,12 +131,30 @@ std::vector<Eigen::Matrix2f> Particle::get_H_QL(int landMarkNum, Eigen::Matrix2f
 float Particle::getWl(int landMarkNum, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov) {
 	
 	Eigen::Matrix2f h = hForLandMark(landMarkNum);
-	Eigen::Vector2f deltaZ = measurement - Eigen::Vector2f(h(1,0), h(1, 1));
+	Eigen::Vector2f deltaZ = measurement - Eigen::Vector2f(h(0,0), h(0, 1));
 	std::vector<Eigen::Matrix2f> H_QL = get_H_QL(landMarkNum, Qt_cov);
 	Eigen::Matrix2f QL = H_QL[1];
-	float result = -0.5 * deltaZ.transpose() * (QL.inverse() * deltaZ);
-	float wl = 1 / (2 * M_PI * sqrt(QL.determinant())) * pow(M_E, result);
-	return wl;
+	float determinate;
+	bool isInvertible;
+	Eigen::Matrix2f inverse;
+	QL.computeInverseAndDetWithCheck(inverse,determinate,isInvertible);
+	float result;
+	float wl;
+	float stuff;
+	if(isInvertible){
+		stuff = deltaZ.transpose() * (inverse * deltaZ);
+		result = -0.5 * deltaZ.transpose() * (inverse * deltaZ);
+		wl = 1 / (2 * M_PI * sqrt(determinate)) * pow(M_E, result);
+		
+		if (!(isinf(wl))){
+			return wl;
+		}
+		else{
+			
+		}
+		
+	}
+	return 0;	
 
 }
 
@@ -164,12 +182,19 @@ Qt_cov holds the variances Sxx,Sxy,Syy:
 */
 
 
-void Particle::initializeLandmark(Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov) {
-	Eigen::Vector2f landmarkPos = {position(0)+measurement(0)*(float)cos(measurement(1)*M_PI/180),position(1) + measurement(0) *(float) sin(measurement(1) * M_PI / 180) };
+bool Particle::initializeLandmark(Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov) {
+	Eigen::Vector2f landmarkPos = {measurement[0]*cos(measurement[1])+position[0] ,measurement[0]*cos(measurement[1])+position[1]};
 	Eigen::Matrix2f H = dhLandmark(landmarkPos);
-	Eigen::Matrix2f local_landMarkCov = H.inverse() * (Qt_cov * H.transpose());
-	landMarkLocations.push_back(landmarkPos);
-	landMarkCov.push_back(local_landMarkCov);
+	bool isInvertible;
+	Eigen::Matrix2f inverse;
+	H.computeInverseWithCheck(inverse,isInvertible);
+	if (isInvertible){
+		Eigen::Matrix2f local_landMarkCov = inverse * (Qt_cov * inverse.transpose());
+		landMarkLocations.push_back(landmarkPos);
+		landMarkCov.push_back(local_landMarkCov);
+		return true;
+	}
+	return false;
 }
 /*
 Updates a landmark corresponding to landMarkNum for this particle
@@ -181,28 +206,36 @@ Qt_cov holds the variances Sxx,Sxy,Syy:
 
 void Particle::updateLandmark(int landMarkNum, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov) {
 	Eigen::Matrix2f h = hForLandMark(landMarkNum);
-	Eigen::Vector2f deltaZ = measurement - Eigen::Vector2f(h(1, 0), h(1, 1));;
+
+	Eigen::Vector2f deltaZ = measurement - Eigen::Vector2f(h(0, 0), h(0, 1));
 	std::vector<Eigen::Matrix2f> H_QL = get_H_QL(landMarkNum, Qt_cov);
 	Eigen::Matrix2f K = (landMarkCov[landMarkNum]* H_QL[0].transpose())* H_QL[1].inverse();
-	landMarkLocations[landMarkNum] += K * deltaZ;
-	landMarkCov[landMarkNum] = (Eigen::Matrix2f::Identity(2,2)-(K*H_QL[0]))* landMarkCov[landMarkNum];
+	if (!(isnan(K(0)) || isnan(K(1)) || isnan(K(2)) || isnan(K(3)) || isnan(deltaZ(0))) || isnan(deltaZ(1))  ){
+		landMarkLocations[landMarkNum] += K * deltaZ;
+		landMarkCov[landMarkNum] = (Eigen::Matrix2f::Identity(2,2)-(K*H_QL[0]))* landMarkCov[landMarkNum];
+	}
+	
 }
 
 
 float Particle::update_particle(int numLandmarks, float minLikleihood, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov) {
 
 	std::vector<float> likelihoods = getLikelihoods(numLandmarks, measurement, Qt_cov);
-	//std::vector<float>::iterator result = );
+
 	float maxIndex;
 	float maxLikelihood =-1;
 	if (likelihoods.size() != 0) {
-		maxIndex = likelihoods[std::distance(likelihoods.begin(), std::max_element(std::begin(likelihoods), std::end(likelihoods)))];
-		maxLikelihood = likelihoods[maxIndex];
+		for(int i =0;i < likelihoods.size(); i++){
+			if(likelihoods[i] > maxLikelihood){
+				maxIndex = i;
+				maxLikelihood = likelihoods[i];
+			}
+		}
 	}
-
+	
 	if (likelihoods.size() == 0 || maxLikelihood < minLikleihood) {
-		initializeLandmark(measurement,Qt_cov);
-		landmarkCounters.push_back(1);
+		bool didInit = initializeLandmark(measurement,Qt_cov);
+		if (didInit){landmarkCounters.push_back(1);}
 		return minLikleihood;
 	}
 	else {
