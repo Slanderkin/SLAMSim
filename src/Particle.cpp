@@ -144,7 +144,7 @@ float Particle::getWl(int landMarkNum, Eigen::Vector2f measurement, Eigen::Matri
 	if(isInvertible){
 		stuff = deltaZ.transpose() * (inverse * deltaZ);
 		result = -0.5 * deltaZ.transpose() * (inverse * deltaZ);
-		wl = 1 / (2 * M_PI * sqrt(determinate)) * pow(M_E, result);
+		wl = 1 / (2 * M_PI * sqrt(determinate)) * std::exp(result);
 		
 		if (!(isinf(wl))){
 			return wl;

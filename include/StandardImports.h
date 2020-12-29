@@ -17,7 +17,6 @@
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <math.h>
-
 #include <stdlib.h>
 
 struct Vector2

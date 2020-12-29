@@ -10,6 +10,15 @@ generator(std::random_device{}())
 	this->measurementStddev = measurementStddev;
 	this->minimumLikelihood = minimumLikelihood;
 	this->particles = initialParticles;
+	this->circle = sf::CircleShape(8);
+	this->circle.setPosition(-20,-20);
+	this->circle.setOrigin(8,8);
+	this->circle.setFillColor(sf::Color::Yellow);
+	this->dirLine = sf::RectangleShape(sf::Vector2f(20.f, 2.f));
+	this->dirLine.setFillColor(sf::Color::Yellow);
+	this->errorEllipse = sf::CircleShape(8);
+	this->errorEllipse.setFillColor(sf::Color::Transparent);
+	this->errorEllipse.setOutlineThickness(2);
 
 
 }
@@ -59,12 +68,6 @@ std::vector<float> FastSLAM::updateComputeWeights(std::vector<Eigen::Matrix2f> c
 		for (int j = 0;j < cylinders.size();j++) {
 			
 			Eigen::Matrix2f currCylinder = cylinders[j];
-			/*
-			float Temp1 = currCylinder(0,0);
-			float Temp2 = currCylinder(0,1);
-			Eigen::Vector2f measurement(Temp1,Temp2);
-			std::cout << currCylinder(0,0) << "__" << currCylinder(0,1) << std::endl;
-			*/
 			weight *= particles[i].update_particle(numLandmarks, minimumLikelihood, Eigen::Vector2f(currCylinder(0,0),currCylinder(0,1)),Qt_cov);
 		}
 		toRet.push_back(weight);
@@ -106,5 +109,123 @@ std::vector<Particle> FastSLAM::resample(std::vector<float> weights) {
 void FastSLAM::correct(std::vector<Eigen::Matrix2f> cylinders) {
 	std::vector<float> weights = updateComputeWeights(cylinders);
 	particles = resample(weights);
+	
+}
+
+Eigen::Vector3f FastSLAM::getMean(std::vector<Particle> particles){
+	float meanx =0;	float meany =0;
+	float headx =0; float heady =0;
+	float n = particles.size();
+	for(int i=0; i<n; i++){
+		meanx+= particles[i].position[0];
+		meany+= particles[i].position[1];
+		headx+= cos(particles[i].heading*M_PI/180);
+		heady+= sin(particles[i].heading*M_PI/180);
+	}
+	if(n >0){
+		return Eigen::Vector3f(meanx/n,meany/n,atan2(heady,headx));
+	}
+	else{
+		return Eigen::Vector3f(0,0,0);
+	}
+}
+
+
+Eigen::Vector4f FastSLAM::ellipseVar(std::vector<Particle> particles, Eigen::Vector3f mean){
+	float n = particles.size();
+	if (n < 2){
+		return Eigen::Vector4f(0,0,0,0);
+	}
+	float cx = mean[0];float cy=mean[1];float ch = mean[2];
+	float sxx=0;float sxy = 0;float syy = 0;
+	float varHeading = 0; float dh =0;
+	for(int i=0;i<n;i++){
+		float dx = particles[i].position[0]-cx;
+		float dy = particles[i].position[1]-cy;
+		sxx += dx*dx;
+		sxy += dx*dy;
+		syy += dy*dy;
+		dh = fmod(((particles[i].heading -ch)*(M_PI/180) + M_PI ),2*M_PI)-M_PI;
+		varHeading += dh*dh;
+	}
+	varHeading = varHeading/(n-1);
+	Eigen::Matrix2f covXY;
+	covXY << sxx,sxy,
+		sxy,syy;
+	covXY = covXY/(n-1);
+
+	Eigen::EigenSolver<Eigen::Matrix2f> es;
+	es.compute(covXY,true);
+	float ellipseAngle =atan2(es.eigenvectors().col(0)[1].real(),es.eigenvectors().col(0)[0].real());
+	return Eigen::Vector4f(ellipseAngle,sqrt(abs(es.eigenvalues()[0].real())),sqrt(abs(es.eigenvalues()[1].real())),sqrt(varHeading) );
+}
+
+
+void FastSLAM::addDrawView(DrawView *dv){
+	this->drawViews.push_back(dv);
+}
+
+	
+
+
+void FastSLAM::draw(){
+	Eigen::Vector3f mean = getMean(particles);
+	circle.setPosition(mean[0],mean[1]);
+	circle.setRotation(mean[2]*180/M_PI);
+	dirLine.setPosition(mean[0],mean[1]);
+	dirLine.setRotation(mean[2]*180/M_PI);
+	Eigen::Vector4f ellipseMisc = ellipseVar(particles,mean);
+	errorEllipse.setOrigin(errorEllipse.getRadius(),errorEllipse.getRadius());
+	errorEllipse.setScale(ellipseMisc[1],ellipseMisc[2]);
+	errorEllipse.setPosition(mean[0],mean[1]);
+	errorEllipse.setRotation(ellipseMisc[0]*180/M_PI);
+
+	int index = -1;
+	Eigen::Vector2f min;
+	float minNorm;
+	for(int i =0;i<particles.size();i++){
+		if(i ==0){
+			min = particles[i].position;
+			minNorm = particles[i].position.norm();
+		}
+		else{
+			float newNorm = (Eigen::Vector2f(mean[0],mean[1])-particles[i].position).norm();
+			if (newNorm < minNorm){
+				minNorm = newNorm;
+				index = i;
+				min = particles[i].position;
+			}
+			
+		}
+	}
+
+	for (DrawView *dv: drawViews){
+		dv->window->setView(*(dv->view));
+		dv->window->draw(circle);
+		dv->window->draw(dirLine);
+		dv->window->draw(errorEllipse);
+		for(int i =0;i<particles.size();i++){
+			dv->window->draw(particles[i].marker);
+		}
+		for(int i =0;i<particles[index].landMarkLocations.size();i++){
+			sf::CircleShape circ(10);
+			circ.setFillColor(sf::Color::Yellow);
+			circ.setOrigin(10,10);
+			circ.setPosition(particles[index].landMarkLocations[i][0],particles[index].landMarkLocations[i][1]);
+			dv->window->draw(circ);
+			if(particles[index].landMarkCov[i](0,0) < 500/10 && particles[index].landMarkCov[i](1,1) < 500/10){
+				sf::CircleShape errEllipse(10);
+				errEllipse.setFillColor(sf::Color::Transparent);
+				errEllipse.setOutlineThickness(1);
+				errEllipse.setOrigin(10,10);
+				errEllipse.setPosition(particles[index].landMarkLocations[i][0],particles[index].landMarkLocations[i][1]);
+				errEllipse.setScale(particles[index].landMarkCov[i](0,0),particles[index].landMarkCov[i](1,1));
+				dv->window->draw(errEllipse);
+			}
+			
+		}
+		
+
+	}
 
 }

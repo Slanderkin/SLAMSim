@@ -45,8 +45,8 @@ int main()
 
     std::vector<Button> buttonList;
 
-    std::vector<float> cylXVals = {660, 250 , 900 , 375};
-    std::vector<float> cylYVals = {300, 550, 600, 225};
+    std::vector<float> cylXVals = {660, 350 , 900 , 375};
+    std::vector<float> cylYVals = {300, 450, 500, 325};
     float worldCylRad = 10;
     bool doPreset = true;
     
@@ -72,35 +72,8 @@ int main()
     // Initialize Robot
     Robot robot(center, heading, sf::Color::Red, velocity, maxRange, radius, &world);
     
-
-    DrawView *env_frame = new DrawView;
-    env_frame->window = &window;
-    env_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1200.f, 800.f));
-    env_frame->view->setViewport(sf::FloatRect(0.25f, 0.f, 0.75f, 1.f));
-    env_frame->center = new Vector2(600.f,400.f);
-    drawViews.push_back(env_frame);
-    world.addDrawView(env_frame);
-    robot.addDrawView(env_frame);
-
-    DrawView *focus_frame = new DrawView;
-    focus_frame->window = &window;
-    focus_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 200.f, 400.f));
-    focus_frame->view->setViewport(sf::FloatRect(0.f, 0.f, 0.25f, 1.f));
-    focus_frame->center = &(robot.center);
-    drawViews.push_back(focus_frame);
-    world.addDrawView(focus_frame);
-    robot.addDrawView(focus_frame);
-
-    DrawView *button_frame = new DrawView;
-    button_frame->window = &window;
-    button_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1600.f, 200.f));
-    button_frame->view->setViewport(sf::FloatRect(0.f, 0.f, 1.f, 0.25f));
-    button_frame->center = new Vector2(800,100);
-    drawViews.push_back(button_frame);
-
-
     //Particle initialization
-    int numParticles = 20;
+    int numParticles = 100;
     std::random_device rdx;
     std::random_device rdy;
     std::default_random_engine engX(rdx());
@@ -112,7 +85,38 @@ int main()
     for (int i = 0;i < numParticles;i++) {
         initialParticles.push_back(Particle(Eigen::Vector2f(robot.center.x,robot.center.y), robot.heading, sf::CircleShape(2)));
     }
-    FastSLAM fastSLAM(robot.radius, Eigen::Vector2f(0.05, .05), Eigen::Vector2f(20, 15), 0.0001,initialParticles);
+    FastSLAM fastSLAM(robot.radius, Eigen::Vector2f(0.05, 0.05), Eigen::Vector2f(20, 15), 0.0001,initialParticles);
+
+
+
+
+    DrawView *env_frame = new DrawView;
+    env_frame->window = &window;
+    env_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1200.f, 800.f));
+    env_frame->view->setViewport(sf::FloatRect(0.25f, 0.f, 0.75f, 1.f));
+    env_frame->center = new Vector2(600.f,400.f);
+    drawViews.push_back(env_frame);
+    world.addDrawView(env_frame);
+    robot.addDrawView(env_frame);
+    fastSLAM.addDrawView(env_frame);
+    
+
+    DrawView *focus_frame = new DrawView;
+    focus_frame->window = &window;
+    focus_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 200.f, 400.f));
+    focus_frame->view->setViewport(sf::FloatRect(0.f, 0.f, 0.25f, 1.f));
+    focus_frame->center = &(robot.center);
+    drawViews.push_back(focus_frame);
+    world.addDrawView(focus_frame);
+    robot.addDrawView(focus_frame);
+    fastSLAM.addDrawView(focus_frame);
+
+    DrawView *button_frame = new DrawView;
+    button_frame->window = &window;
+    button_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1600.f, 200.f));
+    button_frame->view->setViewport(sf::FloatRect(0.f, 0.f, 1.f, 0.25f));
+    button_frame->center = new Vector2(800,100);
+    drawViews.push_back(button_frame);
 
     //Import the fount
     sf::Font font;
@@ -153,14 +157,7 @@ int main()
         // Have world and robot draw what they need
         world.draw();
         robot.draw();
-
-        
-        for (int i = 0;i < fastSLAM.particles.size();i++) {
-            focus_frame->window->setView(*(focus_frame->view));
-            focus_frame->window->draw(fastSLAM.particles[i].marker);
-            env_frame->window->setView(*(env_frame->view));
-            env_frame->window->draw(fastSLAM.particles[i].marker);
-        }
+        fastSLAM.draw();
         
         // Draw the buttons
         button_frame->window->setView(*(button_frame->view));
@@ -259,13 +256,7 @@ int main()
         robot.move(control);
         fastSLAM.predict(Eigen::Vector2f(control.x, control.y));
         fastSLAM.correct(robot.scan.cylinders);
-        
-        for(int i =0;i<fastSLAM.particles.size();i++){
 
-            std::cout << fastSLAM.particles[i].position[0] << "___" << fastSLAM.particles[i].position[1] << "___" << fastSLAM.particles[i].heading << "___"<< robot.center.x  << "___" << robot.center.y  << "___" << robot.heading << std::endl;
-
-            
-        }
 
     }
 
