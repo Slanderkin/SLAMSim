@@ -18,6 +18,8 @@
 #include <Eigen/Dense>
 #include <math.h>
 #include <stdlib.h>
+#include <future>
+#include "Timing.h"
 
 struct Vector2
 {

@@ -24,8 +24,8 @@ generator(std::random_device{}())
 }
 
 
-void FastSLAM::predict(Eigen::Vector2f control) {
-
+void FastSLAM::predict(const Eigen::Vector2f& control) {
+	Timer timer("Predict");
 	float l0 = control(0);
 	float r0 = control(1);
 	float lStd = sqrt((controlFactors(0) * l0) * (controlFactors(0) * l0) + (controlFactors(1) * (l0 - r0)) * (controlFactors(1) * (l0 - r0)));
@@ -53,11 +53,14 @@ void FastSLAM::predict(Eigen::Vector2f control) {
 	}
 }
 
-std::vector<float> FastSLAM::updateComputeWeights(std::vector<Eigen::Matrix2f> cylinders) {
+
+/*
+std::vector<float> FastSLAM::updateComputeWeights(const std::vector<Eigen::Matrix2f>& cylinders) {
+	Timer timer("update compute");
 	Eigen::Matrix2f Qt_cov;
 	Qt_cov << measurementStddev(0) * measurementStddev(0), 0,
 		0, measurementStddev(1)* measurementStddev(1);
-	std::vector<float> toRet;
+	std::vector<float> toRet(particles.size(),0.0f);
 	float numLandmarks = 0;
 	float weight;
 	for (int i = 0; i < particles.size();i++) {
@@ -70,13 +73,16 @@ std::vector<float> FastSLAM::updateComputeWeights(std::vector<Eigen::Matrix2f> c
 			Eigen::Matrix2f currCylinder = cylinders[j];
 			weight *= particles[i].update_particle(numLandmarks, minimumLikelihood, Eigen::Vector2f(currCylinder(0,0),currCylinder(0,1)),Qt_cov);
 		}
-		toRet.push_back(weight);
+		toRet[i] = weight;
 		particles[i].removeBadLandmarks();
+		
+		
 	}
 	return toRet;
-}
+}*/
 
-std::vector<Particle> FastSLAM::resample(std::vector<float> weights) {
+
+std::vector<Particle> FastSLAM::resample(const std::vector<float>& weights) {
 	std::vector<Particle> toRet;
 	float maxWeight = -1;
 
@@ -106,13 +112,14 @@ std::vector<Particle> FastSLAM::resample(std::vector<float> weights) {
 	return toRet;
 }
 
-void FastSLAM::correct(std::vector<Eigen::Matrix2f> cylinders) {
+void FastSLAM::correct(const std::vector<Eigen::Matrix2f>& cylinders) {
+	Timer timer("correct");
 	std::vector<float> weights = updateComputeWeights(cylinders);
 	particles = resample(weights);
 	
 }
 
-Eigen::Vector3f FastSLAM::getMean(std::vector<Particle> particles){
+Eigen::Vector3f FastSLAM::getMean(const std::vector<Particle>& particles){
 	float meanx =0;	float meany =0;
 	float headx =0; float heady =0;
 	float n = particles.size();
@@ -131,7 +138,7 @@ Eigen::Vector3f FastSLAM::getMean(std::vector<Particle> particles){
 }
 
 
-Eigen::Vector4f FastSLAM::ellipseVar(std::vector<Particle> particles, Eigen::Vector3f mean){
+Eigen::Vector4f FastSLAM::ellipseVar(const std::vector<Particle>& particles,const Eigen::Vector3f& mean){
 	float n = particles.size();
 	if (n < 2){
 		return Eigen::Vector4f(0,0,0,0);
@@ -160,13 +167,9 @@ Eigen::Vector4f FastSLAM::ellipseVar(std::vector<Particle> particles, Eigen::Vec
 	return Eigen::Vector4f(ellipseAngle,sqrt(abs(es.eigenvalues()[0].real())),sqrt(abs(es.eigenvalues()[1].real())),sqrt(varHeading) );
 }
 
-
 void FastSLAM::addDrawView(DrawView *dv){
 	this->drawViews.push_back(dv);
 }
-
-	
-
 
 void FastSLAM::draw(){
 	Eigen::Vector3f mean = getMean(particles);
@@ -180,24 +183,8 @@ void FastSLAM::draw(){
 	errorEllipse.setPosition(mean[0],mean[1]);
 	errorEllipse.setRotation(ellipseMisc[0]*180/M_PI);
 
-	int index = -1;
-	Eigen::Vector2f min;
-	float minNorm;
-	for(int i =0;i<particles.size();i++){
-		if(i ==0){
-			min = particles[i].position;
-			minNorm = particles[i].position.norm();
-		}
-		else{
-			float newNorm = (Eigen::Vector2f(mean[0],mean[1])-particles[i].position).norm();
-			if (newNorm < minNorm){
-				minNorm = newNorm;
-				index = i;
-				min = particles[i].position;
-			}
-			
-		}
-	}
+	int index = getIndOfMin(particles,mean);
+
 
 	for (DrawView *dv: drawViews){
 		dv->window->setView(*(dv->view));
@@ -207,7 +194,8 @@ void FastSLAM::draw(){
 		for(int i =0;i<particles.size();i++){
 			dv->window->draw(particles[i].marker);
 		}
-		for(int i =0;i<particles[index].landMarkLocations.size();i++){
+		if(index >=0){
+			for(int i =0;i<particles[index].landMarkLocations.size();i++){
 			sf::CircleShape circ(10);
 			circ.setFillColor(sf::Color::Yellow);
 			circ.setOrigin(10,10);
@@ -223,9 +211,81 @@ void FastSLAM::draw(){
 				dv->window->draw(errEllipse);
 			}
 			
+			}
 		}
-		
-
 	}
+}
+
+int FastSLAM::getIndOfMin(const std::vector<Particle>& particles,const Eigen::Vector3f& mean){
+	int index = -1;
+	Eigen::Vector2f min;
+	float minNorm;
+	for(int i =0;i<particles.size();i++){
+		if(i ==0){
+			min = particles[i].position;
+			index = 0;
+			minNorm = particles[i].position.norm();
+			
+		}
+		else{
+			float newNorm = (Eigen::Vector2f(mean[0],mean[1])-particles[i].position).norm();
+			if (newNorm < minNorm){
+				minNorm = newNorm;
+				index = i;
+				min = particles[i].position;
+			}
+			
+		}
+	}
+	return index;
+}
+
+
+
+
+//Multithreading code
+
+static std::vector<float> handleParticle(int index,float minimumLikelihood, Particle* particle,const std::vector<Eigen::Matrix2f>* cylinders, const Eigen::Matrix2f Qt_cov){
+
+	particle->decrementVisibleLandmarkCounters();
+	float numLandmarks = particle->landMarkLocations.size();
+	float weight = 1;
+	std::vector<float> toRet = {0,0};
+	for (int j = 0;j < cylinders->size();j++) {
+			
+			Eigen::Matrix2f currCylinder = cylinders->at(j);
+			weight *= particle->update_particle(numLandmarks, minimumLikelihood, Eigen::Vector2f(currCylinder(0,0),currCylinder(0,1)),Qt_cov);
+		}
+
+	particle->removeBadLandmarks();
+	toRet[0] = (weight);
+	toRet[1] = (index);
+	return toRet;
+}
+
+
+std::vector<float> FastSLAM::updateComputeWeights(const std::vector<Eigen::Matrix2f>& cylinders) {
+	Timer timer("update compute");
+
+	std::vector<std::future<std::vector<float>>> futures;
+
+	Eigen::Matrix2f Qt_cov;
+	Qt_cov << measurementStddev(0) * measurementStddev(0), 0,
+		0, measurementStddev(1)* measurementStddev(1);
+	std::vector<float> toRet(particles.size(),0.0f);
+	float numLandmarks = 0;
+	float weight;
+	int i=0;
+
+	for (int i = 0; i < particles.size();i++) {
+		futures.push_back(std::async(std::launch::async, handleParticle,i,minimumLikelihood, &particles[i],&cylinders,Qt_cov));
+	}
+	
+	for(int i=0; i<particles.size();i++){
+		std::vector<float> tempVec = futures[i].get();
+		toRet[tempVec[1]] = tempVec[0];
+	}
+
+	return toRet;
 
 }

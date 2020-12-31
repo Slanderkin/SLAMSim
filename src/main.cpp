@@ -45,8 +45,14 @@ int main()
 
     std::vector<Button> buttonList;
 
+    
     std::vector<float> cylXVals = {660, 350 , 900 , 375};
     std::vector<float> cylYVals = {300, 450, 500, 325};
+    
+   /*
+    std::vector<float> cylXVals = {660};
+    std::vector<float> cylYVals = {300};
+    */
     float worldCylRad = 10;
     bool doPreset = true;
     
@@ -73,7 +79,7 @@ int main()
     Robot robot(center, heading, sf::Color::Red, velocity, maxRange, radius, &world);
     
     //Particle initialization
-    int numParticles = 100;
+    int numParticles = 200;
     std::random_device rdx;
     std::random_device rdy;
     std::default_random_engine engX(rdx());
@@ -85,7 +91,7 @@ int main()
     for (int i = 0;i < numParticles;i++) {
         initialParticles.push_back(Particle(Eigen::Vector2f(robot.center.x,robot.center.y), robot.heading, sf::CircleShape(2)));
     }
-    FastSLAM fastSLAM(robot.radius, Eigen::Vector2f(0.05, 0.05), Eigen::Vector2f(20, 15), 0.0001,initialParticles);
+    FastSLAM fastSLAM(robot.radius, Eigen::Vector2f(0.05, 0.05), Eigen::Vector2f(20, 15), 0.000025,initialParticles);
 
 
 
@@ -256,8 +262,13 @@ int main()
         robot.move(control);
         fastSLAM.predict(Eigen::Vector2f(control.x, control.y));
         fastSLAM.correct(robot.scan.cylinders);
+        /*
+        int ind = fastSLAM.getIndOfMin(fastSLAM.particles,fastSLAM.getMean(fastSLAM.particles));
+        std::cout << robot.scan.cylinders[0](1,0) << ","<<robot.scan.cylinders[0](1,1) << std::endl;
+        if(ind >=0){
+        std::cout << fastSLAM.particles[ind].landMarkLocations[0][0] << "," << fastSLAM.particles[ind].landMarkLocations[0][1] << std::endl;
 
-
+        }*/
     }
 
     return 0;

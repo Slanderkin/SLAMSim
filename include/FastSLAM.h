@@ -27,13 +27,13 @@ public:
 	sf::RenderWindow *window;
 	std::vector<DrawView*> drawViews;
 
-	void predict(Eigen::Vector2f control);
-	std::vector<float> updateComputeWeights(std::vector<Eigen::Matrix2f> cylinders);
-	std::vector<Particle> resample(std::vector<float> weights);
-	void correct(std::vector<Eigen::Matrix2f> cylinders);
-	Eigen::Vector3f getMean(std::vector<Particle> particles);
-	Eigen::Vector4f ellipseVar(std::vector<Particle> particles, Eigen::Vector3f mean);
-
+	void predict(const Eigen::Vector2f& control);
+	std::vector<float> updateComputeWeights(const std::vector<Eigen::Matrix2f>& cylinders);
+	std::vector<Particle> resample(const std::vector<float>& weights);
+	void correct(const std::vector<Eigen::Matrix2f>& cylinders);
+	Eigen::Vector3f getMean(const std::vector<Particle>& particles);
+	Eigen::Vector4f ellipseVar(const std::vector<Particle>& particles,const Eigen::Vector3f& mean);
+	int getIndOfMin(const std::vector<Particle>& particles,const Eigen::Vector3f& mean);
 
 };
 

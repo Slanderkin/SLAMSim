@@ -7,7 +7,7 @@
 class Particle {
 
 private:
-	Eigen::Vector2f landMarkPose(int landMarkNum);
+	Eigen::Vector2f landMarkPose(const int landMarkNum);
 
 public:
 
@@ -20,17 +20,18 @@ public:
 	sf::CircleShape marker;
 	float radius;
 
-	void move(Eigen::Vector2f vel);
-	Eigen::Matrix2f hForLandMark(int landMarkNum);
-	Eigen::Matrix2f dhLandmark(Eigen::Vector2f landMarkPos);
-	std::vector<Eigen::Matrix2f> get_H_QL(int landMarkNum, Eigen::Matrix2f);
-	float getWl(int landMarkNum, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
-	std::vector<float> getLikelihoods(int numLandmarks, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
-	bool initializeLandmark(Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
-	void updateLandmark(int landMarkNum, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
-	float update_particle(int numLandmarks,float minLikleihood, Eigen::Vector2f measurement, Eigen::Matrix2f Qt_cov);
+	void move(const Eigen::Vector2f& vel);
+	Eigen::Matrix2f hForLandMark(const int landMarkNum);
+	Eigen::Matrix2f dhLandmark(const Eigen::Vector2f& landMarkPos);
+	std::vector<Eigen::Matrix2f> get_H_QL(const int landMarkNum, const Eigen::Matrix2f& Qt_cov);
+	float getWl(int landMarkNum,const Eigen::Vector2f& measurement, const Eigen::Matrix2f& Qt_cov);
+	std::vector<float> getLikelihoods(int numLandmarks, const Eigen::Vector2f& measurement,const Eigen::Matrix2f& Qt_cov);
+	bool initializeLandmark(const Eigen::Vector2f& measurement,const Eigen::Matrix2f& Qt_cov);
+	void updateLandmark(int landMarkNum, const Eigen::Vector2f& measurement, const Eigen::Matrix2f& Qt_cov);
+	float update_particle(int numLandmarks,float minLikleihood, const Eigen::Vector2f& measurement, const Eigen::Matrix2f& Qt_cov);
 	void decrementVisibleLandmarkCounters();
 	void removeBadLandmarks();
+	Particle makeDeepCopy();
 };
 
 
