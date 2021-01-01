@@ -19,7 +19,8 @@ public:
 	std::vector<Eigen::Matrix2f> landMarkCov;
 	sf::CircleShape marker;
 	float radius;
-
+	
+	//==========Computational Functions==========//
 	void move(const Eigen::Vector2f& vel);
 	Eigen::Matrix2f hForLandMark(const int landMarkNum);
 	Eigen::Matrix2f dhLandmark(const Eigen::Vector2f& landMarkPos);

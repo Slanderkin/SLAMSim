@@ -1,7 +1,5 @@
 #include "Scan.h"
 
-
-
 Scan::Scan() :
 	dist(mean, stddev),
 	generator(std::random_device{}())
@@ -178,7 +176,7 @@ std::vector<Eigen::Vector2f> Scan::findCylinders(Scan::Observation* derivative, 
 	float sumRay = 0;
 	float sumDepth = 0;
 	int rays = 0;
-	std::vector<Eigen::Vector2f> cylinderList = {}; //
+	std::vector<Eigen::Vector2f> cylinderList = {}; 
 
 
 	for (int i = 0; i < der->distance.size();i++) {

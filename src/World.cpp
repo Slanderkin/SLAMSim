@@ -36,7 +36,7 @@ void World::addDrawView(DrawView *dv)
 
 void World::draw()
 {
-
+	Timer timer("World draw");
 	for (DrawView *dv : drawViews)
 	{
 		dv->window->setView(*(dv->view));

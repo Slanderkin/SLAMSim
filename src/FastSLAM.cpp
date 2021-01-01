@@ -1,10 +1,7 @@
 #include "FastSLAM.h"
 
 
-FastSLAM::FastSLAM(float robotWidth, Eigen::Vector2f controlFactors, Eigen::Vector2f measurementStddev, float minimumLikelihood, std::vector<Particle> initialParticles) :
-dist(mean, stddev),
-generator(std::random_device{}())
- {
+FastSLAM::FastSLAM(float robotWidth, Eigen::Vector2f controlFactors, Eigen::Vector2f measurementStddev, float minimumLikelihood, std::vector<Particle> initialParticles) {
 	this->robotWidth = robotWidth;
 	this->controlFactors = controlFactors;
 	this->measurementStddev = measurementStddev;
@@ -23,9 +20,17 @@ generator(std::random_device{}())
 
 }
 
-
+/*
+Summary:
+	Predicts the future location of the particle given a control input. This function
+	adds random gaussian noise to the control input to simulate possible drifts in 
+	the robot's position.
+Params:
+	control - first index holds the left control, while the second holds the right
+Returns:
+	None
+*/
 void FastSLAM::predict(const Eigen::Vector2f& control) {
-	Timer timer("Predict");
 	float l0 = control(0);
 	float r0 = control(1);
 	float lStd = sqrt((controlFactors(0) * l0) * (controlFactors(0) * l0) + (controlFactors(1) * (l0 - r0)) * (controlFactors(1) * (l0 - r0)));
@@ -53,37 +58,20 @@ void FastSLAM::predict(const Eigen::Vector2f& control) {
 	}
 }
 
-
 /*
-std::vector<float> FastSLAM::updateComputeWeights(const std::vector<Eigen::Matrix2f>& cylinders) {
-	Timer timer("update compute");
-	Eigen::Matrix2f Qt_cov;
-	Qt_cov << measurementStddev(0) * measurementStddev(0), 0,
-		0, measurementStddev(1)* measurementStddev(1);
-	std::vector<float> toRet(particles.size(),0.0f);
-	float numLandmarks = 0;
-	float weight;
-	for (int i = 0; i < particles.size();i++) {
-		particles[i].decrementVisibleLandmarkCounters();
-		numLandmarks = particles[i].landMarkLocations.size();
-		weight = 1;
-		
-		for (int j = 0;j < cylinders.size();j++) {
-			
-			Eigen::Matrix2f currCylinder = cylinders[j];
-			weight *= particles[i].update_particle(numLandmarks, minimumLikelihood, Eigen::Vector2f(currCylinder(0,0),currCylinder(0,1)),Qt_cov);
-		}
-		toRet[i] = weight;
-		particles[i].removeBadLandmarks();
-		
-		
-	}
-	return toRet;
-}*/
-
-
+Summary:
+	Samples all of the particles currently active in a psuedo-random way,
+	highly weighted particles (those that more accurately match the measurements)
+	are more likely to survive, but none are guaranteed. This sampling process makes
+	up the next particles that will be held.
+Params:
+	weights - a list of weights corresponding to each particle
+Returns:
+	A vector of Particles, these are the particles that "survive" the resampling.
+*/
 std::vector<Particle> FastSLAM::resample(const std::vector<float>& weights) {
 	std::vector<Particle> toRet;
+	toRet.reserve(particles.size());
 	float maxWeight = -1;
 
 
@@ -112,13 +100,29 @@ std::vector<Particle> FastSLAM::resample(const std::vector<float>& weights) {
 	return toRet;
 }
 
+/*
+Summary:
+	Finds the weights of all particles, then resamples them
+Params:
+	cylinders - A list of all clinders found via the actual robot's scan
+Returns:
+	None
+*/
 void FastSLAM::correct(const std::vector<Eigen::Matrix2f>& cylinders) {
-	Timer timer("correct");
 	std::vector<float> weights = updateComputeWeights(cylinders);
 	particles = resample(weights);
 	
 }
 
+/*
+Summary:
+	Gets the mean position and heading of the Particles, used to represent the
+	particles' guess at the robot's position and heading
+Params:
+	A reference vector of all of the particles
+Returns:
+	A 3 item vector containing the mean X,mean Y, and mean heading (0 if there are no particles)
+*/
 Eigen::Vector3f FastSLAM::getMean(const std::vector<Particle>& particles){
 	float meanx =0;	float meany =0;
 	float headx =0; float heady =0;
@@ -137,7 +141,17 @@ Eigen::Vector3f FastSLAM::getMean(const std::vector<Particle>& particles){
 	}
 }
 
-
+/*
+TODO: Error Arc for heading err
+Summary:
+	Computes the scale for the major and main axes of the error ellipse of the particle projection
+	as well as the angle for the error ellipse.
+Params:
+	particles - The list of particles
+	mean - The mean position and heading of the particles
+Returns:
+	A 3 item vector containing the mean X,mean Y, and mean heading (0 if there are no particles)
+*/
 Eigen::Vector4f FastSLAM::ellipseVar(const std::vector<Particle>& particles,const Eigen::Vector3f& mean){
 	float n = particles.size();
 	if (n < 2){
@@ -172,6 +186,7 @@ void FastSLAM::addDrawView(DrawView *dv){
 }
 
 void FastSLAM::draw(){
+	Timer timer("FastSLAM draw");
 	Eigen::Vector3f mean = getMean(particles);
 	circle.setPosition(mean[0],mean[1]);
 	circle.setRotation(mean[2]*180/M_PI);
@@ -216,6 +231,15 @@ void FastSLAM::draw(){
 	}
 }
 
+/*
+Summary:
+	Gets the index of the particle that is closest to the mean
+Params:
+	particles - The list of particles
+	mean - The mean position and heading of the particles
+Returns:
+	the index of the particle clostest to the mean
+*/
 int FastSLAM::getIndOfMin(const std::vector<Particle>& particles,const Eigen::Vector3f& mean){
 	int index = -1;
 	Eigen::Vector2f min;
@@ -243,8 +267,19 @@ int FastSLAM::getIndOfMin(const std::vector<Particle>& particles,const Eigen::Ve
 
 
 
-//Multithreading code
-
+//===========Multithreading code===========//
+/*
+Summary:
+	This is the function run asynchronously, its manages updating the weight of an individual particle
+Params:
+	index - this particle's index
+	minimumLikelihood - the minimum acceptable weighted level of accuracy in the measurement
+	particle - The particle to be updated
+	cylinders - A list of all clinders found via the actual robot's scan
+	Qt_cov - the covariance matrix
+Returns:
+	The weight of the particle and it's index in a 2 long vector
+*/
 static std::vector<float> handleParticle(int index,float minimumLikelihood, Particle* particle,const std::vector<Eigen::Matrix2f>* cylinders, const Eigen::Matrix2f Qt_cov){
 
 	particle->decrementVisibleLandmarkCounters();
@@ -263,18 +298,24 @@ static std::vector<float> handleParticle(int index,float minimumLikelihood, Part
 	return toRet;
 }
 
-
+/*
+Summary:
+	This loops through all particles and asynchronously updates their weights
+Params:
+	cylinders - A list of all clinders found via the actual robot's scan
+Returns:
+	A vector of the updated weights for each particle
+*/
 std::vector<float> FastSLAM::updateComputeWeights(const std::vector<Eigen::Matrix2f>& cylinders) {
-	Timer timer("update compute");
 
 	std::vector<std::future<std::vector<float>>> futures;
+	futures.reserve(particles.size());
 
 	Eigen::Matrix2f Qt_cov;
 	Qt_cov << measurementStddev(0) * measurementStddev(0), 0,
 		0, measurementStddev(1)* measurementStddev(1);
 	std::vector<float> toRet(particles.size(),0.0f);
 	float numLandmarks = 0;
-	float weight;
 	int i=0;
 
 	for (int i = 0; i < particles.size();i++) {

@@ -148,7 +148,7 @@ int main()
     // Main loop
     while (window.isOpen())
     {
-        
+        Timer timer("While");
         // Section where update events are called 
         robot.update();
         

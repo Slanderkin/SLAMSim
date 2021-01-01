@@ -34,6 +34,7 @@ Modles a two wheel robot seperated  by a width of 2*radius
 The vector control consists of the distance travelled by each wheel (l,r)
 */
 void Robot::move(Vector2 control) {
+	Timer timer("Robot move");
 	float l = control.x;
 	float r = control.y;
 	float alpha = 0;
@@ -106,6 +107,7 @@ void Robot::turn(bool isLeft) {
 }
 
 void Robot::update() {
+
 	circle.setPosition(center.x - radius, center.y - radius);
 	dirLine.setPosition(center.x, center.y);
 	dirLine.setRotation(heading);
@@ -180,7 +182,7 @@ void Robot::addDrawView(DrawView *dv)
 
 void Robot::draw()
 {
-
+	Timer timer("Robot draw");
 	float circ_size = 2;
     sf::VertexArray line(sf::Lines, 2);
     sf::CircleShape end_circ(circ_size);
