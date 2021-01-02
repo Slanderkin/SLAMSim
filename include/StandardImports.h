@@ -8,17 +8,16 @@
 #include <algorithm>
 #include <chrono>
 #include <ctime>
-#include <vector>
 #include <map>
 #include <string>
 #include <random>
-#include <string>
 #include <array>
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <math.h>
 #include <stdlib.h>
 #include <future>
+#include <fstream>
 #include "Timing.h"
 
 struct Vector2

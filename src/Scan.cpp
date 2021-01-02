@@ -32,6 +32,7 @@ Scan::Observation* Scan::computeScanDerivatives(Scan::Observation* obs) {
 }
 
 Scan::Observation* Scan::performScan(Vector2 origin, float& cRad, float& maxRange, const World& world) {
+	Timer timer("Scan");
 	Scan::Observation* obs = new Scan::Observation;
 	obs->theta = std::array<float, 360> ();
 	obs->distance = std::array<float, 360>();
@@ -82,14 +83,14 @@ Scan::Observation* Scan::performScan(Vector2 origin, float& cRad, float& maxRang
 		}
 		// If no distance was found see what wall it hit
 		if (std::isnan(minDist)) {
-
-			for (int j = 0; j < 4; j++) {
+			minDist = getBorderDist(world.worldVerticies,maxRange,scanAngle,origin);
+			/*for (int j = 0; j < 4; j++) {
 				newDist = raycast_wall(origin, origin + Vector2(maxRange * cos(scanAngle), maxRange * sin(scanAngle)), Vector2(world.edges[j][0], world.edges[j][1]), Vector2(world.edges[j][2], world.edges[j][3]));
 				if (newDist != -1 && (std::isnan(minDist) || newDist < minDist))
 				{
 					minDist = newDist;
 				}
-			}
+			}*/
 
 		}
 
@@ -104,19 +105,7 @@ Scan::Observation* Scan::performScan(Vector2 origin, float& cRad, float& maxRang
 		obs->distance[i] = minDist;
 	}
 	Scan::Observation* ders = computeScanDerivatives(obs);
-	/*
-	std::string dist = "";
-	std::string der = "";
-	std::string angle = "";
-	for (int i =0;i<obs->distance.size();i++){
-		dist+= std::to_string(obs->distance[i]) + ",";
-		der += std::to_string(ders->distance[i]) + ",";
-		angle+= std::to_string(obs->theta[i]) + ",";
-	}
-	std::cout << dist << std::endl;
-	std::cout << der << std::endl;
-	std::cout << angle <<std::endl;
-	*/
+
 	std::vector<Eigen::Vector2f> cylinderVec = findCylinders(ders, obs,750);
 	this->cylinders = getCylinders(100 * 180 / M_PI,cylinderVec,origin);
 	return obs;
@@ -164,6 +153,20 @@ float Scan::raycast_wall( Vector2 origin, Vector2 end, Vector2 corA, Vector2 cor
 	return -1;
 	
 }
+
+float Scan::getBorderDist(sf::VertexArray worldVerticies,float maxRange,float scanAngle,Vector2 origin){
+	float minDist = NAN;
+	float newDist;
+	Vector2 end =  origin +  Vector2(maxRange * cos(scanAngle), maxRange * sin(scanAngle));
+	for(int i =1; i < worldVerticies.getVertexCount(); i++){
+		newDist = raycast_wall( origin,end, Vector2(worldVerticies[i-1].position.x,worldVerticies[i-1].position.y), Vector2(worldVerticies[i].position.x,worldVerticies[i].position.y));
+		if (newDist != -1 && (std::isnan(minDist) || newDist < minDist)){
+			minDist = newDist;
+		}
+	}
+	return minDist;
+}
+
 /*
 TODO:
 Fix edge case of cylinder going across -pi,pi
@@ -177,8 +180,6 @@ std::vector<Eigen::Vector2f> Scan::findCylinders(Scan::Observation* derivative, 
 	float sumDepth = 0;
 	int rays = 0;
 	std::vector<Eigen::Vector2f> cylinderList = {}; 
-
-
 	for (int i = 0; i < der->distance.size();i++) {
 		if (der->distance[i] < -jump) {
 			onCylinder = true;
@@ -188,22 +189,17 @@ std::vector<Eigen::Vector2f> Scan::findCylinders(Scan::Observation* derivative, 
 		}
 		else if(der->distance[i] > jump && onCylinder && rays !=0) {
 			if (rays <= 60){
-				cylinderList.push_back(Eigen::Vector2f(sumRay / rays, sumDepth / rays));
-				
+				cylinderList.push_back(Eigen::Vector2f(sumRay / rays, sumDepth / rays));		
 			}
 			onCylinder = false;
-			
 		}
 		else {
 			sumRay += der->theta[i];
 			sumDepth += scan->distance[i];
 			rays++;
 		}
-
 	}
-
 	return cylinderList;
-
 }
 
 std::vector<Eigen::Matrix2f> Scan::getCylinders(float jump, std::vector<Eigen::Vector2f> cylinders,Vector2 origin) {

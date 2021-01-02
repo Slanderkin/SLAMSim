@@ -64,8 +64,10 @@ int main()
     //windows.push_back(&window2);
     window.setFramerateLimit(60);
 
+
     // Initialize World
-    World world(size, border, sf::Color::White);   
+    World world(size, border, sf::Color::White); 
+
     if(doPreset){
         for(int i =0; i<cylXVals.size(); i++){
             sf::CircleShape newCircle(worldCylRad);

@@ -34,7 +34,6 @@ Modles a two wheel robot seperated  by a width of 2*radius
 The vector control consists of the distance travelled by each wheel (l,r)
 */
 void Robot::move(Vector2 control) {
-	Timer timer("Robot move");
 	float l = control.x;
 	float r = control.y;
 	float alpha = 0;
@@ -116,28 +115,39 @@ void Robot::update() {
 }
 
 void Robot::checkBorderCol(const World &world, Vector2 newPos) {
-	if (newPos.x - radius <= world.border.x) {
-		center.x = world.border.x+radius;
+	
 
-	}
-	else if (newPos.x+radius >= world.size.x - world.border.x) {
-		center.x = world.size.x - world.border.x-radius;
+	Eigen::Vector2f circleCenter = {newPos.x,newPos.y};
+	float circleRadius = radius; 
+	bool didMove = false;
 
-	}
-	else {
-		center.x = newPos.x;
-	}
-	if (newPos.y -radius <= world.border.y) {
-		center.y = world.border.y+radius;
+	for(int i =1;i<world.worldVerticies.getVertexCount();i++){
+		Eigen::Vector2f P1 = {world.worldVerticies[i-1].position.x,world.worldVerticies[i-1].position.y};  
+		Eigen::Vector2f V = Eigen::Vector2f(world.worldVerticies[i].position.x,world.worldVerticies[i].position.y) - P1;
+	
 
+		float a = V.dot(V);
+		float b = 2 * V.dot(P1 - circleCenter);
+		float c = P1.dot(P1) + circleCenter.dot(circleCenter) - 2 * P1.dot(circleCenter) - circleRadius*circleRadius;
+		float disc = b*b-4*a*c;
+		
+		if(disc>=0){
+			float sqrt_disc = sqrt(disc);
+			float t1 = (-b+sqrt_disc)/(2*a);
+			float t2 = (-b+sqrt_disc)/(2*a);
+			if((0<=t1 && t1 <=1 && 0<=t2 && t2<=1)){
+				float t = std::max(0.0f,std::min(1.0f,-b/(2*a)));
+				Eigen::Vector2f circToLine = ((P1+t*V)-circleCenter);
+				float dist = circleRadius-circToLine.norm();
+				float angle = atan2(circToLine[1],circToLine[0]);
+				circle.move(dist*cos(angle),-dist*sin(angle));
+				didMove = true;
+			}
+		}
+		
 	}
-	else if (newPos.y + radius >= world.size.y -world.border.y) {
-		center.y = world.size.y - world.border.y-radius;
-
-
-	}
-	else {
-		center.y = newPos.y;
+	if(!didMove){
+		center = newPos;
 	}
 
 }

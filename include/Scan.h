@@ -31,6 +31,7 @@ public:
 	float raycast_wall(Vector2 origin, Vector2 end, Vector2 corA, Vector2 corB);
 	std::vector<Eigen::Vector2f> findCylinders(Scan::Observation* derivative, Scan::Observation* foundScan, float jump);
 	std::vector<Eigen::Matrix2f> getCylinders(float jump, std::vector<Eigen::Vector2f> cylinders,Vector2 origin);
+	float getBorderDist(sf::VertexArray worldVerticies,float maxRange,float scanAngle,Vector2 origin);
 
 	float hz; //currently unused
 	std::time_t timeStamp;

@@ -1,6 +1,6 @@
 #include "FastSLAM.h"
 
-//
+
 FastSLAM::FastSLAM(float robotWidth, Eigen::Vector2f controlFactors, Eigen::Vector2f measurementStddev, float minimumLikelihood, std::vector<Particle> initialParticles) {
 	this->robotWidth = robotWidth;
 	this->controlFactors = controlFactors;
@@ -186,7 +186,6 @@ void FastSLAM::addDrawView(DrawView *dv){
 }
 
 void FastSLAM::draw(){
-	Timer timer("FastSLAM draw");
 	Eigen::Vector3f mean = getMean(particles);
 	circle.setPosition(mean[0],mean[1]);
 	circle.setRotation(mean[2]*180/M_PI);
