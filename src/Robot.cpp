@@ -105,12 +105,12 @@ void Robot::checkBorderCol(const World &world, Vector2 newPos) {
 	Eigen::Vector2f circleCenter = {newPos.x,newPos.y};
 	
 	bool didMove = false;
-
+	int numCollide = 0;
 	for(int i =1;i<world.worldVerticies.getVertexCount();i++){
 		Eigen::Vector2f P1 = {world.worldVerticies[i-1].position.x,world.worldVerticies[i-1].position.y};  
 		Eigen::Vector2f V(world.worldVerticies[i].position.x-P1[0],world.worldVerticies[i].position.y-P1[1]);
 	
-
+		
 		float a = V.dot(V);
 		float b = 2 * V.dot(P1 - circleCenter);
 		float c = P1.dot(P1) + circleCenter.dot(circleCenter) - 2 * P1.dot(circleCenter) - circleRadius*circleRadius;
@@ -120,6 +120,7 @@ void Robot::checkBorderCol(const World &world, Vector2 newPos) {
 			float sqrt_disc = sqrt(disc);
 			float t1 = (-b+sqrt_disc)/(2*a);
 			float t2 = (-b-sqrt_disc)/(2*a);
+			numCollide++;
 			if((0<=t1 && t1 <=1 && 0<=t2 && t2<=1)){
 				float t = std::max(0.0f,std::min(1.0f,-b/(2*a)));
 				Eigen::Vector2f circToLine = ((P1+t*V)-circleCenter);
@@ -131,7 +132,9 @@ void Robot::checkBorderCol(const World &world, Vector2 newPos) {
 				else{
 					circToLine.normalize();
 					Eigen::Vector2f shift = dist*circToLine;
-					center = {newPos.x - shift[0],newPos.y-shift[1]};
+					newPos.x -= shift[0];
+					newPos.y -= shift[1];
+
 				}
 				
 				didMove = true;
@@ -139,8 +142,14 @@ void Robot::checkBorderCol(const World &world, Vector2 newPos) {
 		}
 		
 	}
-	if(!didMove){
+	if(!didMove && numCollide < 2){
 		center = newPos;
+	}
+	else if(didMove && numCollide == 1){
+		center = newPos;
+	}
+	else{
+		//Pass
 	}
 
 }
