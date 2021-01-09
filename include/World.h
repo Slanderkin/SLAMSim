@@ -22,20 +22,25 @@ public:
 	void addDrawView(DrawView *dv);
 	void draw();
 
-	sf::RenderWindow *window;
-
+	bool drawWorld;
 	Vector2 size;
 	Vector2 border;
-	std::vector<std::vector<float>> edges;
 	sf::Color color;
 	sf::VertexArray worldVerticies;
 	std::vector<sf::CircleShape> circles;
-
-
 	std::vector<DrawView*> drawViews;
-	sf::RectangleShape borderRect; 
+
+	sf::RenderWindow *window;
+
+	
+	
+
+
+
+
+
 	void addCircle(sf::CircleShape);
 	void loadWorldVerticies(int numRows);
-	bool drawWorld;
+
 };
 #endif

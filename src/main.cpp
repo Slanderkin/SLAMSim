@@ -43,6 +43,8 @@ int main()
     float maxRange = 1000;
     float radius = 10.f;
 
+    bool doSlam = false;
+
     std::vector<Button> buttonList;
 
     
@@ -165,7 +167,10 @@ int main()
         // Have world and robot draw what they need
         world.draw();
         robot.draw();
-        fastSLAM.draw();
+        if(doSlam){
+            fastSLAM.draw();
+        }
+        
         
         // Draw the buttons
         button_frame->window->setView(*(button_frame->view));
@@ -262,8 +267,11 @@ int main()
 
         }
         robot.move(control);
-        fastSLAM.predict(Eigen::Vector2f(control.x, control.y));
-        fastSLAM.correct(robot.scan.cylinders);
+        if(doSlam){
+            fastSLAM.predict(Eigen::Vector2f(control.x, control.y));
+            fastSLAM.correct(robot.scan.cylinders);
+        }
+        
         /*
         int ind = fastSLAM.getIndOfMin(fastSLAM.particles,fastSLAM.getMean(fastSLAM.particles));
         std::cout << robot.scan.cylinders[0](1,0) << ","<<robot.scan.cylinders[0](1,1) << std::endl;

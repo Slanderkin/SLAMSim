@@ -20,8 +20,9 @@ public:
 	//==========Draw Related Setup==========//
 	void addDrawView(DrawView *dv);
 	void draw();
-	sf::RenderWindow *window;
 	sf::CircleShape circle;
+	sf::RenderWindow *window;
+	
 	sf::CircleShape errorEllipse;
 	sf::RectangleShape dirLine;
 	std::vector<DrawView*> drawViews;

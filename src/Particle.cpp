@@ -2,18 +2,15 @@
 #include "StandardImports.h"
 
 
-Particle::Particle(Eigen::Vector2f position, float heading, sf::CircleShape marker) {
+Particle::Particle(Eigen::Vector2f positionIn, float headingIn, sf::CircleShape markerIn):
+position(positionIn),heading(headingIn),radius(10),marker(markerIn),landmarkCounters(),
+landMarkLocations(),landMarkCov()
 
-	this->position = position;
-	this->heading = heading;
-	this->landMarkLocations = {};
-	this->landMarkCov = {};
-	this->landmarkCounters = {};
-	this->marker = marker;
+{
+
 	this->marker.setOrigin(marker.getRadius(),marker.getRadius());
 	this->marker.setPosition(position[0],position[1]);
 	this->marker.setRotation(heading-90);
-	this->radius = 10;
 
 }
 
@@ -179,7 +176,7 @@ Returns:
 float Particle::getWl(int landMarkNum,const Eigen::Vector2f& measurement, const Eigen::Matrix2f& Qt_cov) {
 	
 	Eigen::Matrix2f h = hForLandMark(landMarkNum);
-	Eigen::Vector2f deltaZ = measurement - Eigen::Vector2f(h(0,0), h(0, 1));
+	Eigen::Vector2f deltaZ(measurement[0]-h(0,0),measurement[1]-h(0,1));
 	std::vector<Eigen::Matrix2f> H_QL = get_H_QL(landMarkNum, Qt_cov);
 	Eigen::Matrix2f QL = H_QL[1];
 	float determinate;
@@ -269,7 +266,7 @@ Returns:
 void Particle::updateLandmark(int landMarkNum, const Eigen::Vector2f& measurement, const Eigen::Matrix2f& Qt_cov) {
 	Eigen::Matrix2f h = hForLandMark(landMarkNum);
 
-	Eigen::Vector2f deltaZ = measurement - Eigen::Vector2f(h(0, 0), h(0, 1));
+	Eigen::Vector2f deltaZ(measurement[0]-h(0,0),measurement[1]-h(0,1));
 	std::vector<Eigen::Matrix2f> H_QL = get_H_QL(landMarkNum, Qt_cov);
 	Eigen::Matrix2f K = (landMarkCov[landMarkNum]* H_QL[0].transpose())* H_QL[1].inverse();
 	if (!(isnan(K(0)) || isnan(K(1)) || isnan(K(2)) || isnan(K(3)) || isnan(deltaZ(0))) || isnan(deltaZ(1))  ){

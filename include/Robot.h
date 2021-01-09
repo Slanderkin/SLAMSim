@@ -25,22 +25,22 @@ public:
 	void addDrawView(DrawView *dv);
 	void draw();
 
-	// DRAW RELATED VARIABLES
-	sf::RenderWindow *window;
-	bool drawRays;
-	
-	Scan::Observation *obs;
+
+	Scan scan;
 	Vector2 center;
 	float heading;
 	sf::Color color;
 	Vector2 velocity;//Velocity is linV,angV
 	float maxRange;
+	float radius;
+	World *world;
+	std::vector<DrawView*> drawViews;
+	bool drawRays;
 	sf::CircleShape circle;
 	sf::RectangleShape dirLine;
-	std::vector<DrawView*> drawViews;
-	float radius;
-	Scan scan;
-	World *world;
+	
+	Scan::Observation *obs;
+	
 	void move(Vector2 control);
 	void forward(const World &world);
 	void turn(bool isLeft);

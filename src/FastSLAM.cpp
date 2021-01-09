@@ -1,19 +1,16 @@
 #include "FastSLAM.h"
 
 
-FastSLAM::FastSLAM(float robotWidth, Eigen::Vector2f controlFactors, Eigen::Vector2f measurementStddev, float minimumLikelihood, std::vector<Particle> initialParticles) {
-	this->robotWidth = robotWidth;
-	this->controlFactors = controlFactors;
-	this->measurementStddev = measurementStddev;
-	this->minimumLikelihood = minimumLikelihood;
-	this->particles = initialParticles;
-	this->circle = sf::CircleShape(8);
+FastSLAM::FastSLAM(float robotWidthIn, Eigen::Vector2f controlFactorsIn, Eigen::Vector2f measurementStddevIn, float minimumLikelihoodIn, std::vector<Particle> initialParticlesIn):
+robotWidth(robotWidthIn),controlFactors(controlFactorsIn),measurementStddev(measurementStddevIn),minimumLikelihood(minimumLikelihoodIn),particles(initialParticlesIn),
+circle(8),window(),errorEllipse(8),dirLine(sf::Vector2f(20.f, 2.f)),drawViews()
+
+{
+
 	this->circle.setPosition(-20,-20);
 	this->circle.setOrigin(8,8);
 	this->circle.setFillColor(sf::Color::Yellow);
-	this->dirLine = sf::RectangleShape(sf::Vector2f(20.f, 2.f));
 	this->dirLine.setFillColor(sf::Color::Yellow);
-	this->errorEllipse = sf::CircleShape(8);
 	this->errorEllipse.setFillColor(sf::Color::Transparent);
 	this->errorEllipse.setOutlineThickness(2);
 

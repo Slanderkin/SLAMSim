@@ -1,12 +1,9 @@
 #include "Scan.h"
 
 Scan::Scan() :
-	dist(mean, stddev),
-	generator(std::random_device{}())
+	dist(mean, stddev),generator(std::random_device{}()), hz(0),timeStamp(NULL),doGaussian(false)
 {
-	this->hz = 0;
-	this->timeStamp = NULL;
-	this->doGaussian = false;
+
 }
 
 Scan::Observation* Scan::computeScanDerivatives(Scan::Observation* obs) {

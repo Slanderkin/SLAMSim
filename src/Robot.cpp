@@ -1,23 +1,10 @@
 #include "Robot.h"
 
-Robot::Robot(Vector2 center, float heading, sf::Color color, Vector2 velocity, float maxRange, float radius, World *w)
-	: scan()
+Robot::Robot(Vector2 centerIn, float headingIn, sf::Color colorIn, Vector2 velocityIn, float maxRangeIn, float radiusIn, World *wIn):
+scan(),center(centerIn),heading(headingIn),color(colorIn),velocity(velocityIn),maxRange(maxRangeIn),radius(radiusIn),world(wIn),
+drawViews(),drawRays(false),circle(10.f),dirLine(sf::Vector2f(20.f, 2.f)),obs()
 {
-	this->center = center;//X,Y
-	this->heading = heading; //In deg
-	this->color = color;
-	this->velocity = velocity; //Linear,Angular
-	this->maxRange = maxRange;
-	this->radius = radius;
-	this->world = w;
 
-	this->drawViews = std::vector<DrawView*>();
-
-	this->scan = Scan();
-	this->drawRays = false;
-
-	circle = sf::CircleShape(10.f);
-	dirLine = sf::RectangleShape(sf::Vector2f(20.f, 2.f));
 	circle.setFillColor(color);
 	circle.setPosition(this->center.x - radius, this->center.y - radius);
 	dirLine.setPosition(this->center.x, this->center.y);
@@ -92,8 +79,6 @@ void Robot::forward(const World &world) {
 /*
 TODO:
 Update to accurately reflect the two wheel model given a control input
-
-
 */
 void Robot::turn(bool isLeft) {
 	if (isLeft){
@@ -116,14 +101,14 @@ void Robot::update() {
 
 void Robot::checkBorderCol(const World &world, Vector2 newPos) {
 	
-
-	Eigen::Vector2f circleCenter = {newPos.x,newPos.y};
 	float circleRadius = radius; 
+	Eigen::Vector2f circleCenter = {newPos.x,newPos.y};
+	
 	bool didMove = false;
 
 	for(int i =1;i<world.worldVerticies.getVertexCount();i++){
 		Eigen::Vector2f P1 = {world.worldVerticies[i-1].position.x,world.worldVerticies[i-1].position.y};  
-		Eigen::Vector2f V = Eigen::Vector2f(world.worldVerticies[i].position.x,world.worldVerticies[i].position.y) - P1;
+		Eigen::Vector2f V(world.worldVerticies[i].position.x-P1[0],world.worldVerticies[i].position.y-P1[1]);
 	
 
 		float a = V.dot(V);
@@ -134,13 +119,21 @@ void Robot::checkBorderCol(const World &world, Vector2 newPos) {
 		if(disc>=0){
 			float sqrt_disc = sqrt(disc);
 			float t1 = (-b+sqrt_disc)/(2*a);
-			float t2 = (-b+sqrt_disc)/(2*a);
+			float t2 = (-b-sqrt_disc)/(2*a);
 			if((0<=t1 && t1 <=1 && 0<=t2 && t2<=1)){
 				float t = std::max(0.0f,std::min(1.0f,-b/(2*a)));
 				Eigen::Vector2f circToLine = ((P1+t*V)-circleCenter);
 				float dist = circleRadius-circToLine.norm();
 				float angle = atan2(circToLine[1],circToLine[0]);
-				circle.move(dist*cos(angle),-dist*sin(angle));
+				if(dist == 0){
+					center = newPos;
+				}
+				else{
+					circToLine.normalize();
+					Eigen::Vector2f shift = dist*circToLine;
+					center = {newPos.x - shift[0],newPos.y-shift[1]};
+				}
+				
 				didMove = true;
 			}
 		}
@@ -196,7 +189,7 @@ void Robot::draw()
 	float circ_size = 2;
     sf::VertexArray line(sf::Lines, 2);
     sf::CircleShape end_circ(circ_size);
-    sf::Vector2f circ_offset = sf::Vector2f(circ_size, circ_size);
+    sf::Vector2f circ_offset(circ_size, circ_size);
     end_circ.setFillColor(sf::Color::Green);
     sf::Vector2f end_pos;
 	Vector2 robot_center = this->center;

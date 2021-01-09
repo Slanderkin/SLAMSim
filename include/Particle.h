@@ -12,13 +12,17 @@ private:
 public:
 
 	Particle(Eigen::Vector2f position, float heading, sf::CircleShape marker);
+	
 	Eigen::Vector2f position;
 	float heading;
+	float radius;
+	sf::CircleShape marker;
+	
 	std::vector<float> landmarkCounters;
 	std::vector<Eigen::Vector2f> landMarkLocations;
 	std::vector<Eigen::Matrix2f> landMarkCov;
-	sf::CircleShape marker;
-	float radius;
+	
+	
 	
 	//==========Computational Functions==========//
 	void move(const Eigen::Vector2f& vel);
