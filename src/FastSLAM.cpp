@@ -1,8 +1,8 @@
 #include "FastSLAM.h"
 
 
-FastSLAM::FastSLAM(float robotWidthIn, Eigen::Vector2f controlFactorsIn, Eigen::Vector2f measurementStddevIn, float minimumLikelihoodIn, std::vector<Particle> initialParticlesIn):
-robotWidth(robotWidthIn),controlFactors(controlFactorsIn),measurementStddev(measurementStddevIn),minimumLikelihood(minimumLikelihoodIn),particles(initialParticlesIn),
+FastSLAM::FastSLAM(float robotWidthIn, Eigen::Vector2f controlFactorsIn, Eigen::Vector2f measurementStddevIn, float minimumLikelihoodIn, std::vector<Particle> initialParticlesIn,float maxRangeIn):
+robotWidth(robotWidthIn),controlFactors(controlFactorsIn),measurementStddev(measurementStddevIn),minimumLikelihood(minimumLikelihoodIn),particles(initialParticlesIn),maxRange(maxRangeIn),
 circle(8),window(),errorEllipse(8),dirLine(sf::Vector2f(20.f, 2.f)),drawViews()
 
 {
@@ -276,9 +276,9 @@ Params:
 Returns:
 	The weight of the particle and it's index in a 2 long vector
 */
-static std::vector<float> handleParticle(int index,float minimumLikelihood, Particle* particle,const std::vector<Eigen::Matrix2f>* cylinders, const Eigen::Matrix2f Qt_cov){
+static std::vector<float> handleParticle(int index,float minimumLikelihood, Particle* particle,const std::vector<Eigen::Matrix2f>* cylinders, const Eigen::Matrix2f Qt_cov,const float maxRange){
 
-	particle->decrementVisibleLandmarkCounters();
+	particle->decrementVisibleLandmarkCounters(maxRange);
 	float numLandmarks = particle->landMarkLocations.size();
 	float weight = 1;
 	std::vector<float> toRet = {0,0};
@@ -315,7 +315,7 @@ std::vector<float> FastSLAM::updateComputeWeights(const std::vector<Eigen::Matri
 	int i=0;
 
 	for (int i = 0; i < particles.size();i++) {
-		futures.push_back(std::async(std::launch::async, handleParticle,i,minimumLikelihood, &particles[i],&cylinders,Qt_cov));
+		futures.push_back(std::async(std::launch::async, handleParticle,i,minimumLikelihood, &particles[i],&cylinders,Qt_cov,this->maxRange));
 	}
 	
 	for(int i=0; i<particles.size();i++){

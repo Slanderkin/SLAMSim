@@ -326,10 +326,13 @@ Params:
 Returns:
 	None
 */
-void Particle::decrementVisibleLandmarkCounters() {
+void Particle::decrementVisibleLandmarkCounters(float maxRange) {
 
 	for (int i = 0; i < landmarkCounters.size(); i++) {
-		landmarkCounters[i]--;
+		if(landMarkLocations[i].norm() < maxRange){
+			landmarkCounters[i]--;
+		}
+		
 	}
 
 }

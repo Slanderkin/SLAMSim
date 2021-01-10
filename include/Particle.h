@@ -34,7 +34,7 @@ public:
 	bool initializeLandmark(const Eigen::Vector2f& measurement,const Eigen::Matrix2f& Qt_cov);
 	void updateLandmark(int landMarkNum, const Eigen::Vector2f& measurement, const Eigen::Matrix2f& Qt_cov);
 	float update_particle(int numLandmarks,float minLikleihood, const Eigen::Vector2f& measurement, const Eigen::Matrix2f& Qt_cov);
-	void decrementVisibleLandmarkCounters();
+	void decrementVisibleLandmarkCounters(float maxRange);
 	void removeBadLandmarks();
 	Particle makeDeepCopy();
 };

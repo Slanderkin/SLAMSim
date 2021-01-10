@@ -41,6 +41,8 @@ public:
 	
 	Scan::Observation *obs;
 	
+	sf::CircleShape range;
+
 	void move(Vector2 control);
 	void forward(const World &world);
 	void turn(bool isLeft);

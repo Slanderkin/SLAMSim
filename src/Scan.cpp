@@ -1,7 +1,7 @@
 #include "Scan.h"
 
 Scan::Scan() :
-	dist(mean, stddev),generator(std::random_device{}()), hz(0),timeStamp(NULL),doGaussian(false)
+	dist(mean, stddev),generator(std::random_device{}()), hz(0),timeStamp(-1),doGaussian(false)
 {
 
 }
@@ -173,11 +173,13 @@ std::vector<Eigen::Vector2f> Scan::findCylinders(Scan::Observation* derivative, 
 	Scan::Observation* der = derivative;
 	Scan::Observation* scan = foundScan;
 	bool onCylinder = false;
+	bool didLoop = false;
 	float sumRay = 0;
 	float sumDepth = 0;
 	int rays = 0;
+	int maxSize = der->distance.size();
 	std::vector<Eigen::Vector2f> cylinderList = {}; 
-	for (int i = 0; i < der->distance.size();i++) {
+	for (int i = 0; i < maxSize;i++) {
 		if (der->distance[i] < -jump) {
 			onCylinder = true;
 			sumRay = 0;
@@ -187,13 +189,26 @@ std::vector<Eigen::Vector2f> Scan::findCylinders(Scan::Observation* derivative, 
 		else if(der->distance[i] > jump && onCylinder && rays !=0) {
 			if (rays <= 60){
 				cylinderList.push_back(Eigen::Vector2f(sumRay / rays, sumDepth / rays));		
+				if(didLoop){
+					break;
+				}
 			}
 			onCylinder = false;
 		}
 		else {
-			sumRay += der->theta[i];
+			if(didLoop){
+				sumRay += der->theta[i]+2*M_PI;
+				
+			}
+			else{
+				sumRay += der->theta[i];
+			}
 			sumDepth += scan->distance[i];
 			rays++;
+		}
+		if(i == (maxSize -1) && onCylinder){
+			i = -1;
+			didLoop = true;
 		}
 	}
 	return cylinderList;

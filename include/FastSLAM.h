@@ -7,7 +7,7 @@ class FastSLAM {
 
 
 public:
-	FastSLAM(float robotWidth, Eigen::Vector2f controlFactors, Eigen::Vector2f measurementStddev, float minimumLikelihood, std::vector<Particle> initialParticles);
+	FastSLAM(float robotWidth, Eigen::Vector2f controlFactors, Eigen::Vector2f measurementStddev, float minimumLikelihood, std::vector<Particle> initialParticles,float maxRange);
 
 	//==========Various Public Members==========//
 	float robotWidth;
@@ -15,7 +15,7 @@ public:
 	Eigen::Vector2f measurementStddev; //Dist,angle
 	float minimumLikelihood;
 	std::vector<Particle> particles;
-	
+	float maxRange;
 
 	//==========Draw Related Setup==========//
 	void addDrawView(DrawView *dv);

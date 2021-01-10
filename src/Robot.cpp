@@ -2,7 +2,7 @@
 
 Robot::Robot(Vector2 centerIn, float headingIn, sf::Color colorIn, Vector2 velocityIn, float maxRangeIn, float radiusIn, World *wIn):
 scan(),center(centerIn),heading(headingIn),color(colorIn),velocity(velocityIn),maxRange(maxRangeIn),radius(radiusIn),world(wIn),
-drawViews(),drawRays(false),circle(10.f),dirLine(sf::Vector2f(20.f, 2.f)),obs()
+drawViews(),drawRays(false),circle(10.f),dirLine(sf::Vector2f(20.f, 2.f)),obs(),range(maxRange)
 {
 
 	circle.setFillColor(color);
@@ -10,6 +10,11 @@ drawViews(),drawRays(false),circle(10.f),dirLine(sf::Vector2f(20.f, 2.f)),obs()
 	dirLine.setPosition(this->center.x, this->center.y);
 	dirLine.setRotation(heading);
 	dirLine.setFillColor(color);
+	range.setOrigin(maxRange,maxRange);
+	range.setPosition(circle.getPosition());
+	range.setFillColor(sf::Color::Transparent);
+	range.setOutlineColor(sf::Color::Red);
+	range.setOutlineThickness(1);
 }
 
 /*
@@ -93,6 +98,7 @@ void Robot::turn(bool isLeft) {
 void Robot::update() {
 
 	circle.setPosition(center.x - radius, center.y - radius);
+	range.setPosition(circle.getPosition());
 	dirLine.setPosition(center.x, center.y);
 	dirLine.setRotation(heading);
 
@@ -225,6 +231,7 @@ void Robot::draw()
 		}
 
 		dv->window->draw(this->circle);
+		dv->window->draw(this->range);
 		dv->window->draw(this->dirLine);
 	}
 }

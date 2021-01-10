@@ -40,7 +40,7 @@ int main()
     Vector2 center = size/2;
     float heading = 0;
     Vector2 velocity = {5,3}; //Linear,angular
-    float maxRange = 1000;
+    float maxRange =5000;
     float radius = 10.f;
 
     bool doSlam = false;
@@ -95,7 +95,7 @@ int main()
     for (int i = 0;i < numParticles;i++) {
         initialParticles.push_back(Particle(Eigen::Vector2f(robot.center.x,robot.center.y), robot.heading, sf::CircleShape(2)));
     }
-    FastSLAM fastSLAM(robot.radius, Eigen::Vector2f(0.05, 0.05), Eigen::Vector2f(20, 15), 0.000025,initialParticles);
+    FastSLAM fastSLAM(robot.radius, Eigen::Vector2f(0.05, 0.05), Eigen::Vector2f(20, 15), 0.000025,initialParticles,maxRange);
 
 
 
