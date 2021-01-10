@@ -6,16 +6,15 @@
 class WindowManager
 {
 public:
-    WindowManager(sf::RenderWindow &w);
-    void attachObservation(Scan::Observation *o);
-    void addButton(sf::Text t, sf::Color c, bool *b);
-    void update();
+    WindowManager();
+    void clear();
+    void display();
+    void updateCenters();
+    DrawView* requestDrawView(int win, sf::FloatRect view_rect, sf::FloatRect viewport_rect, Vector2 *center);
 
 private:
-    Scan::Observation *obs;
-    bool rays_on;
-    bool noise_on;
-    bool environment_on;
+    std::vector<DrawView *> drawViews;
+    std::vector<sf::RenderWindow *> windows;
     std::vector<Button> buttons;
     sf::RenderWindow window;
 };

@@ -7,6 +7,7 @@
 #include "Gui.h"
 #include "Particle.h"
 #include "FastSLAM.h"
+#include "WindowManager.h"
 
 Vector2 operator+(Vector2 a, Vector2 b)
 {
@@ -30,10 +31,6 @@ Vector2 operator/(Vector2 v, float c)
 
 int main()
 {
-
-    std::vector<DrawView *> drawViews = std::vector<DrawView *>();
-    std::vector<sf::RenderWindow *> windows = std::vector<sf::RenderWindow *>();
-
     Vector2 size = { 1200,800 };
     Vector2 border = { 150,150 };
 
@@ -57,15 +54,6 @@ int main()
     */
     float worldCylRad = 10;
     bool doPreset = true;
-    
-
-    //sf::RenderWindow window(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
-    sf::RenderWindow window(sf::VideoMode(1400, 700), "SLAM Sim!");
-    windows.push_back(&window);
-    //sf::RenderWindow window2(sf::VideoMode((unsigned int)size.x, (unsigned int)size.y), "SLAM Sim!");
-    //windows.push_back(&window2);
-    window.setFramerateLimit(60);
-
 
     // Initialize World
     World world(size, border, sf::Color::White); 
@@ -97,36 +85,19 @@ int main()
     }
     FastSLAM fastSLAM(robot.radius, Eigen::Vector2f(0.05, 0.05), Eigen::Vector2f(20, 15), 0.000025,initialParticles,maxRange);
 
-
-
-
-    DrawView *env_frame = new DrawView;
-    env_frame->window = &window;
-    env_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1200.f, 800.f));
-    env_frame->view->setViewport(sf::FloatRect(0.25f, 0.f, 0.75f, 1.f));
-    env_frame->center = new Vector2(600.f,400.f);
-    drawViews.push_back(env_frame);
+    // Create DrawViews and attach to objects
+    WindowManager winman = WindowManager();
+    DrawView *env_frame = winman.requestDrawView(0, sf::FloatRect(0.f, 0.f, 1200.f, 800.f), sf::FloatRect(0.25f, 0.f, 0.75f, 1.f), NULL);
     world.addDrawView(env_frame);
     robot.addDrawView(env_frame);
     fastSLAM.addDrawView(env_frame);
-    
 
-    DrawView *focus_frame = new DrawView;
-    focus_frame->window = &window;
-    focus_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 200.f, 400.f));
-    focus_frame->view->setViewport(sf::FloatRect(0.f, 0.f, 0.25f, 1.f));
-    focus_frame->center = &(robot.center);
-    drawViews.push_back(focus_frame);
+    DrawView *focus_frame = winman.requestDrawView(0, sf::FloatRect(0.f, 0.f, 200.f, 400.f), sf::FloatRect(0.f, 0.f, 0.25f, 1.f), &(robot.center));
     world.addDrawView(focus_frame);
     robot.addDrawView(focus_frame);
     fastSLAM.addDrawView(focus_frame);
 
-    DrawView *button_frame = new DrawView;
-    button_frame->window = &window;
-    button_frame->view = new sf::View(sf::FloatRect(0.f, 0.f, 1600.f, 200.f));
-    button_frame->view->setViewport(sf::FloatRect(0.f, 0.f, 1.f, 0.25f));
-    button_frame->center = new Vector2(800,100);
-    drawViews.push_back(button_frame);
+    DrawView *button_frame = winman.requestDrawView(0, sf::FloatRect(0.f, 0.f, 1600.f, 200.f), sf::FloatRect(0.f, 0.f, 1.f, 0.25f), NULL);
 
     //Import the fount
     sf::Font font;
@@ -148,21 +119,16 @@ int main()
     }
     
     
-    
     // Main loop
-    while (window.isOpen())
+    while (env_frame->window->isOpen())
     {
         Timer timer("While");
         // Section where update events are called 
         robot.update();
         
         //===============Draw Section===============
-        for(sf::RenderWindow *w : windows) w->clear();
-        for (DrawView *dv : drawViews)
-        {
-            dv->view->setCenter(sf::Vector2f(dv->center->x, dv->center->y));
-            //printf("x: %f, y: %f", dv->center->x, dv->center->y);
-        }
+        winman.clear();
+        winman.updateCenters();
 
         // Have world and robot draw what they need
         world.draw();
@@ -171,38 +137,38 @@ int main()
             fastSLAM.draw();
         }
         
-        
         // Draw the buttons
         button_frame->window->setView(*(button_frame->view));
         for (int i = 0; i < buttonList.size();i++) {
-            window.draw(buttonList[i].rect);
-            window.draw(buttonList[i].text);
+            env_frame->window->draw(buttonList[i].rect);
+            env_frame->window->draw(buttonList[i].text);
         }
     
         // Display the completed window
-        for(sf::RenderWindow *w : windows) w->display();
-        env_frame->window->setView(*(env_frame->view));
+        
+        winman.display();
 
+        env_frame->window->setView(*(env_frame->view));
         // ===============Update Section===============
         sf::Event event;
-        while (window.pollEvent(event))
+        while (env_frame->window->pollEvent(event))
         {
             switch (event.type) {
             case sf::Event::Closed:
-                window.close();
+                env_frame->window->close();
                 break;
                 
             case sf::Event::MouseButtonPressed:
                 //
                 if (event.mouseButton.button == sf::Mouse::Left){
                     float rad = 10;
-                    sf::Vector2f worldMousePos = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                    sf::Vector2f worldMousePos = env_frame->window->mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
                     if (!(worldMousePos.x - rad < world.border.x || worldMousePos.y - rad < world.border.y || worldMousePos.x +rad > world.size.x - world.border.x || worldMousePos.y + rad> world.size.y - world.border.y)) {
                         sf::CircleShape newCircle(rad);
                         newCircle.setPosition(worldMousePos - sf::Vector2f(rad, rad));
                         world.addCircle(newCircle);
                     }
-                    sf::Vector2f buttonMousePos = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y), *(button_frame->view));
+                    sf::Vector2f buttonMousePos = env_frame->window->mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y), *(button_frame->view));
                     for (int i = 0; i < buttonList.size(); i++) {
                         if (buttonList[i].isClicked((float)buttonMousePos.x, (float)buttonMousePos.y)) {
                             buttonList[i].toggle();
@@ -213,7 +179,7 @@ int main()
                 }
                 else if (event.mouseButton.button == sf::Mouse::Right){
                     float rad = 10;
-                    sf::Vector2f worldMousePos = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                    sf::Vector2f worldMousePos = env_frame->window->mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
                     if(std::sqrt((worldMousePos.x-robot.center.x)*(worldMousePos.x-robot.center.x) + (worldMousePos.y-robot.center.y)*(worldMousePos.y-robot.center.y)) < rad)
                     {
                         focus_frame->center = &(robot.center);
