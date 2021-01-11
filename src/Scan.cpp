@@ -29,7 +29,7 @@ Scan::Observation* Scan::computeScanDerivatives(Scan::Observation* obs) {
 }
 
 Scan::Observation* Scan::performScan(Vector2 origin, float& cRad, float& maxRange, const World& world) {
-	Timer timer("Scan");
+	//Timer timer("Scan");
 	Scan::Observation* obs = new Scan::Observation;
 	obs->theta = std::array<float, 360> ();
 	obs->distance = std::array<float, 360>();

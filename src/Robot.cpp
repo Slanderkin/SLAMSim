@@ -200,7 +200,7 @@ void Robot::addDrawView(DrawView *dv)
 
 void Robot::draw()
 {
-	Timer timer("Robot draw");
+	//Timer timer("Robot draw");
 	float circ_size = 2;
     sf::VertexArray line(sf::Lines, 2);
     sf::CircleShape end_circ(circ_size);

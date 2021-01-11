@@ -122,7 +122,7 @@ int main()
     // Main loop
     while (env_frame->window->isOpen())
     {
-        Timer timer("While");
+        //Timer timer("While");
         // Section where update events are called 
         robot.update();
         
@@ -220,6 +220,18 @@ int main()
                 control = { 5,5 };
             }
 
+        }
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+                control = { -6, -4 };
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+                control = { -4,-6 };
+            }
+            else {
+                // w key is pressed: move our character
+                control = { -5,-5 };
+            }
         }
         else {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
