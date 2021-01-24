@@ -8,6 +8,7 @@
 #include "Particle.h"
 #include "FastSLAM.h"
 #include "WindowManager.h"
+#include "PathPlanner.h"
 
 Vector2 operator+(Vector2 a, Vector2 b)
 {
@@ -40,7 +41,7 @@ int main()
     float maxRange =5000;
     float radius = 10.f;
 
-    bool doSlam = false;
+    bool doSlam = true;
 
     std::vector<Button> buttonList;
 
@@ -66,12 +67,11 @@ int main()
         }
     } 
     
-    
     // Initialize Robot
     Robot robot(center, heading, sf::Color::Red, velocity, maxRange, radius, &world);
     
     //Particle initialization
-    int numParticles = 200;
+    int numParticles = 150;
     std::random_device rdx;
     std::random_device rdy;
     std::default_random_engine engX(rdx());
@@ -85,8 +85,12 @@ int main()
     }
     FastSLAM fastSLAM(robot.radius, Eigen::Vector2f(0.05, 0.05), Eigen::Vector2f(20, 15), 0.000025,initialParticles,maxRange);
 
+    //Initialize PathPlanner
+    //PathPlanner pp;
+    //pp.rasterWorld(world);
+
     // Create DrawViews and attach to objects
-    WindowManager winman = WindowManager();
+    WindowManager winman;
     DrawView *env_frame = winman.requestDrawView(0, sf::FloatRect(0.f, 0.f, 1200.f, 800.f), sf::FloatRect(0.25f, 0.f, 0.75f, 1.f), NULL);
     world.addDrawView(env_frame);
     robot.addDrawView(env_frame);
@@ -250,13 +254,6 @@ int main()
             fastSLAM.correct(robot.scan.cylinders);
         }
         
-        /*
-        int ind = fastSLAM.getIndOfMin(fastSLAM.particles,fastSLAM.getMean(fastSLAM.particles));
-        std::cout << robot.scan.cylinders[0](1,0) << ","<<robot.scan.cylinders[0](1,1) << std::endl;
-        if(ind >=0){
-        std::cout << fastSLAM.particles[ind].landMarkLocations[0][0] << "," << fastSLAM.particles[ind].landMarkLocations[0][1] << std::endl;
-
-        }*/
     }
 
     return 0;
